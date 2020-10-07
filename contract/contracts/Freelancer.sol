@@ -7,7 +7,7 @@ contract Freelancer {
   bool isReceived = false;
 
   // Set merchant at deployment
-  constructor(address _merchant) public {
+  constructor(address payable _merchant) public {
     merchant = _merchant;
   }
 
