@@ -1,24 +1,27 @@
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 pragma solidity ^0.6.12;
 
-contract Freelancer {
+contract Freelancer is Ownable {
   address payable private merchant;
   address payable private client;
   bool isShipped = false;
   bool isReceived = false;
 
-  // Set merchant at deployment
-  constructor(address payable _merchant) public {
-    merchant = _merchant;
-  }
-
+  // Client funds escrow and sets role as client
   receive() external payable {
     require(client == address(0), "Contract already paid for");
-    client = msg.sender;
+    client = payable(msg.sender);
   }  
+
+  // Contract owner can set merchant role
+  function setMerchant(address payable _merchant) public onlyOwner {
+    merchant = payable(_merchant);
+  }
 
   // Merchant indicates product has shipped
   function merchantMarkShipped() public {
-    require(merchant == msg.sender, "only merchant can call this function");  
+    require(merchant == address(msg.sender), "only merchant can call this function");  
     isShipped = true;
   }
 
