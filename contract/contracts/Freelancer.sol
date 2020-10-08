@@ -1,8 +1,12 @@
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
+  using SafeMath for uint256; 
+
+  address payable private admin;
   address payable private merchant;
   address payable private client;
   bool isShipped = false;
@@ -14,9 +18,10 @@ contract Freelancer is Ownable {
     client = payable(msg.sender);
   }  
 
-  // Contract owner can set merchant role
+  // Contract owner can set merchant role and establish himself as admin
   function setMerchant(address payable _merchant) public onlyOwner {
     merchant = payable(_merchant);
+    admin = payable(msg.sender);
   }
 
   // Merchant indicates product has shipped
@@ -37,9 +42,17 @@ contract Freelancer is Ownable {
     merchant.transfer(address(this).balance);
   }
 
-  // Refund payment to client
+  // Test function to debug admin's cut
+  function testCut() public {
+    uint256 cut = address(this).balance.div(10);
+    msg.sender.transfer(cut);
+  }
+
+  // Refund payment to client after taking 10% cut for admin
   function refund() public {
     require(msg.sender == merchant, "only merchant can refund");
+    uint256 cut = address(this).balance.div(10);
+    admin.transfer(cut);
     client.transfer(address(this).balance);
   }
 }
