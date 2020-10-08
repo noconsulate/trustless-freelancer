@@ -55,4 +55,13 @@ contract Freelancer is Ownable {
     admin.transfer(cut);
     client.transfer(address(this).balance);
   }
+
+  // Reset contract storage to original state
+  function reset() public onlyOwner {
+    admin = address(0);
+    merchant = address(0);
+    client = address(0);
+    isShipped = false;
+    isReceived = false;
+  }
 }
