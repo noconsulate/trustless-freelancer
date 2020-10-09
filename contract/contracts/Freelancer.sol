@@ -6,7 +6,7 @@ pragma solidity ^0.6.12;
 contract Freelancer is Ownable {
   using SafeMath for uint256; 
 
-  address payable admin = address(0);
+ // address payable admin = address(0);
   address payable merchant = address(0);
   address payable client = address(0);
   bool isShipped = false;
@@ -21,7 +21,7 @@ contract Freelancer is Ownable {
   // Contract owner can set merchant role and establish himself as admin
   function setMerchant(address payable _merchant) public onlyOwner {
     merchant = payable(_merchant);
-    admin = payable(msg.sender);
+  //  admin = payable(msg.sender);
   }
 
   // Merchant indicates product has shipped
@@ -42,27 +42,23 @@ contract Freelancer is Ownable {
     merchant.transfer(address(this).balance);
   }
 
-  // Test function to debug admin's cut
-  function testCut() public {
-    uint256 cut = address(this).balance.div(10);
-    msg.sender.transfer(cut);
-  }
-
   // Refund payment to client after taking 10% cut for admin
   function refund() public {
     require(msg.sender == merchant, "only merchant can refund");
-    uint256 cut = address(this).balance.div(10);
-    admin.transfer(cut);
     client.transfer(address(this).balance);
   }
 
   // Reset contract storage to original state
   function reset() public onlyOwner {
-    admin = address(0);
+   // admin = address(0);
     merchant = address(0);
     client = address(0);
     isShipped = false;
     isReceived = false;
     client.transfer(address(this).balance);
+  }
+
+  function getFlags() public view returns (bool, bool) {
+    return (isShipped, isReceived);
   }
 }

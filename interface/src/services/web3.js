@@ -1,5 +1,5 @@
 const ENV_FLAG = 'local';
-const DEBUG_FLAG = false;
+const DEBUG_FLAG = true;
 
 import Web3 from "web3";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json"
@@ -8,7 +8,7 @@ let node_url, address;
 
 if (ENV_FLAG == 'local') {
   node_url = 'http://127.0.0.1:8545';
-  address = '0x797b99ac73F6b5D980fc0685756Cf0e1Bfe564C0'
+  address = '0xdADbe13c556B31C9686d5189B4C86b7eC415CbD0'
 }
 
 let ethereum
@@ -58,11 +58,11 @@ export async function getValues() {
 
   let admin, merchant, client, isShipped, isReceived
   try {
-    admin = await web3.eth.getStorageAt(address, 1);
-    merchant = await web3.eth.getStorageAt(address, 2);
-    client = await web3.eth.getStorageAt(address, 3);
-    isShipped = await web3.eth.getStorageAt(address, 4);
-    isReceived = await web3.eth.getStorageAt(address, 5);
+    admin = await web3.eth.getStorageAt(address, 0);
+    merchant = await web3.eth.getStorageAt(address, 1);
+    client = await web3.eth.getStorageAt(address, 2);
+    isShipped = await web3.eth.getStorageAt(address, 3);
+    isReceived = await web3.eth.getStorageAt(address, 4);
   } catch (e) {
     console.log(e.message);
   }
