@@ -22,7 +22,7 @@ async function main() {
     from: accounts[1],
     to: address,
     value: web3.utils.toWei('.1', 'ether'),
-  });
+  }).catch(console.log)
 
   // Set merchant 
   await freelancer.methods.setMerchant('0x83316a84d99c1232d0A596AA95c7dd1F488a3952').send({
