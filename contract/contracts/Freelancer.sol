@@ -6,9 +6,9 @@ pragma solidity ^0.6.12;
 contract Freelancer is Ownable {
   using SafeMath for uint256; 
 
-  address payable private admin;
-  address payable private merchant;
-  address payable private client;
+  address payable admin;
+  address payable merchant;
+  address payable client;
   bool isShipped = false;
   bool isReceived = false;
 
