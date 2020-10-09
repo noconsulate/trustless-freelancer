@@ -63,5 +63,6 @@ contract Freelancer is Ownable {
     client = address(0);
     isShipped = false;
     isReceived = false;
+    client.transfer(address(this).balance);
   }
 }

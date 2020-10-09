@@ -9,7 +9,7 @@
 
 <script>
 import { doThing, getAccount, getValues } from "./services/web3.js";
-
+    
 export default {
   name: "App",
   components: {},
@@ -30,6 +30,7 @@ export default {
     });
 
     getValues();
+
   },
 };
 </script>

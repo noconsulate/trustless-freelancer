@@ -1,6 +1,8 @@
 const Web3 = require('web3');
 const { setupLoader } = require('@openzeppelin/contract-loader');
 
+console.log(process.env.LOCAL_CONTRACT);
+
 const web3 = new Web3('http://localhost:8545');
 // const loader = setupLoader({ 
 //   provider: web3,
@@ -10,6 +12,7 @@ const web3 = new Web3('http://localhost:8545');
 const loader = setupLoader({provider: web3}).web3;
 
 const address = '0x797b99ac73F6b5D980fc0685756Cf0e1Bfe564C0';
+console.log(process.env.LOCAL_CONTRACT);
 const freelancer = loader.fromArtifact('Freelancer', address)
 
 // init contract with values for development
