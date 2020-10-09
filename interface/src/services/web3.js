@@ -5,9 +5,9 @@ import Freelancer from "../../../contract/build/contracts/Freelancer.json"
 
 let node_url, address;
 
-if (ENV_FLAG == 'locaal') {
-  node_url = 'http://127.0.0.1:7574';
-  address = '0xf18851ceEf2C8d6Bb868db3efD1f43BC9B2042A1'
+if (ENV_FLAG == 'local') {
+  node_url = 'http://127.0.0.1:8545';
+  address = '0x797b99ac73F6b5D980fc0685756Cf0e1Bfe564C0'
 }
 
 let ethereum
@@ -17,6 +17,7 @@ if (typeof window.ethereum !== 'undefined') {
 
 async function initWeb3() {
   const web3 = await new Web3(node_url)
+  return web3;
 }
 
 async function loadContract(obj) {
@@ -46,11 +47,26 @@ export async function getAccount() {
 export async function getValues() {
   const web3 = await initWeb3();
 
-  let valuesObj, response;
+  let admin, merchant, client, isShipped, isReceived
   try {
-    const contract = await loadContract(web3);
-
+    admin = await web3.eth.getStorageAt(address, 0);
+    console.log(admin);
+    // const asAscii = web3.utils.hexToNumber(admin);
+    // console.log(asAscii);
+    merchant = await web3.eth.getStorageAt(address, 1);
+    client = await web3.eth.getStorageAt(address, 2);
+    console.log(client);
+    isShipped = await web3.eth.getStorageAt(address, 3);
+    isReceived = await web3.eth.getStorageAt(address, 4);
   } catch (e) {
     console.log(e.message);
   }
+  console.log(admin);
+
+  const valuesObj = {
+    admin, merchant, client, isShipped, isReceived
+  }
+  console.log(valuesObj);
+  return valuesObj;
+
 };

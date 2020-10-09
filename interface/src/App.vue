@@ -8,33 +8,31 @@
 </template>
 
 <script>
-import { doThing, getAccount } from './services/web3.js'
+import { doThing, getAccount, getValues } from "./services/web3.js";
 
 export default {
   name: "App",
-  components: {
-    
-  },
-  computed: {
-
-  },
+  components: {},
+  computed: {},
   data() {
     return {
-      account: '',
-    }
+      account: "",
+    };
   },
   methods: {
     async initThing() {
       this.account = await getAccount();
-    }
+    },
   },
   created: async function() {
     doThing();
-    window.ethereum.on('accountsChanged', function (accounts) {
-    console.log('acocunt changed (inside App.vue)', accounts);
-  });
-  }
-}
+    window.ethereum.on("accountsChanged", function(accounts) {
+      console.log("acocunt changed (inside App.vue)", accounts);
+    });
+
+    getValues();
+  },
+};
 </script>
 
 <style>
