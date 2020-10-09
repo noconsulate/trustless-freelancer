@@ -25,12 +25,14 @@ export default {
   },
   methods: {
     async initThing() {
-      doThing();
       this.account = await getAccount();
     }
   },
   created: async function() {
-  
+    doThing();
+    window.ethereum.on('accountsChanged', function (accounts) {
+    console.log('acocunt changed (inside App.vue)', accounts);
+  });
   }
 }
 </script>

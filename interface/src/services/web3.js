@@ -7,7 +7,7 @@ let node_url, address;
 
 if (ENV_FLAG == 'locaal') {
   node_url = 'http://127.0.0.1:7574';
-  address = '0x8952e529dA0013e2D3e3C4349C5986A9BCCC9Cb7'
+  address = '0xf18851ceEf2C8d6Bb868db3efD1f43BC9B2042A1'
 }
 
 let ethereum
@@ -27,14 +27,30 @@ async function loadContract(obj) {
 export async function doThing() {
   console.log('do a thing!');
 
-  let accounts;
-  accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-  console.log(accounts);
+  const resulty = await ethereum.selectedAddress;
+  console.log(resulty);
 }
 
 export async function getAccount() {
   console.log('in getAccount()');
+
+  ethereum.on('accountsChanged', function (accounts) {
+    console.log('acocunt changed', accounts);
+  });
+  
   const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
   console.log(accounts);
   return accounts[0];
-}
+};
+
+export async function getValues() {
+  const web3 = await initWeb3();
+
+  let valuesObj, response;
+  try {
+    const contract = await loadContract(web3);
+
+  } catch (e) {
+    console.log(e.message);
+  }
+};
