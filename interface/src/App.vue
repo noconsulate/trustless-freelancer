@@ -25,7 +25,6 @@ export default {
     },
   },
   created: async function() {
-    doThing();
     window.ethereum.on("accountsChanged", function(accounts) {
       console.log("acocunt changed (inside App.vue)", accounts);
     });

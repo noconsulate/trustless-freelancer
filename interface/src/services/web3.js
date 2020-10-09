@@ -1,4 +1,5 @@
 const ENV_FLAG = 'local';
+const DEBUG_FLAG = false;
 
 import Web3 from "web3";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json"
@@ -47,17 +48,21 @@ export async function getAccount() {
 export async function getValues() {
   const web3 = await initWeb3();
 
+  // to calibrate storage slots
+  if (DEBUG_FLAG) {
+    for (let index = 0; index < 7; index++) {
+      const item = await web3.eth.getStorageAt(address, index);
+      console.log(`[${index}]` + item);
+    }
+  }
+
   let admin, merchant, client, isShipped, isReceived
   try {
-    admin = await web3.eth.getStorageAt(address, 0);
-    console.log(admin);
-    // const asAscii = web3.utils.hexToNumber(admin);
-    // console.log(asAscii);
-    merchant = await web3.eth.getStorageAt(address, 1);
-    client = await web3.eth.getStorageAt(address, 2);
-    console.log(client);
-    isShipped = await web3.eth.getStorageAt(address, 3);
-    isReceived = await web3.eth.getStorageAt(address, 4);
+    admin = await web3.eth.getStorageAt(address, 1);
+    merchant = await web3.eth.getStorageAt(address, 2);
+    client = await web3.eth.getStorageAt(address, 3);
+    isShipped = await web3.eth.getStorageAt(address, 4);
+    isReceived = await web3.eth.getStorageAt(address, 5);
   } catch (e) {
     console.log(e.message);
   }
