@@ -79,7 +79,7 @@ export async function getValues() {
   }
 
   const valuesObj = {
-    admin, merchant, client, isShipped, isReceived
+    address, admin, merchant, client, isShipped, isReceived
   }
   console.log(valuesObj);
   return valuesObj;

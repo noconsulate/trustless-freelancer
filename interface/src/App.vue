@@ -1,19 +1,25 @@
 <template>
   <div id="app">
-    <h2>trustless-freelancer</h2>
+    <h1>trustless-freelancer</h1>
     <button @click="initThing">enable ethereum</button>
     <h2>current account</h2>
     {{ account }}
+    <info-view />
   </div>
 </template>
 
 <script>
 import { doThing, getAccount, getValues } from "./services/web3.js";
+import InfoView from './components/InfoView'
     
 export default {
   name: "App",
-  components: {},
-  computed: {},
+  components: {
+    'info-view': InfoView,
+  },
+  computed: {
+    
+  },
   data() {
     return {
       account: "",
@@ -29,8 +35,8 @@ export default {
       console.log("acocunt changed (inside App.vue)", accounts);
     });
 
-    getValues();
-
+    const values = await getValues();
+    this.$store.dispatch('updateFields', values);
   },
 };
 </script>

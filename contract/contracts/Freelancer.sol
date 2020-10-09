@@ -6,7 +6,6 @@ pragma solidity ^0.6.12;
 contract Freelancer is Ownable {
   using SafeMath for uint256; 
 
- // address payable admin = address(0);
   address payable merchant = address(0);
   address payable client = address(0);
   bool isShipped = false;
@@ -50,7 +49,6 @@ contract Freelancer is Ownable {
 
   // Reset contract storage to original state
   function reset() public onlyOwner {
-   // admin = address(0);
     merchant = address(0);
     client = address(0);
     isShipped = false;
