@@ -1,5 +1,5 @@
 const ENV_FLAG = 'local';
-const DEBUG_FLAG = true;
+const DEBUG_FLAG = false;
 
 import Web3 from "web3";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json"
@@ -47,6 +47,7 @@ export async function getAccount() {
 
 export async function getValues() {
   const web3 = await initWeb3();
+  const contract = await loadContract(web3);
 
   // to calibrate storage slots
   if (DEBUG_FLAG) {
@@ -57,16 +58,25 @@ export async function getValues() {
   }
 
   let admin, merchant, client, isShipped, isReceived
+
+  // get values directly
   try {
     admin = await web3.eth.getStorageAt(address, 0);
     merchant = await web3.eth.getStorageAt(address, 1);
     client = await web3.eth.getStorageAt(address, 2);
-    isShipped = await web3.eth.getStorageAt(address, 3);
-    isReceived = await web3.eth.getStorageAt(address, 4);
   } catch (e) {
     console.log(e.message);
   }
-  console.log(admin);
+
+  // get bools via getter because getStorageAt() wasn't working
+  try {
+    let flags = await contract.methods.getFlags().call({ from: null });
+    console.log(flags);
+    isShipped = flags[0];
+    isReceived = flags[1];
+  } catch (e) {
+    console.log(e.message);
+  }
 
   const valuesObj = {
     admin, merchant, client, isShipped, isReceived
