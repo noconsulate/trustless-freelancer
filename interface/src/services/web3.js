@@ -88,10 +88,8 @@ export async function getValues() {
 export async function reset() {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
-  console.log(ethereum.selectedAddress);
 
   const transaction = contract.methods.reset().encodeABI();
-  console.log(transaction);
   const parameters = {
     to: address,
     from: ethereum.selectedAddress,
@@ -108,5 +106,5 @@ export async function reset() {
     console.log(e);
   }
 
-  console.log(txHash);
+  console.log('txHash from reset()', txHash);
 }

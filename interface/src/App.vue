@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>trustless-freelancer</h1>
-    <button @click="initThing">enable ethereum</button>
+    <!-- <button @click="initThing">enable ethereum</button> -->
     <h2>current account</h2>
     {{ account }}
     <info-view />
@@ -29,14 +29,17 @@ export default {
     };
   },
   methods: {
-    async initThing() {
-      this.account = await getAccount();
-    },
+    // async initThing() {
+    //   this.account = await getAccount();
+    // },
   },
   created: async function() {
     window.ethereum.on("accountsChanged", function(accounts) {
       console.log("acocunt changed (inside App.vue)", accounts);
     });
+    window.ethereum.on('chainChanged', (chainId) => {
+      window.location.reload();
+    })
 
     this.$store.dispatch('fetchValues', null);
   },
