@@ -71,7 +71,6 @@ export async function getValues() {
   // get bools via getter because getStorageAt() wasn't working
   try {
     let flags = await contract.methods.getFlags().call({ from: null });
-    console.log(flags);
     isShipped = flags[0];
     isReceived = flags[1];
   } catch (e) {
@@ -81,7 +80,33 @@ export async function getValues() {
   const valuesObj = {
     address, admin, merchant, client, isShipped, isReceived
   }
-  console.log(valuesObj);
   return valuesObj;
-
 };
+
+
+
+export async function reset() {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+  console.log(ethereum.selectedAddress);
+
+  const transaction = contract.methods.reset().encodeABI();
+  console.log(transaction);
+  const parameters = {
+    to: address,
+    from: ethereum.selectedAddress,
+    data: transaction
+  };
+
+  let txHash;
+  try {
+      txHash = await ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [parameters],
+    });
+  } catch (e) {
+    console.log(e);
+  }
+
+  console.log(txHash);
+}

@@ -5,17 +5,20 @@
     <h2>current account</h2>
     {{ account }}
     <info-view />
+    <controls />
   </div>
 </template>
 
 <script>
 import { doThing, getAccount, getValues } from "./services/web3.js";
 import InfoView from './components/InfoView'
+import Controls from './components/Controls'
     
 export default {
   name: "App",
   components: {
     'info-view': InfoView,
+    'controls': Controls,
   },
   computed: {
     
@@ -35,8 +38,7 @@ export default {
       console.log("acocunt changed (inside App.vue)", accounts);
     });
 
-    const values = await getValues();
-    this.$store.dispatch('updateFields', values);
+    this.$store.dispatch('fetchValues', null);
   },
 };
 </script>
