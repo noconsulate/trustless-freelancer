@@ -161,3 +161,35 @@ export async function markReceived() {
   }
   return txHash;
 }
+
+export async function sendPayment(ether) {
+  const web3 = await initWeb3();
+  
+  console.log(ether);
+
+  const weiAmount = web3.utils.toWei(String(ether), 'ether');
+  console.log(weiAmount);
+  const hexAmount = web3.utils.toHex(weiAmount);
+  console.log(hexAmount);
+  const back2Hex = web3.utils.hexToNumberString(hexAmount);
+  console.log(back2Hex);
+
+  const parameters = {
+    to: address,
+    from: ethereum.selectedAddress,
+    value: hexAmount,
+  }
+
+  let txHash;
+  try {
+    txHash = await sendTx(parameters);
+  } catch (e) {
+    console.log(e.message);
+    throw e;
+  }
+
+  //need to handle error
+ // contract is messed up - client/merchant confused
+
+  return txHash;
+}

@@ -1,43 +1,60 @@
 <template>
-  <div class="row" id="appc">
-    <button @click="enableEthereum">enable ethereum!</button>
-    <button @click="callReset">reset</button>
-    <button @click="callMarkShipped">mark shipped</button>
-    <button @click="callMarkReceived">mark received</button>
+  <div>
+    <div class="row">
+      <button @click="enableEthereum">enable ethereum!</button>
+    </div>
+    <div class="row">
+      <button @click="callReset">reset</button>
+      <button @click="callMarkShipped">mark shipped</button>
+      <button @click="callMarkReceived">mark received</button>
+    </div>
+    <div class="row">
+      <input v-model.number="etherAmount" type="number">
+      <input 
+      <button @click="callSendPayment">fund escrow</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { reset, getAccount, markShipped, markReceived } from '../services/web3';
+import { reset, getAccount, markShipped, markReceived, sendPayment } from "../services/web3";
 
 export default {
-  methods:{
+  data() {
+    return {
+      etherAmount: '2.5',
+    }
+  },
+  methods: {
     async enableEthereum() {
-     const account = await getAccount();
-     this.$store.dispatch('setAccount', account);
+      const account = await getAccount();
+      this.$store.dispatch("setAccount", account);
     },
     async callReset() {
       const res = await reset();
-      this.$store.dispatch('fetchValues', null);
+      this.$store.dispatch("fetchValues", null);
     },
     callMarkShipped() {
       markShipped()
-        .catch(e => this.$store.dispatch('setError', e.code))
-        .then(res => {
+        .catch((e) => this.$store.dispatch("setError", e.code))
+        .then((res) => {
           console.log(res);
-          this.$store.dispatch('fetchValues', null);
+          this.$store.dispatch("fetchValues", null);
         });
     },
     callMarkReceived() {
       markReceived()
-        .catch(e => this.$store.dispatch('setError', e.code))
-        .then(res => {
+        .catch((e) => this.$store.dispatch("setError", e.code))
+        .then((res) => {
           console.log(res);
-          this.$store.dispatch('fetchValues', null);
+          this.$store.dispatch("fetchValues", null);
         });
     },
-  }
-}
+    callSendPayment() {
+      sendPayment(this.etherAmount);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -50,6 +67,4 @@ export default {
 #appc {
   color: rebeccapurple;
 }
-
-
 </style>
