@@ -7,15 +7,13 @@
 </template>
 
 <script>
-import {reset} from '../services/web3';
+import { reset, getAccount } from '../services/web3';
 
 export default {
   methods:{
-    enableEthereum() {
-      window.ethereum.request({ 
-        method: 'eth_requestAccounts' 
-      }).catch(e => console.log(e))
-        .then(console.log('funciton ran'))
+    async enableEthereum() {
+     const account = await getAccount();
+     this.$store.dispatch('setAccount', account);
     },
     async callReset() {
       const res = await reset();

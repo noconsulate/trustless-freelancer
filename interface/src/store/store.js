@@ -35,9 +35,8 @@ export default new Vuex.Store({
         context.commit("UPDATE_ACCOUNT", accounts[0]);
       })
     },
-    changeAccount(context, account) {
-      console.log('in changeAccount', account);
-      context.commit("UPDATE_ACCOUNT", account)
+    setAccount(context, account) {
+      context.commit("UPDATE_ACCOUNT", account);
     }
   },
   getters: {
