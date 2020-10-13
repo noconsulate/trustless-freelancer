@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 
 import {getValues} from '../services/web3.js';
 
+const ethereum = window.ethereum;
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -15,7 +17,8 @@ export default new Vuex.Store({
       state.contractValues = payload;
     },
     UPDATE_ACCOUNT(state, payload) {
-      state.account = [payload];
+      console.log(payload);
+      state.account = payload;
     }
   },
   actions: {
@@ -24,9 +27,16 @@ export default new Vuex.Store({
     // },
     async fetchValues(context) {
       const valuesObj = await getValues();
-      context.commit("UPDATE_FIELDS", valuesObj);
+      context.commit("UPDATE_FIELDS", valuesObj)
+      ;
+
+      ethereum.on('accountsChanged', function(accounts) {
+        console.log('accounts changed in store.js', accounts);
+        context.commit("UPDATE_ACCOUNT", accounts[0]);
+      })
     },
     changeAccount(context, account) {
+      console.log('in changeAccount', account);
       context.commit("UPDATE_ACCOUNT", account)
     }
   },

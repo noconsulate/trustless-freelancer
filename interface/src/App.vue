@@ -21,23 +21,18 @@ export default {
     'controls': Controls,
   },
   computed: {
-    
+    account() {
+      return this.$store.state.account;
+    }
   },
   data() {
     return {
-      account: "",
+      // account: "",
     };
   },
   methods: {
-    // async initThing() {
-    //   this.account = await getAccount();
-    // },
   },
   created: async function() {
-    window.ethereum.on("accountsChanged", function(accounts) {
-      console.log("acocunt changed (inside App.vue)", accounts);
-      this.$store.dispatch('changeAccount', accounts[0]);
-    });
     window.ethereum.on('chainChanged', (chainId) => {
       window.location.reload();
     })
