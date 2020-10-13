@@ -2,12 +2,12 @@
   <div class="row" id="appc">
     <button @click="enableEthereum">enable ethereum!</button>
     <button @click="callReset">reset</button>
-    <button>nothing</button>
+    <button @click="callMarkShipped">mark shipped</button>
   </div>
 </template>
 
 <script>
-import { reset, getAccount } from '../services/web3';
+import { reset, getAccount, markShipped } from '../services/web3';
 
 export default {
   methods:{
@@ -17,11 +17,13 @@ export default {
     },
     async callReset() {
       const res = await reset();
-      console.log(res);
+      this.$store.dispatch('fetchValues', null);
     },
-    async callMarkShipped() {
-      markShipped();
-    }
+    callMarkShipped() {
+      markShipped()
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => console.log(res))
+    } 
   }
 }
 </script>

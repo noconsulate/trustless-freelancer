@@ -11,6 +11,14 @@ if (ENV_FLAG == "local") {
   address = "0xdADbe13c556B31C9686d5189B4C86b7eC415CbD0";
 }
 
+class RequestParameters {
+  constructor(to, from, data) {
+    this.to = to;
+    this. from = from;
+    this.data = data;
+  }
+}
+
 let ethereum;
 if (typeof window.ethereum !== "undefined") {
   ethereum = window.ethereum;
@@ -34,14 +42,15 @@ export async function doThing() {
 }
 
 export async function getAccount() {
-  console.log("in getAccount()");
+  let accounts;
 
-  ethereum.on("accountsChanged", function(accounts) {
-    console.log("acocunt changed", accounts);
-  });
+  try {
+    accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    console.log(accounts);
+  } catch (e) {
+    console.log(e.message);
+  }
 
-  const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-  console.log(accounts);
   return accounts[0];
 }
 
@@ -89,19 +98,18 @@ export async function getValues() {
 }
 
 async function sendTx(parameters) {
-  const web3 = await initWeb3();
-  const contract = await loadContract(web3);
-
   let txHash;
   try {
     txHash = await ethereum.request({
-      method: 'eth_sendTransaction',
+      method: "eth_sendTransaction",
       params: [parameters],
     });
   } catch (e) {
     console.log(e.message);
+    throw e;
   }
 
+  console.log(txHash);
   return txHash;
 }
 
@@ -110,11 +118,9 @@ export async function reset() {
   const contract = await loadContract(web3);
 
   const transaction = contract.methods.reset().encodeABI();
-  const parameters = {
-    to: address,
-    from: ethereum.selectedAddress,
-    data: transaction,
-  };
+  const parameters = new RequestParameters(
+    address, ethereum.selectedAddress, transaction
+  );
 
   let txHash = await sendTx(parameters);
   console.log("txHash from reset()", txHash);
@@ -127,4 +133,14 @@ export async function markShipped() {
   const contract = await loadContract(web3);
 
   const transaction = contract.methods.merchantMarkShipped().encodeABI();
+  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+
+  let txHash
+  try {
+    txHash = await sendTx(parameters);
+  } catch (e) {
+    console.log(e.code);
+    throw e;
+  }
+  return txHash;
 }

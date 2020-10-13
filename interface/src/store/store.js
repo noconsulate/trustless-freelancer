@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     account : '',
     contractValues: {},
+    errorMessage: '',
   },
   mutations: {
     UPDATE_FIELDS(state, payload) {
@@ -19,12 +20,12 @@ export default new Vuex.Store({
     UPDATE_ACCOUNT(state, payload) {
       console.log(payload);
       state.account = payload;
+    },
+    UPDATE_ERROR(state, payload) {
+      state.errorMessage = payload;
     }
   },
   actions: {
-    // updateFields(context, values) {
-    //   context.commit("UPDATE_FIELDS", values);
-    // },
     async fetchValues(context) {
       const valuesObj = await getValues();
       context.commit("UPDATE_FIELDS", valuesObj)
@@ -37,9 +38,11 @@ export default new Vuex.Store({
     },
     setAccount(context, account) {
       context.commit("UPDATE_ACCOUNT", account);
+    },
+    setError(context, message) {
+      context.commit("UPDATE_ERROR", message);
     }
   },
   getters: {
-
   },
 });

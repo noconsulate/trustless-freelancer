@@ -6,6 +6,7 @@
     {{ account }}
     <info-view />
     <controls />
+    <error-view />
   </div>
 </template>
 
@@ -13,12 +14,14 @@
 import { doThing, getAccount, getValues } from "./services/web3.js";
 import InfoView from './components/InfoView'
 import Controls from './components/Controls'
+import ErrorView from './components/ErrorView'
     
 export default {
   name: "App",
   components: {
     'info-view': InfoView,
     'controls': Controls,
+    'error-view': ErrorView,
   },
   computed: {
     account() {
