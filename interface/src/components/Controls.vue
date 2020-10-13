@@ -11,7 +11,11 @@ import {reset} from '../services/web3';
 export default {
   methods:{
     async callReset() {
-      reset()
+      const res = await reset();
+      console.log(res);
+    },
+    async callMarkShipped() {
+      markShipped();
     }
   }
 }

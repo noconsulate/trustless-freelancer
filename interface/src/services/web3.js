@@ -116,17 +116,10 @@ export async function reset() {
     data: transaction,
   };
 
-  let txHash;
-  try {
-    txHash = await ethereum.request({
-      method: "eth_sendTransaction",
-      params: [parameters],
-    });
-  } catch (e) {
-    console.log(e);
-  }
-
+  let txHash = await sendTx(parameters);
   console.log("txHash from reset()", txHash);
+
+  return txHash;
 }
 
 export async function markShipped() {
