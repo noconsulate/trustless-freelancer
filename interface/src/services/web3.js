@@ -109,7 +109,6 @@ async function sendTx(parameters) {
     throw e;
   }
 
-  console.log(txHash);
   return txHash;
 }
 
@@ -133,6 +132,24 @@ export async function markShipped() {
   const contract = await loadContract(web3);
 
   const transaction = contract.methods.merchantMarkShipped().encodeABI();
+  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+
+  let txHash
+  try {
+    txHash = await sendTx(parameters);
+  } catch (e) {
+    console.log(e.code);
+    throw e;
+  }
+  return txHash;
+}
+
+export async function markReceived() {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+  console.log('markReceived()', contract);
+
+  const transaction = contract.methods.clientMarkReceived().encodeABI();
   const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
 
   let txHash

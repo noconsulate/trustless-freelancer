@@ -3,11 +3,12 @@
     <button @click="enableEthereum">enable ethereum!</button>
     <button @click="callReset">reset</button>
     <button @click="callMarkShipped">mark shipped</button>
+    <button @click="callMarkReceived">mark received</button>
   </div>
 </template>
 
 <script>
-import { reset, getAccount, markShipped } from '../services/web3';
+import { reset, getAccount, markShipped, markReceived } from '../services/web3';
 
 export default {
   methods:{
@@ -22,8 +23,19 @@ export default {
     callMarkShipped() {
       markShipped()
         .catch(e => this.$store.dispatch('setError', e.code))
-        .then(res => console.log(res))
-    } 
+        .then(res => {
+          console.log(res);
+          this.$store.dispatch('fetchValues', null);
+        });
+    },
+    callMarkReceived() {
+      markReceived()
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => {
+          console.log(res);
+          this.$store.dispatch('fetchValues', null);
+        });
+    },
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>error</h2>
+    <h2>error:</h2>
     {{ errorMessage }}
   </div>
 </template>
@@ -14,3 +14,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+p {
+  color: red;
+}
+</style>
