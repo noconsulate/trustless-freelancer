@@ -1,23 +1,23 @@
-const ENV_FLAG = 'local';
+const ENV_FLAG = "local";
 const DEBUG_FLAG = false;
 
 import Web3 from "web3";
-import Freelancer from "../../../contract/build/contracts/Freelancer.json"
+import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 
 let node_url, address;
 
-if (ENV_FLAG == 'local') {
-  node_url = 'http://127.0.0.1:8545';
-  address = '0xdADbe13c556B31C9686d5189B4C86b7eC415CbD0'
+if (ENV_FLAG == "local") {
+  node_url = "http://127.0.0.1:8545";
+  address = "0xdADbe13c556B31C9686d5189B4C86b7eC415CbD0";
 }
 
-let ethereum
-if (typeof window.ethereum !== 'undefined') {
+let ethereum;
+if (typeof window.ethereum !== "undefined") {
   ethereum = window.ethereum;
 }
 
 async function initWeb3() {
-  const web3 = await new Web3(node_url)
+  const web3 = await new Web3(node_url);
   return web3;
 }
 
@@ -27,23 +27,23 @@ async function loadContract(obj) {
 }
 
 export async function doThing() {
-  console.log('do a thing!');
+  console.log("do a thing!");
 
   const resulty = await ethereum.selectedAddress;
   console.log(resulty);
 }
 
 export async function getAccount() {
-  console.log('in getAccount()');
+  console.log("in getAccount()");
 
-  ethereum.on('accountsChanged', function (accounts) {
-    console.log('acocunt changed', accounts);
+  ethereum.on("accountsChanged", function(accounts) {
+    console.log("acocunt changed", accounts);
   });
-  
-  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+  const accounts = await ethereum.request({ method: "eth_requestAccounts" });
   console.log(accounts);
   return accounts[0];
-};
+}
 
 export async function getValues() {
   const web3 = await initWeb3();
@@ -57,7 +57,7 @@ export async function getValues() {
     }
   }
 
-  let admin, merchant, client, isShipped, isReceived
+  let admin, merchant, client, isShipped, isReceived;
 
   // get values directly
   try {
@@ -78,12 +78,32 @@ export async function getValues() {
   }
 
   const valuesObj = {
-    address, admin, merchant, client, isShipped, isReceived
-  }
+    address,
+    admin,
+    merchant,
+    client,
+    isShipped,
+    isReceived,
+  };
   return valuesObj;
-};
+}
 
+async function sendTx(parameters) {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
 
+  let txHash;
+  try {
+    txHash = await ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [parameters],
+    });
+  } catch (e) {
+    console.log(e.message);
+  }
+
+  return txHash;
+}
 
 export async function reset() {
   const web3 = await initWeb3();
@@ -93,18 +113,25 @@ export async function reset() {
   const parameters = {
     to: address,
     from: ethereum.selectedAddress,
-    data: transaction
+    data: transaction,
   };
 
   let txHash;
   try {
-      txHash = await ethereum.request({
-      method: 'eth_sendTransaction',
+    txHash = await ethereum.request({
+      method: "eth_sendTransaction",
       params: [parameters],
     });
   } catch (e) {
     console.log(e);
   }
 
-  console.log('txHash from reset()', txHash);
+  console.log("txHash from reset()", txHash);
+}
+
+export async function markShipped() {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+
+  const transaction = contract.methods.merchantMarkShipped().encodeABI();
 }

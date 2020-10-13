@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="row" id="appc">
     <button @click="callReset">reset</button>
+    <button>nothing</button>
   </div>
 </template>
 
@@ -15,3 +16,17 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#row {
+  display: grid;
+  gap: 1rem;
+  grid-auto-flow: comlumn;
+}
+
+#appc {
+  color: rebeccapurple;
+}
+
+
+</style>
