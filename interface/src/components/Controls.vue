@@ -1,5 +1,6 @@
 <template>
   <div class="row" id="appc">
+    <button @click="enableEthereum">enable ethereum!</button>
     <button @click="callReset">reset</button>
     <button>nothing</button>
   </div>
@@ -10,6 +11,12 @@ import {reset} from '../services/web3';
 
 export default {
   methods:{
+    enableEthereum() {
+      window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      }).catch(e => console.log(e))
+        .then(console.log('funciton ran'))
+    },
     async callReset() {
       const res = await reset();
       console.log(res);

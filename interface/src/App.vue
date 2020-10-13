@@ -36,6 +36,7 @@ export default {
   created: async function() {
     window.ethereum.on("accountsChanged", function(accounts) {
       console.log("acocunt changed (inside App.vue)", accounts);
+      this.$store.dispatch('changeAccount', accounts[0]);
     });
     window.ethereum.on('chainChanged', (chainId) => {
       window.location.reload();
