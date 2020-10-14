@@ -65,11 +65,9 @@ export default {
 <style scoped>
 #row {
   display: grid;
-  gap: 1rem;
+  gap: 4rem;
   grid-auto-flow: comlumn;
+  margin: 6px;
 }
 
-#appc {
-  color: rebeccapurple;
-}
 </style>

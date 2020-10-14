@@ -1,21 +1,22 @@
 <template>
   <div>
     <h2>current account</h2>
-    {{ account }}
+      <p>{{ account }}</p>
     <h2>contract address</h2>
-    {{ contractValues.address }}
+    <p>{{ contractValues.address }}</p>
+    
     <h2>contract balance</h2>
-    {{ contractValues.balance }}
+    <p>{{ contractValues.balance }}</p>
     <h2>admin address</h2>
-    {{ contractValues.admin }}
+    <p>{{ contractValues.admin }}</p>
     <h2>merchant address</h2>
-    {{ contractValues.merchant }}
+    <p>{{ contractValues.merchant }}</p>
     <h2>client address</h2>
-    {{ contractValues.client }}
+   <p> {{ contractValues.client }}</p>
     <h2>shipped?</h2>
-    {{ contractValues.isShipped }}
+   <p> {{ contractValues.isShipped }}</p>
     <h2>received?</h2>
-    {{ contractValues.isReceived }}
+  <p>  {{ contractValues.isReceived }}</p>
   </div>
 </template>
 

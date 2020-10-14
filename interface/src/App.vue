@@ -57,5 +57,13 @@ export default {
   margin-top: 60px;
   margin-left: 30px;
 }
+
+p {
+  margin: 8px;
+}
+
+h2 {
+  margin: 8px;
+}
 </style>
 //
