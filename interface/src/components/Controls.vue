@@ -21,7 +21,7 @@ import { reset, getAccount, markShipped, markReceived, sendPayment } from "../se
 export default {
   data() {
     return {
-      etherAmount: '2.5',
+      etherAmount: '0.05',
     }
   },
   methods: {

@@ -24,10 +24,10 @@ contract Freelancer is Ownable {
     client = payable(msg.sender);
   }  
 
-  // Contract owner can set merchant role and establish himself as admin
-  function setMerchant(address payable _merchant) public onlyOwner {
-    merchant = payable(_merchant);
-  //  admin = payable(msg.sender);
+  // Set merchant role
+  function setMerchant(address payable _address) public {
+    require(client == address(0), "the client has already been set");
+    merchant = payable(_address);
   }
 
   // Merchant indicates product has shipped
