@@ -3,15 +3,19 @@
     <h1>trustless-freelancer</h1>
     <info-view />
     <controls />
+    <transaction-view />
     <error-view />
   </div>
 </template>
 
 <script>
-import { doThing, getAccount, getValues } from "./services/web3.js";
+import { 
+  doThing, getAccount, getValues,
+  } from "./services/web3.js";
 import InfoView from './components/InfoView'
 import Controls from './components/Controls'
-import ErrorView from './components/ErrorView'
+import ErrorView from './components/ErrorView';
+import TransactionView from './components/TransactionView';
     
 export default {
   name: "App",
@@ -19,6 +23,7 @@ export default {
     'info-view': InfoView,
     'controls': Controls,
     'error-view': ErrorView,
+    'transaction-view': TransactionView,
   },
   computed: {
     account() {

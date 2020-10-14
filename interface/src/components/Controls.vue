@@ -10,7 +10,6 @@
     </div>
     <div class="row">
       <input v-model.number="etherAmount" type="number">
-      <input 
       <button @click="callSendPayment">fund escrow</button>
     </div>
   </div>
@@ -26,13 +25,20 @@ export default {
     }
   },
   methods: {
+    //update state after contract calls
+    async postCall(res) {
+      this.$store.dispatch("fetchValues", null);
+      this.$store.dispatch("setTxHash", res);
+    },
     async enableEthereum() {
       const account = await getAccount();
       this.$store.dispatch("setAccount", account);
     },
     async callReset() {
+      //needs error handling!
       const res = await reset();
-      this.$store.dispatch("fetchValues", null);
+      // this.$store.dispatch("fetchValues", null);
+      this.postCall(res);
     },
     callMarkShipped() {
       markShipped()

@@ -12,6 +12,7 @@ export default new Vuex.Store({
     account : 'please enable ethereum',
     contractValues: {},
     errorMessage: '',
+    txHash: ''
   },
   mutations: {
     UPDATE_FIELDS(state, payload) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     UPDATE_ERROR(state, payload) {
       state.errorMessage = payload;
+    },
+    UPDATE_TXHASH(state, payload) {
+      state.txHash = payload;
     }
   },
   actions: {
@@ -41,6 +45,9 @@ export default new Vuex.Store({
     },
     setError(context, message) {
       context.commit("UPDATE_ERROR", message);
+    },
+    setTxHash(context, hash) {
+      context.commit("UPDATE_TXHASH", hash);
     }
   },
   getters: {
