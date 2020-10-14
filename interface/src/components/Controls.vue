@@ -4,8 +4,8 @@
       <button @click="enableEthereum">enable ethereum!</button>
     </div>
     <div class="row">
-      <button @click="callReset">reset</button>
-      <button @click="callMarkShipped">mark shipped</button>
+      <button @click="callReset" class="item">reset</button>
+      <button class="item" @click="callMarkShipped">mark shipped</button>
       <button @click="callMarkReceived">mark received</button>
     </div>
     <div class="row">
@@ -63,11 +63,19 @@ export default {
 </script>
 
 <style scoped>
-#row {
-  display: grid;
-  gap: 4rem;
-  grid-auto-flow: comlumn;
-  margin: 6px;
+.row {
+  margin-top: 5px;
 }
+
+button {
+  margin-right: 6px;
+}
+
+input {
+  margin-right: 6px;
+}
+
+
+
 
 </style>
