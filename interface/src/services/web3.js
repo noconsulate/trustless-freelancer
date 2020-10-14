@@ -8,7 +8,7 @@ let node_url, address;
 
 if (ENV_FLAG == "local") {
   node_url = "http://127.0.0.1:8545";
-  address = "0xdADbe13c556B31C9686d5189B4C86b7eC415CbD0";
+  address = "0x02cccF14Adb748dF0893a9D3E0B7d740feb53651";
 }
 
 class RequestParameters {
@@ -111,6 +111,10 @@ async function sendTx(parameters) {
 
   return txHash;
 }
+
+// export async function getValues() {
+
+// }
 
 export async function reset() {
   const web3 = await initWeb3();

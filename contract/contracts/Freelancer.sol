@@ -11,6 +11,12 @@ contract Freelancer is Ownable {
   bool isShipped = false;
   bool isReceived = false;
 
+  // Return storage
+
+  function getValues() public view returns (address, address, bool, bool) {
+    return (merchant, client, isShipped, isReceived);
+  }
+
   // Client funds escrow and sets role as client
   receive() external payable {
     require(client == address(0), "Contract already paid for");
