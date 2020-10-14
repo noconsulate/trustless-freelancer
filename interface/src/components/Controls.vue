@@ -34,11 +34,10 @@ export default {
       const account = await getAccount();
       this.$store.dispatch("setAccount", account);
     },
-    async callReset() {
-      //needs error handling!
-      const res = await reset();
-      // this.$store.dispatch("fetchValues", null);
-      this.postCall(res);
+    callReset() {
+      reset()
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => this.postCall(res));
     },
     callMarkShipped() {
       markShipped()

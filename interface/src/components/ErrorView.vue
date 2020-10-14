@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>error:</h2>
-    {{ errorMessage }}
+    <p> {{ errorMessage }} </p>
   </div>
 </template>
 

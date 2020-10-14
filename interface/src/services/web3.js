@@ -121,8 +121,13 @@ export async function reset() {
     address, ethereum.selectedAddress, transaction
   );
 
-  let txHash = await sendTx(parameters);
+  let txHash 
+ try {
+  txHash = await sendTx(parameters);
   console.log("txHash from reset()", txHash);
+ } catch (e) {
+   throw e
+ }
 
   return txHash;
 }
