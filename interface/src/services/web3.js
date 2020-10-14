@@ -73,7 +73,7 @@ export async function getValues() {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
 
-  let admin, merchant, client, isShipped, isReceived;
+  let admin, merchant, client, isShipped, isReceived, balance;
 
   try {
     let values = await contract.methods.getValues().call({ from: null });
@@ -83,6 +83,9 @@ export async function getValues() {
     client = values[2];
     isShipped = values[3];
     isReceived = values[4];
+
+    let wei = await web3.eth.getBalance(address);
+    balance = web3.utils.fromWei(wei, 'ether');
   } catch (e) {
     console.log('error in values fetch', e.message);
     throw e.code;
@@ -95,6 +98,7 @@ export async function getValues() {
     client,
     isShipped,
     isReceived,
+    balance
   };
   return valuesObj;
 }

@@ -4,6 +4,8 @@
     {{ account }}
     <h2>contract address</h2>
     {{ contractValues.address }}
+    <h2>contract balance</h2>
+    {{ contractValues.balance }}
     <h2>admin address</h2>
     {{ contractValues.admin }}
     <h2>merchant address</h2>
