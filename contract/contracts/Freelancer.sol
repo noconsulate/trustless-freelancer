@@ -13,8 +13,9 @@ contract Freelancer is Ownable {
 
   // Return storage
 
-  function getValues() public view returns (address, address, bool, bool) {
-    return (merchant, client, isShipped, isReceived);
+  function getValues() public view returns (address, address, address, bool, bool) {
+    address owner = owner();
+    return (owner, merchant, client, isShipped, isReceived);
   }
 
   // Client funds escrow and sets role as client

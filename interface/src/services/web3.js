@@ -8,7 +8,7 @@ let node_url, address;
 
 if (ENV_FLAG == "local") {
   node_url = "http://127.0.0.1:8545";
-  address = "0x02cccF14Adb748dF0893a9D3E0B7d740feb53651";
+  address = "0xfaCa89681DaEC0c68b7cbdB8A5DDC4F04Eb20cd8";
 }
 
 class RequestParameters {
@@ -54,49 +54,6 @@ export async function getAccount() {
   return accounts[0];
 }
 
-export async function getValues() {
-  const web3 = await initWeb3();
-  const contract = await loadContract(web3);
-
-  // to calibrate storage slots
-  if (DEBUG_FLAG) {
-    for (let index = 0; index < 7; index++) {
-      const item = await web3.eth.getStorageAt(address, index);
-      console.log(`[${index}]` + item);
-    }
-  }
-
-  let admin, merchant, client, isShipped, isReceived;
-
-  // get values directly
-  try {
-    admin = await web3.eth.getStorageAt(address, 0);
-    merchant = await web3.eth.getStorageAt(address, 1);
-    client = await web3.eth.getStorageAt(address, 2);
-  } catch (e) {
-    console.log(e.message);
-  }
-
-  // get bools via getter because getStorageAt() wasn't working
-  try {
-    let flags = await contract.methods.getFlags().call({ from: null });
-    isShipped = flags[0];
-    isReceived = flags[1];
-  } catch (e) {
-    console.log(e.message);
-  }
-
-  const valuesObj = {
-    address,
-    admin,
-    merchant,
-    client,
-    isShipped,
-    isReceived,
-  };
-  return valuesObj;
-}
-
 async function sendTx(parameters) {
   let txHash;
   try {
@@ -112,9 +69,35 @@ async function sendTx(parameters) {
   return txHash;
 }
 
-// export async function getValues() {
+export async function getValues() {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
 
-// }
+  let admin, merchant, client, isShipped, isReceived;
+
+  try {
+    let values = await contract.methods.getValues().call({ from: null });
+
+    admin = values[0];
+    merchant = values[1];
+    client = values[2];
+    isShipped = values[3];
+    isReceived = values[4];
+  } catch (e) {
+    console.log('error in values fetch', e.message);
+    throw e.code;
+  }
+
+  const valuesObj = {
+    address,
+    admin,
+    merchant,
+    client,
+    isShipped,
+    isReceived,
+  };
+  return valuesObj;
+}
 
 export async function reset() {
   const web3 = await initWeb3();
