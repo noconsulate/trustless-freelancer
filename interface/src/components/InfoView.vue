@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>current account</h2>
+    {{ account }}
     <h2>contract address</h2>
     {{ contractValues.address }}
     <h2>admin address</h2>
@@ -18,11 +20,12 @@
 <script>
 export default {
   computed: {
-    stringFromStore() {
-      return this.$store.state.aString;
-    },
     contractValues() {
       return this.$store.state.contractValues;
+    },
+    account() {
+      return this.$store.state.account;
+      
     }
   }
 }

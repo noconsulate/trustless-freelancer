@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <h1>trustless-freelancer</h1>
-    <!-- <button @click="initThing">enable ethereum</button> -->
-    <h2>current account</h2>
-    {{ account }}
     <info-view />
     <controls />
     <error-view />
