@@ -36,11 +36,21 @@ async function loadContract(obj) {
   return contract;
 }
 
-export async function doThing() {
-  console.log("do a thing!");
+export async function awaitTxMined(txHash) {
+  console.log('awaitTxMined()', txHash);
+  const web3 = await initWeb3();
 
-  const resulty = await ethereum.selectedAddress;
-  console.log(resulty);
+  let receipt;
+  try {
+    receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
+      blocksToWait: 1,
+    });
+    console.log(receipt);
+  } catch (e) {
+    console.log(e);
+  }
+
+  return receipt;
 }
 
 export async function getAccount() {
@@ -203,19 +213,43 @@ export async function sendPayment(ether) {
   return txHash;
 }
 
-export async function awaitTxMined(txHash) {
-  console.log('awaitTxMined()', txHash);
+export async function setMerchant(merchant) {
   const web3 = await initWeb3();
+  const contract = await loadContract(web3);
 
-  let receipt;
+  const transaction = contract.methods.setMerchant(merchant).encodeABI();
+  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+
+  let txHash;
   try {
-    receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
-      blocksToWait: 1,
-    });
-    console.log(receipt);
+    txHash = await sendTx(parameters);
   } catch (e) {
-    console.log(e);
+    console.log(e.code);
+    throw e;
+  } 
+  return txHash;
+}
+
+export async function methodSender(method) {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+
+  let transaction;
+  switch (method) {
+    case 'disperse':
+      transaction = contract.methods.disperse().encodeABI();
+      break;
+    case 'refund':
+      transaction = contract.methods.disperse().encodeABI();
   }
 
-  return receipt;
+  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+
+  let txHash;
+  try {
+    txHash = await sendTx(parameters);
+  } catch (e) {
+    throw e;
+  }
+  return txHash;
 }

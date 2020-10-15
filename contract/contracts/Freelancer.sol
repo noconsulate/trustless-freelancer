@@ -26,7 +26,7 @@ contract Freelancer is Ownable {
 
   // Set merchant role
   function setMerchant(address payable _address) public {
-    require(client == address(0), "the client has already been set");
+    require(merchant == address(0), "the client has already been set");
     merchant = payable(_address);
   }
 
