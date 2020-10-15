@@ -43,6 +43,8 @@ export default {
     })
 
     this.$store.dispatch('fetchValues', null);
+
+    
   },
 };
 </script>

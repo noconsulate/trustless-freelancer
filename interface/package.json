@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "await-transaction-mined": "^1.0.12",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vuex": "^3.5.1",

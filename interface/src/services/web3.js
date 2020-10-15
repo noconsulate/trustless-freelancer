@@ -2,6 +2,7 @@ const ENV_FLAG = "local";
 const DEBUG_FLAG = false;
 
 import Web3 from "web3";
+import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 
 let node_url, address;
@@ -14,7 +15,7 @@ if (ENV_FLAG == "local") {
 class RequestParameters {
   constructor(to, from, data) {
     this.to = to;
-    this. from = from;
+    this.from = from;
     this.data = data;
   }
 }
@@ -24,8 +25,9 @@ if (typeof window.ethereum !== "undefined") {
   ethereum = window.ethereum;
 }
 
+//not sure what to set this! oh well
 async function initWeb3() {
-  const web3 = await new Web3(node_url);
+  const web3 = await new Web3(window.ethereum);
   return web3;
 }
 
@@ -71,6 +73,8 @@ async function sendTx(parameters) {
 
 export async function getValues() {
   const web3 = await initWeb3();
+  //temporary
+  window.myWeb3 = web3;
   const contract = await loadContract(web3);
 
   let admin, merchant, client, isShipped, isReceived, balance;
@@ -85,9 +89,9 @@ export async function getValues() {
     isReceived = values[4];
 
     let wei = await web3.eth.getBalance(address);
-    balance = web3.utils.fromWei(wei, 'ether');
+    balance = web3.utils.fromWei(wei, "ether");
   } catch (e) {
-    console.log('error in values fetch', e.message);
+    console.log("error in values fetch", e.message);
     throw e.code;
   }
 
@@ -98,27 +102,42 @@ export async function getValues() {
     client,
     isShipped,
     isReceived,
-    balance
+    balance,
   };
   return valuesObj;
 }
 
 export async function reset() {
   const web3 = await initWeb3();
+  //temp
+  window.myWeb3 = web3;
   const contract = await loadContract(web3);
 
   const transaction = contract.methods.reset().encodeABI();
   const parameters = new RequestParameters(
-    address, ethereum.selectedAddress, transaction
+    address,
+    ethereum.selectedAddress,
+    transaction
   );
 
-  let txHash 
- try {
-  txHash = await sendTx(parameters);
-  console.log("txHash from reset()", txHash);
- } catch (e) {
-   throw e
- }
+  let txHash;
+  try {
+    txHash = await sendTx(parameters);
+    console.log("txHash from reset()", txHash);
+  } catch (e) {
+    throw e;
+  }
+
+  // this works to get confirmation! shi-diggity
+  let receipt;
+  try {
+    receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
+      blocksToWait: 1,
+    });
+    console.log(receipt);
+  } catch (e) {
+    console.log(e);
+  }
 
   return txHash;
 }
@@ -128,9 +147,13 @@ export async function markShipped() {
   const contract = await loadContract(web3);
 
   const transaction = contract.methods.merchantMarkShipped().encodeABI();
-  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+  const parameters = new RequestParameters(
+    address,
+    ethereum.selectedAddress,
+    transaction
+  );
 
-  let txHash
+  let txHash;
   try {
     txHash = await sendTx(parameters);
   } catch (e) {
@@ -143,12 +166,16 @@ export async function markShipped() {
 export async function markReceived() {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
-  console.log('markReceived()', contract);
+  console.log("markReceived()", contract);
 
   const transaction = contract.methods.clientMarkReceived().encodeABI();
-  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+  const parameters = new RequestParameters(
+    address,
+    ethereum.selectedAddress,
+    transaction
+  );
 
-  let txHash
+  let txHash;
   try {
     txHash = await sendTx(parameters);
   } catch (e) {
@@ -160,10 +187,10 @@ export async function markReceived() {
 
 export async function sendPayment(ether) {
   const web3 = await initWeb3();
-  
+
   console.log(ether);
 
-  const weiAmount = web3.utils.toWei(String(ether), 'ether');
+  const weiAmount = web3.utils.toWei(String(ether), "ether");
   console.log(weiAmount);
   const hexAmount = web3.utils.toHex(weiAmount);
   console.log(hexAmount);
@@ -174,7 +201,7 @@ export async function sendPayment(ether) {
     to: address,
     from: ethereum.selectedAddress,
     value: hexAmount,
-  }
+  };
 
   let txHash;
   try {
@@ -183,9 +210,6 @@ export async function sendPayment(ether) {
     console.log(e.message);
     throw e;
   }
-
-  //need to handle error
- // contract is messed up - client/merchant confused
 
   return txHash;
 }
