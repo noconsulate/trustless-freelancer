@@ -128,17 +128,6 @@ export async function reset() {
     throw e;
   }
 
-  // this works to get confirmation! shi-diggity
-  // let receipt;
-  // try {
-  //   receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
-  //     blocksToWait: 1,
-  //   });
-  //   console.log(receipt);
-  // } catch (e) {
-  //   console.log(e);
-  // }
-
   return txHash;
 }
 

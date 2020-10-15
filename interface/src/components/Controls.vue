@@ -46,20 +46,20 @@ export default {
       markShipped()
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => {
-          console.log(res);
-          this.$store.dispatch("fetchValues", null);
+          this.postCall(res);
         });
     },
     callMarkReceived() {
       markReceived()
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => {
-          console.log(res);
-          this.$store.dispatch("fetchValues", null);
+          this.postCall(res);
         });
     },
     callSendPayment() {
-      sendPayment(this.etherAmount);
+      sendPayment(this.etherAmount)
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => this.postCall(res));
     },
   },
 };
