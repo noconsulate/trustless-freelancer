@@ -9,11 +9,11 @@
       <button @click="callMarkReceived">mark received</button>
     </div>
     <div class="row">
-      <input v-model.number="etherAmount" type="number">
+      <input v-model.number="etherAmount" type="number" />
       <button @click="callSendPayment">fund escrow</button>
     </div>
     <div class="row">
-      <input v-model="merchant" type="text">
+      <input v-model="merchant" type="text" />
       <button @click="callSetMerchant">set merchant</button>
     </div>
     <div class="row">
@@ -24,14 +24,23 @@
 </template>
 
 <script>
-import { awaitTxMined, reset, getAccount, markShipped, markReceived, sendPayment, setMerchant, methodSender } from "../services/web3";
+import {
+  awaitTxMined,
+  reset,
+  getAccount,
+  markShipped,
+  markReceived,
+  sendPayment,
+  setMerchant,
+  methodSender,
+} from "../services/web3";
 
 export default {
   data() {
     return {
-      etherAmount: '0.05',
-      merchant: '0xFa2cf442D4EcfeC527cB740bF842f7E68D55Cef7'
-    }
+      etherAmount: "0.05",
+      merchant: "0xFa2cf442D4EcfeC527cB740bF842f7E68D55Cef7",
+    };
   },
   methods: {
     //update state after contract calls
@@ -40,16 +49,23 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       console.log(receipt);
-      this.$store.dispatch('fetchValues', null);
+      this.$store.dispatch("fetchValues", null);
     },
     async enableEthereum() {
       const account = await getAccount();
       this.$store.dispatch("setAccount", account);
     },
     callReset() {
+      if (
+        window.ethereum.selectedAddress !=
+        this.$store.state.contractValues.admin
+      ) {
+        alert("only the admin can reset");
+        return;
+      }
       reset()
-        .catch(e => this.$store.dispatch('setError', e.code))
-        .then(res => this.postCall(res));
+        .catch((e) => this.$store.dispatch("setError", e.code))
+        .then((res) => this.postCall(res));
     },
     callMarkShipped() {
       markShipped()
@@ -67,27 +83,39 @@ export default {
     },
     callSendPayment() {
       sendPayment(this.etherAmount)
-        .catch(e => this.$store.dispatch('setError', e.code))
-        .then(res => this.postCall(res));
+        .catch((e) => this.$store.dispatch("setError", e.code))
+        .then((res) => this.postCall(res));
     },
     callSetMerchant() {
       setMerchant(this.merchant)
-        .catch(e => this.$store.dispatch('setError', e.code))
-        .then(res => this.postCall(res));
+        .catch((e) => this.$store.dispatch("setError", e.code))
+        .then((res) => this.postCall(res));
     },
     callDisperse() {
       // product must be shipped and received
-      if (this.$store.state.contractValues.isShipped == true && this.$store.state.contractValues.isReceived == true) {
-        methodSender('disperse')
-          .catch(e => this.$store.dispatch('setError', e.code))
-          .then(res => this.postCall(res));
+      if (
+        this.$store.state.contractValues.isShipped == true &&
+        this.$store.state.contractValues.isReceived == true
+      ) {
+        methodSender("disperse")
+          .catch((e) => this.$store.dispatch("setError", e.code))
+          .then((res) => this.postCall(res));
       } else {
-        alert('product must be marked shipped and received to disperse!')
+        alert("product must be marked shipped and received to disperse!");
       }
     },
     callRefund() {
-      alert('sup')
-    }
+      if (
+        window.ethereum.selectedAddress.toUpperCase() ==
+        this.$store.state.contractValues.merchant.toUpperCase()
+      ) {
+        methodSender("refund")
+          .catch((e) => this.$store.dispatch("setError", e.code))
+          .then((res) => this.postCall(res));
+      } else {
+        alert('only merchant can refund')
+      }
+    },
   },
 };
 </script>
@@ -104,8 +132,4 @@ button {
 input {
   margin-right: 6px;
 }
-
-
-
-
 </style>

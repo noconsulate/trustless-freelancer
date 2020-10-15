@@ -38,6 +38,9 @@ export default {
   methods: {
   },
   created: async function() {
+    if (window.ethereum == undefined) {
+      alert('sorry, you need metamask to use this app')
+    }
     window.ethereum.on('chainChanged', (chainId) => {
       window.location.reload();
     })

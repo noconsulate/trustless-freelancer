@@ -240,7 +240,7 @@ export async function methodSender(method) {
       transaction = contract.methods.disperse().encodeABI();
       break;
     case 'refund':
-      transaction = contract.methods.disperse().encodeABI();
+      transaction = contract.methods.refund().encodeABI();
   }
 
   const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);

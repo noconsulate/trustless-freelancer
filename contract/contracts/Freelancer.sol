@@ -46,12 +46,14 @@ contract Freelancer is Ownable {
   function disperse() public {
     require (isShipped == true && isReceived == true, "conditions not met");
     merchant.transfer(address(this).balance);
+    this.reset();
   }
 
-  // Refund payment to client after taking 10% cut for admin
+  // Refund payment to client 
   function refund() public {
     require(msg.sender == merchant, "only merchant can refund");
     client.transfer(address(this).balance);
+    this.reset();
   }
 
   // Reset contract storage to original state
