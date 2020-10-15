@@ -129,15 +129,15 @@ export async function reset() {
   }
 
   // this works to get confirmation! shi-diggity
-  let receipt;
-  try {
-    receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
-      blocksToWait: 1,
-    });
-    console.log(receipt);
-  } catch (e) {
-    console.log(e);
-  }
+  // let receipt;
+  // try {
+  //   receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
+  //     blocksToWait: 1,
+  //   });
+  //   console.log(receipt);
+  // } catch (e) {
+  //   console.log(e);
+  // }
 
   return txHash;
 }
@@ -212,4 +212,21 @@ export async function sendPayment(ether) {
   }
 
   return txHash;
+}
+
+export async function awaitTxMined(txHash) {
+  console.log('awaitTxMined()', txHash);
+  const web3 = await initWeb3();
+
+  let receipt;
+  try {
+    receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
+      blocksToWait: 1,
+    });
+    console.log(receipt);
+  } catch (e) {
+    console.log(e);
+  }
+
+  return receipt;
 }

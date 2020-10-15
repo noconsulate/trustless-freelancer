@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { reset, getAccount, markShipped, markReceived, sendPayment } from "../services/web3";
+import { awaitTxMined, reset, getAccount, markShipped, markReceived, sendPayment } from "../services/web3";
 
 export default {
   data() {
@@ -26,9 +26,12 @@ export default {
   },
   methods: {
     //update state after contract calls
-    async postCall(res) {
-      this.$store.dispatch("fetchValues", null);
-      this.$store.dispatch("setTxHash", res);
+    async postCall(txHash) {
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log(receipt);
+      this.$store.dispatch('fetchValues', null);
     },
     async enableEthereum() {
       const account = await getAccount();
