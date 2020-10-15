@@ -37,7 +37,7 @@ async function loadContract(obj) {
 }
 
 export async function awaitTxMined(txHash) {
-  console.log('awaitTxMined()', txHash);
+  console.log("awaitTxMined()", txHash);
   const web3 = await initWeb3();
 
   let receipt;
@@ -53,19 +53,6 @@ export async function awaitTxMined(txHash) {
   return receipt;
 }
 
-// export async function getAccount() {
-//   let accounts;
-
-//   try {
-//     accounts = await ethereum.request({ method: "eth_requestAccounts" });
-//     console.log(accounts);
-//   } catch (e) {
-//     console.log(e.message);
-//   }
-
-//   return accounts[0];
-// }
-
 async function sendTx(parameters) {
   let txHash;
   try {
@@ -73,6 +60,7 @@ async function sendTx(parameters) {
       method: "eth_sendTransaction",
       params: [parameters],
     });
+    console.log(txHash);
   } catch (e) {
     console.log(e.message);
     throw e;
@@ -117,73 +105,6 @@ export async function getValues() {
   return valuesObj;
 }
 
-export async function reset() {
-  const web3 = await initWeb3();
-  //temp
-  window.myWeb3 = web3;
-  const contract = await loadContract(web3);
-
-  const transaction = contract.methods.reset().encodeABI();
-  const parameters = new RequestParameters(
-    address,
-    ethereum.selectedAddress,
-    transaction
-  );
-
-  let txHash;
-  try {
-    txHash = await sendTx(parameters);
-    console.log("txHash from reset()", txHash);
-  } catch (e) {
-    throw e;
-  }
-
-  return txHash;
-}
-
-export async function markShipped() {
-  const web3 = await initWeb3();
-  const contract = await loadContract(web3);
-
-  const transaction = contract.methods.merchantMarkShipped().encodeABI();
-  const parameters = new RequestParameters(
-    address,
-    ethereum.selectedAddress,
-    transaction
-  );
-
-  let txHash;
-  try {
-    txHash = await sendTx(parameters);
-  } catch (e) {
-    console.log(e.code);
-    throw e;
-  }
-  return txHash;
-}
-
-export async function markReceived() {
-  const web3 = await initWeb3();
-  const contract = await loadContract(web3);
-  console.log("markReceived()", contract);
-
-  const transaction = contract.methods.clientMarkReceived().encodeABI();
-  const parameters = new RequestParameters(
-    address,
-    ethereum.selectedAddress,
-    transaction
-  );
-
-  let txHash;
-  try {
-    txHash = await sendTx(parameters);
-  } catch (e) {
-    console.log(e.code);
-    throw e;
-  }
-  return txHash;
-}
-
 export async function sendPayment(ether) {
   const web3 = await initWeb3();
 
@@ -209,45 +130,41 @@ export async function sendPayment(ether) {
     console.log(e.message);
     throw e;
   }
-
   return txHash;
 }
 
-export async function setMerchant(merchant) {
+export async function methodSender(method, arg) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
 
-  const transaction = contract.methods.setMerchant(merchant).encodeABI();
-  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
-
-  let txHash;
-  try {
-    txHash = await sendTx(parameters);
-  } catch (e) {
-    console.log(e.code);
-    throw e;
-  } 
-  return txHash;
-}
-
-export async function methodSender(method) {
-  const web3 = await initWeb3();
-  const contract = await loadContract(web3);
+  console.log(method, arg);
 
   let transaction;
   switch (method) {
-    case 'disperse':
+    case "disperse":
       transaction = contract.methods.disperse().encodeABI();
       break;
-    case 'refund':
+    case "refund":
       transaction = contract.methods.refund().encodeABI();
       break;
-    case 'reset':
+    case "reset":
       transaction = contract.methods.reset().encodeABI();
       break;
+    case "setMerchant":
+      transaction = contract.methods.setMerchant(arg).encodeABI();
+      break;
+    case "markShipped":
+      transaction = contract.methods.merchantMarkShipped().encodeABI();
+      break;
+    case "markReceived":
+      transaction = contract.methods.clientMarkReceived().encodeABI();
   }
 
-  const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
+  const parameters = new RequestParameters(
+    address,
+    ethereum.selectedAddress,
+    transaction
+  );
 
   let txHash;
   try {

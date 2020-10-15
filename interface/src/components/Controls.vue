@@ -26,12 +26,7 @@
 <script>
 import {
   awaitTxMined,
-  reset,
-  getAccount,
-  markShipped,
-  markReceived,
   sendPayment,
-  setMerchant,
   methodSender,
 } from "../services/web3";
 
@@ -39,7 +34,7 @@ export default {
   data() {
     return {
       etherAmount: "0.05",
-      merchant: "0xFa2cf442D4EcfeC527cB740bF842f7E68D55Cef7",
+      merchant: "0x83316a84d99c1232d0A596AA95c7dd1F488a3952",
     };
   },
   methods: {
@@ -56,6 +51,7 @@ export default {
       this.$store.dispatch("setAccount", account);
     },
     callReset() {
+      //only admin can reset
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
         this.$store.state.contractValues.admin.toUpperCase()
@@ -66,33 +62,41 @@ export default {
       methodSender('reset')
         .catch(e => this.$store.dispatch('setError', e.code))
         .then(res => this.postCall(res));
-      //  reset()
-      //   .catch((e) => this.$store.dispatch("setError", e.code))
-      //   .then((res) => this.postCall(res));
     },
     callMarkShipped() {
-      markShipped()
-        .catch((e) => this.$store.dispatch("setError", e.code))
-        .then((res) => {
-          this.postCall(res);
-        });
+      //only merchant can mark shipped
+      if (window.ethereum.selectedAddress.toUpperCase() != this.$store.state.contractValues.merchant.toUpperCase()) {
+        alert('only the merchant can mark shipped');
+        return;
+      }
+
+      methodSender('markShipped')
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => this.postCall(res));
     },
     callMarkReceived() {
-      markReceived()
-        .catch((e) => this.$store.dispatch("setError", e.code))
-        .then((res) => {
-          this.postCall(res);
-        });
+      // only client can mark received
+      if (window.ethereum.selectedAddress.toUpperCase() != this.$store.state.contractValues.client.toUpperCase()) {
+        alert('only client can mark shipped!');
+        return;
+      }
+      methodSender('markReceived')
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => this.postCall(res));
     },
     callSendPayment() {
+      if (this.$store.state.contractValues.client != '0x0000000000000000000000000000000000000000') {
+        alert('the escrow is already paid')
+        return;
+      }
       sendPayment(this.etherAmount)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
     callSetMerchant() {
-      setMerchant(this.merchant)
-        .catch((e) => this.$store.dispatch("setError", e.code))
-        .then((res) => this.postCall(res));
+       methodSender('setMerchant', this.merchant)
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => this.postCall(res));
     },
     callDisperse() {
       // product must be shipped and received
@@ -109,15 +113,15 @@ export default {
     },
     callRefund() {
       if (
-        window.ethereum.selectedAddress.toUpperCase() ==
+        window.ethereum.selectedAddress.toUpperCase() !=
         this.$store.state.contractValues.merchant.toUpperCase()
       ) {
-        methodSender("refund")
+        alert('only merchant can refund');
+        return;
+      } 
+       methodSender("refund")
           .catch((e) => this.$store.dispatch("setError", e.code))
           .then((res) => this.postCall(res));
-      } else {
-        alert('only merchant can refund')
-      }
     },
   },
 };
