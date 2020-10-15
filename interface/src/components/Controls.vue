@@ -57,15 +57,18 @@ export default {
     },
     callReset() {
       if (
-        window.ethereum.selectedAddress !=
-        this.$store.state.contractValues.admin
+        window.ethereum.selectedAddress.toUpperCase() !=
+        this.$store.state.contractValues.admin.toUpperCase()
       ) {
         alert("only the admin can reset");
         return;
       }
-      reset()
-        .catch((e) => this.$store.dispatch("setError", e.code))
-        .then((res) => this.postCall(res));
+      methodSender('reset')
+        .catch(e => this.$store.dispatch('setError', e.code))
+        .then(res => this.postCall(res));
+      //  reset()
+      //   .catch((e) => this.$store.dispatch("setError", e.code))
+      //   .then((res) => this.postCall(res));
     },
     callMarkShipped() {
       markShipped()

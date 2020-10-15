@@ -53,18 +53,18 @@ export async function awaitTxMined(txHash) {
   return receipt;
 }
 
-export async function getAccount() {
-  let accounts;
+// export async function getAccount() {
+//   let accounts;
 
-  try {
-    accounts = await ethereum.request({ method: "eth_requestAccounts" });
-    console.log(accounts);
-  } catch (e) {
-    console.log(e.message);
-  }
+//   try {
+//     accounts = await ethereum.request({ method: "eth_requestAccounts" });
+//     console.log(accounts);
+//   } catch (e) {
+//     console.log(e.message);
+//   }
 
-  return accounts[0];
-}
+//   return accounts[0];
+// }
 
 async function sendTx(parameters) {
   let txHash;
@@ -241,6 +241,10 @@ export async function methodSender(method) {
       break;
     case 'refund':
       transaction = contract.methods.refund().encodeABI();
+      break;
+    case 'reset':
+      transaction = contract.methods.reset().encodeABI();
+      break;
   }
 
   const parameters = new RequestParameters(address, ethereum.selectedAddress, transaction);
