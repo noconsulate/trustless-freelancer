@@ -11,6 +11,9 @@ contract Freelancer is Ownable {
   bool isShipped = false;
   bool isReceived = false;
 
+  mapping(address => uint256) public clients;
+  mapping(address => address) merchants;
+
   // Return storage
 
   function getValues() public view returns (address, address, address, bool, bool) {
@@ -20,15 +23,29 @@ contract Freelancer is Ownable {
 
   // Client funds escrow and sets role as client
   receive() external payable {
-    require(client == address(0), "Contract already paid for");
-    client = payable(msg.sender);
+    clients[msg.sender] = msg.value;
   }  
 
-  // Set merchant role
-  function setMerchant(address payable _address) public {
-    require(merchant == address(0), "the client has already been set");
-    merchant = payable(_address);
+  function getClientEscrow() public view returns (uint) {
+    uint256 balance = clients[address(msg.sender)];
+
+    return balance;
   }
+
+  function setMerchant(address payable _merchant) public {
+    merchants[msg.sender] = _merchant;
+  }
+
+  function getMerchant(address _client) public view returns (address) {
+    address client = merchants[_client];
+    return client;
+  }
+
+  // Set merchant role
+  // function setMerchant(address payable _address) public {
+  //   require(merchant == address(0), "the client has already been set");
+  //   merchant = payable(_address);
+  // }
 
   // Merchant indicates product has shipped
   function merchantMarkShipped() public {

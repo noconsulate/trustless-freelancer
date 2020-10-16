@@ -9,7 +9,7 @@ const web3 = new Web3('http://localhost:8545');
 // }).web3;
 const loader = setupLoader({provider: web3}).web3;
 
-const address = '0x5c9B9809C6EE8BA86ef29c5F2Bb54A012dcd0411';
+const address = '0x29d7C337265986eA74bd43581B79CcEa8479AB6B';
 const freelancer = loader.fromArtifact('Freelancer', address)
 
 // init contract with values for development
@@ -17,16 +17,26 @@ async function main() {
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
 
-  // fund contract and set client
+  // fund contract and set clients
   web3.eth.sendTransaction({
     from: accounts[1],
     to: address,
     value: web3.utils.toWei('.1', 'ether'),
   }).catch(console.log)
 
+  web3.eth.sendTransaction({
+    from: accounts[2],
+    to: address,
+    value: web3.utils.toWei('.1', 'ether'),
+  }).catch(console.log)
+
   // Set merchant 
-  await freelancer.methods.setMerchant('0x83316a84d99c1232d0A596AA95c7dd1F488a3952').send({
-    from: accounts[0], gas: 5000000, gasPrice: 1e6,
+  await freelancer.methods.setMerchant('0x57a074122A20a8e37485fa9d20574064572d93C9').send({
+    from: accounts[1], gas: 5000000, gasPrice: 1e6,
+  })
+
+  await freelancer.methods.setMerchant('0x29d7C337265986eA74bd43581B79CcEa8479AB6B').send({
+    from: accounts[2], gas: 5000000, gasPrice: 1e6,
   })
 
 
