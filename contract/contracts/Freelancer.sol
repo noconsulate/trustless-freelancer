@@ -39,23 +39,26 @@ contract Freelancer is Ownable {
     address client = clientLookup[msg.sender];
     Escrow storage escrow = escrows[payable(client)];
 
-    // Escrow storage escrow = escrows[address(_client)];
     require(escrow.merchant == msg.sender, "merchant not associated with client");
     require(escrow.balance > 0, "escrow must be funded");
+
     escrow.isShipped = true;
   }
 
-  function markReceived(address payable _client) public {
+  function markReceived() public {
+    Escrow storage escrow = escrows[payable(msg.sender)];
+    require(escrow.merchant != payable(0) || escrow.balance > 0, "escrow isn't funded or no merchant");
 
+    escrow.isReceived = true;
   }
 
   function getEscrowValues(address _escrow) public view returns (
-    uint256, address, bool
+    uint256, address, bool, bool
     ) {
     
     Escrow memory escrow = escrows[_escrow];
     return (
-      escrow.balance,  escrow.merchant, escrow.isShipped
+      escrow.balance,  escrow.merchant, escrow.isShipped, escrow.isReceived
       );
   }
 
