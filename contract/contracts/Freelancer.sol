@@ -9,7 +9,7 @@ contract Freelancer is Ownable {
 
 
   struct Escrow {
-    address merchant;
+    address payable merchant;
     uint256 balance;
     bool isShipped;
     bool isReceived;
@@ -26,8 +26,13 @@ contract Freelancer is Ownable {
     escrowAccounts.push(msg.sender);
   }
 
-  function getEscrowValues(address _escrow) public view returns (uint256) {
-    return (escrows[_escrow].balance);
+  function setMerchant(address payable _merchant) public {
+    Escrow storage escrow = escrows[address(msg.sender)];
+    escrow.merchant = _merchant;
+  }
+
+  function getEscrowValues(address _escrow) public view returns (uint256, address) {
+    return (escrows[_escrow].balance, escrows[_escrow].merchant);
   }
 
 
