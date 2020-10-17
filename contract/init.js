@@ -9,7 +9,7 @@ const web3 = new Web3('http://localhost:8545');
 // }).web3;
 const loader = setupLoader({provider: web3}).web3;
 
-const address = '0x9358119483e21760f95497F420cEd4a2DF43a859';
+const address = '0xc295335Db272BEF6219Da27F5D1AA18F6C972E50';
 const freelancer = loader.fromArtifact('Freelancer', address)
 
 // init contract with values for development
@@ -34,11 +34,11 @@ async function main() {
   }).catch(console.log)
 
   // Set merchant 
-  await freelancer.methods.setMerchant('0x57a074122A20a8e37485fa9d20574064572d93C9').send({
+  await freelancer.methods.setMerchant('0xe941145418C60A84D98c0e9C181fd19c77f609C2').send({
     from: accounts[1], gas: 5000000, gasPrice: 1e6,
   })
 
-  await freelancer.methods.setMerchant('0x29d7C337265986eA74bd43581B79CcEa8479AB6B').send({
+  await freelancer.methods.setMerchant('0x8086A9dc79549d0363e324fe167289733D2d3798').send({
     from: accounts[2], gas: 5000000, gasPrice: 1e6,
   })
 

@@ -16,6 +16,7 @@ contract Freelancer is Ownable {
   }
 
   mapping(address => Escrow) escrows;
+  mapping(address => address) clientLookup;
   address[] public escrowAccounts;
 
   receive() external payable {
@@ -26,13 +27,36 @@ contract Freelancer is Ownable {
     escrowAccounts.push(msg.sender);
   }
 
+  //lets you set merchant to 0 balance address
   function setMerchant(address payable _merchant) public {
     Escrow storage escrow = escrows[address(msg.sender)];
+    require(escrow.merchant == address(0), "merchant already set, cannot be changed");
     escrow.merchant = _merchant;
+    clientLookup[_merchant] = msg.sender;
   }
 
-  function getEscrowValues(address _escrow) public view returns (uint256, address) {
-    return (escrows[_escrow].balance, escrows[_escrow].merchant);
+  function markShipped() public {
+    address client = clientLookup[msg.sender];
+    Escrow storage escrow = escrows[payable(client)];
+
+    // Escrow storage escrow = escrows[address(_client)];
+    require(escrow.merchant == msg.sender, "merchant not associated with client");
+    require(escrow.balance > 0, "escrow must be funded");
+    escrow.isShipped = true;
+  }
+
+  function markReceived(address payable _client) public {
+
+  }
+
+  function getEscrowValues(address _escrow) public view returns (
+    uint256, address, bool
+    ) {
+    
+    Escrow memory escrow = escrows[_escrow];
+    return (
+      escrow.balance,  escrow.merchant, escrow.isShipped
+      );
   }
 
 
