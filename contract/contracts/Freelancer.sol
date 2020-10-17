@@ -9,7 +9,7 @@ contract Freelancer is Ownable {
 
 
   struct Escrow {
-    address payable merchant;
+    address merchant;
     uint256 balance;
     bool isShipped;
     bool isReceived;
