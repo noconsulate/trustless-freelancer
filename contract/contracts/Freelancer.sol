@@ -55,12 +55,14 @@ contract Freelancer is Ownable {
   // to be caled from merchant to refund client erase data
   function refund() public {
     address client = clientLookup[msg.sender];
-    require(client != address(0), "no client matches this address");
+    require(client != address(0), "no client found matching sender address");
 
-    Escrow storage escrow = escrows[client];
-    require(escrow.balance > 0, "balance is zero");
+    uint256 balance = escrows[client].balance;
+    require(balance > 0, "balance is zero");
 
-    
+    address payable payableClient = payable(client);
+    payableClient.transfer(balance);
+    delete escrows[client];
   }
 
   function getEscrowValues(address _escrow) public view returns (
@@ -72,6 +74,4 @@ contract Freelancer is Ownable {
       escrow.balance,  escrow.merchant, escrow.isShipped, escrow.isReceived
       );
   }
-
-
 }
