@@ -43,6 +43,11 @@ contract Freelancer is Ownable {
     require(escrow.balance > 0, "escrow must be funded");
 
     escrow.isShipped = true;
+
+    if (escrow.isReceived == true) {
+      escrow.merchant.transfer(escrow.balance);
+      delete escrows[payable(client)];
+    }
   }
 
   function markReceived() public {
@@ -50,6 +55,11 @@ contract Freelancer is Ownable {
     require(escrow.merchant != payable(0) || escrow.balance > 0, "escrow isn't funded or no merchant");
 
     escrow.isReceived = true;
+
+    if (escrow.isShipped = true) {
+      escrow.merchant.transfer(escrow.balance);
+      delete escrows[payable(msg.sender)];
+    }
   }
 
   // to be caled from merchant to refund client erase data

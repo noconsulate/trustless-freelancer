@@ -9,7 +9,7 @@ const web3 = new Web3('http://localhost:8545');
 // }).web3;
 const loader = setupLoader({provider: web3}).web3;
 
-const address = '0x379804030b22bCCC2E4e72F6a1D478273626F0fB';
+const address = '0x4D69c7C9c4E0861aA25FeF740bE9d9186eF339D4';
 const freelancer = loader.fromArtifact('Freelancer', address)
 
 // init contract with values for development
@@ -39,7 +39,7 @@ async function main() {
   })
 
   await freelancer.methods.setMerchant('0x3fB71fB9ca3a4B5d7e6cbFa34E8997b6dbf29a57').send({
-    from: accounts[4], gas: 5000000, gasPrice: 1e6,
+    from: accounts[2], gas: 5000000, gasPrice: 1e6,
   })
 
 
