@@ -9,79 +9,65 @@ contract Freelancer is Ownable {
 
 
   struct Escrow {
-    address payable merchant;
+ //   address payable merchant;
     uint256 balance;
     bool isShipped;
     bool isReceived;
   }
 
   mapping(address => Escrow) escrows;
-  mapping(address => address) clientLookup;
-  address[] public escrowAccounts;
+ // mapping(address => address) clientLookup;
+  address[] public clients;
 
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
+    // reject transfer from address already associated with escrow
+    require(escrow.balance == 0, "this address already has an escrow");
 
     escrow.balance = msg.value;
-
-    escrowAccounts.push(msg.sender);
+    clients.push(msg.sender);
   }
 
-  //lets you set merchant to 0 balance address
-  function setMerchant(address payable _merchant) public {
-    Escrow storage escrow = escrows[address(msg.sender)];
-    require(escrow.merchant == address(0), "merchant already set, cannot be changed");
-    escrow.merchant = _merchant;
-    clientLookup[_merchant] = msg.sender;
-  }
-
-  function markShipped() public {
-    address client = clientLookup[msg.sender];
-    Escrow storage escrow = escrows[payable(client)];
-
-    require(escrow.merchant == msg.sender, "merchant not associated with client");
-    require(escrow.balance > 0, "escrow must be funded");
-
+  //interface should check onlyOwner?
+  function markShipped(address _client) public onlyOwner {
+    Escrow storage escrow = escrows[_client];
+    require(escrow.balance > 0, "this escrow is empty!");
     escrow.isShipped = true;
 
     if (escrow.isReceived == true) {
-      escrow.merchant.transfer(escrow.balance);
-      delete escrows[payable(client)];
+      address owner = owner();
+      payable(owner).transfer(escrow.balance);
+      delete escrows[_client];
     }
   }
 
   function markReceived() public {
-    Escrow storage escrow = escrows[payable(msg.sender)];
-    require(escrow.merchant != payable(0) || escrow.balance > 0, "escrow isn't funded or no merchant");
-
+    Escrow storage escrow = escrows[msg.sender];
+    require(escrow.balance > 0, "this escrow is empty!");
     escrow.isReceived = true;
 
-    if (escrow.isShipped = true) {
-      escrow.merchant.transfer(escrow.balance);
-      delete escrows[payable(msg.sender)];
+    if(escrow.isShipped == true) {
+      address owner = owner();
+      payable(owner).transfer(escrow.balance);
+      delete escrows[msg.sender];
     }
   }
 
-  // to be caled from merchant to refund client erase data
-  function refund() public {
-    address client = clientLookup[msg.sender];
-    require(client != address(0), "no client found matching sender address");
+  function refund(address _client) public onlyOwner {
+    Escrow storage escrow = escrows[_client];
+    require(escrow.balance > 0, "this escrow is empty!");
 
-    uint256 balance = escrows[client].balance;
-    require(balance > 0, "balance is zero");
-
-    address payable payableClient = payable(client);
-    payableClient.transfer(balance);
-    delete escrows[client];
+    payable(_client).transfer(escrow.balance);
+    delete escrows[_client];
   }
 
   function getEscrowValues(address _escrow) public view returns (
-    uint256, address, bool, bool
+    uint256, bool, bool
     ) {
     
     Escrow memory escrow = escrows[_escrow];
     return (
-      escrow.balance,  escrow.merchant, escrow.isShipped, escrow.isReceived
+      escrow.balance, escrow.isShipped, escrow.isReceived
       );
   }
 }
