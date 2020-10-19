@@ -9,7 +9,7 @@ let node_url, address;
 
 if (ENV_FLAG == "local") {
   node_url = "http://127.0.0.1:8545";
-  address = "0x5c9B9809C6EE8BA86ef29c5F2Bb54A012dcd0411";
+  address = "0xe941145418C60A84D98c0e9C181fd19c77f609C2";
 }
 
 class RequestParameters {

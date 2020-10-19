@@ -11,7 +11,7 @@ const web3 = new Web3('http://localhost:8545');
 // }).web3;
 const loader = setupLoader({provider: web3}).web3;
 
-const address = '0xE23c2084d9a4E05ed37B4aDD7B19714f5235e7ae';
+const address = '0x0cCaA30af58fA36c901746536eC2CecFA1268715';
 const freelancer = loader.fromArtifact('Freelancer', address)
 
 // init contract with values for development

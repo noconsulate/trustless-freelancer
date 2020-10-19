@@ -47,8 +47,13 @@ export default {
       this.$store.dispatch("fetchValues", null);
     },
     async enableEthereum() {
-      const account = await getAccount();
-      this.$store.dispatch("setAccount", account);
+      let accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+      this.$store.dispatch("setAccount", accounts[0]);
+      window.ethereum.on('accountsChanged', (res) => {
+        this.$store.dispatch('setAccount', res[0]);
+      });
     },
     callReset() {
       //only admin can reset

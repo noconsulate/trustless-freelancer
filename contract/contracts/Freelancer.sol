@@ -38,6 +38,7 @@ contract Freelancer is Ownable {
       address owner = owner();
       payable(owner).transfer(escrow.balance);
       delete escrows[_client];
+      _cleanup(_client);
     }
   }
 
@@ -50,6 +51,7 @@ contract Freelancer is Ownable {
       address owner = owner();
       payable(owner).transfer(escrow.balance);
       delete escrows[msg.sender];
+      _cleanup(msg.sender);
     }
   }
 
@@ -59,6 +61,37 @@ contract Freelancer is Ownable {
 
     payable(_client).transfer(escrow.balance);
     delete escrows[_client];
+    _cleanup(_client);
+  }
+
+  function reset() public onlyOwner {
+    address owner = owner();
+    uint256 length = clients.length;
+
+    for (uint256 i = length; i > 0; i--) {
+      payable(owner).transfer(escrows[clients[i - 1]].balance);
+      delete escrows[clients[i - 1]];
+      delete clients[i - 1];
+    }
+  }
+
+  // is this effecient?
+  function _cleanup(address _client) private {
+    uint256 length = clients.length;
+    uint256 indexToDelete;
+
+    for (uint256 i = 0; i < length; i++) {
+      if (clients[i] == _client) {
+        indexToDelete = i;
+      }
+    }
+
+    // if indexToDelete is not last in array, swap position
+    if (indexToDelete < length - 1) {
+      clients[indexToDelete] = clients[length -1];
+    }
+    // remove last element
+    delete clients[length - 1];
   }
 
   function getEscrowValues(address _escrow) public view returns (
