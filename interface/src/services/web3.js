@@ -57,7 +57,7 @@ export async function getClients() {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
 
-  let clients 
+  let clients;
 
   try {
     clients = await contract.methods.getClients().call({ from: null });
@@ -67,6 +67,11 @@ export async function getClients() {
   }
 
   console.log(clients);
+
+  // filter zerod out addresses
+  const hexZero = "0x0000000000000000000000000000000000000000";
+  clients = clients.filter((item) => item != hexZero);
+
   return clients;
 }
 async function sendTx(parameters) {
@@ -92,7 +97,9 @@ export async function getEscrowValues(client) {
   let balance, isShipped, isReceived;
 
   try {
-    let values = await contract.methods.getEscrowValues(client).call({ from: null });
+    let values = await contract.methods
+      .getEscrowValues(client)
+      .call({ from: null });
 
     balance = values[0];
     isShipped = values[1];
@@ -102,16 +109,16 @@ export async function getEscrowValues(client) {
     throw e;
   }
 
-  balance = web3.utils.fromWei(balance, 'ether');
-  
-  const valuesObj = { balance, isShipped, isReceived, };
-  
+  balance = web3.utils.fromWei(balance, "ether");
+
+  const valuesObj = { balance, isShipped, isReceived };
+
   return valuesObj;
 }
 
 export async function getValues() {
   const web3 = await initWeb3();
- 
+
   const contract = await loadContract(web3);
 
   let owner, balance;
@@ -128,7 +135,9 @@ export async function getValues() {
   balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
-    address, owner, balance
+    address,
+    owner,
+    balance,
   };
   return valuesObj;
 }
@@ -179,10 +188,10 @@ export async function methodSender(method, arg) {
       transaction = contract.methods.reset().encodeABI();
       break;
     case "markShipped":
-      transaction = contract.methods.merchantMarkShipped().encodeABI();
+      transaction = contract.methods.markShipped(arg).encodeABI();
       break;
     case "markReceived":
-      transaction = contract.methods.clientMarkReceived().encodeABI();
+      transaction = contract.methods.markReceived().encodeABI();
   }
 
   const parameters = new RequestParameters(

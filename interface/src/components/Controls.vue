@@ -89,13 +89,13 @@ export default {
       //only merchant can mark shipped
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
-        this.$store.state.contractValues.merchant.toUpperCase()
+        this.$store.state.contractValues.owner.toUpperCase()
       ) {
         alert("only the merchant can mark shipped");
         return;
       }
 
-      methodSender("markShipped")
+      methodSender("markShipped", this.selectedClient)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
@@ -103,7 +103,7 @@ export default {
       // only client can mark received
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
-        this.$store.state.contractValues.client.toUpperCase()
+        this.$store.state.escrowValues.address.toUpperCase()
       ) {
         alert("only client can mark shipped!");
         return;
