@@ -11,14 +11,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     account : 'please enable ethereum',
-    contractValues: {},
+    contractValues: { owner: null, balance: null},
     errorMessage: '',
     txHash: '',
     clients: [{ id: null, address: null }],
     escrowValues: { address: null, balance: null, isShipped: null, isReceived: null, },
   },
   mutations: {
-    UPDATE_FIELDS(state, payload) {
+    UPDATE_VALUES(state, payload) {
       state.contractValues = payload;
     },
     UPDATE_CLIENTS(state, payload) {
@@ -61,6 +61,7 @@ export default new Vuex.Store({
 
       const values = await getValues();
       console.log(values);
+      context.commit("UPDATE_VALUES", values)
 
       ethereum.on('accountsChanged', function(accounts) {
         console.log('accounts changed in store.js', accounts);

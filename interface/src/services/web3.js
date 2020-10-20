@@ -124,7 +124,8 @@ export async function getValues() {
     throw e.code;
   }
 
-  balance = 
+  balance = await web3.eth.getBalance(address);
+  console.log(balance);
   balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {

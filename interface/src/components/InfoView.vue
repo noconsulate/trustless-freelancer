@@ -8,8 +8,8 @@
 
     <h2>contract balance</h2>
     <p>{{ contractValues.balance }}</p>
-    <h2>admin address</h2>
-    <p>{{ contractValues.admin }}</p>
+    <h2>owner address</h2>
+    <p>{{ contractValues.owner }}</p>
     <h2>client address</h2>
     <p>{{ escrowValues.address }}</p>
     <h2>escrow balance</h2>
