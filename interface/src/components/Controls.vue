@@ -126,12 +126,12 @@ export default {
     callRefund() {
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
-        this.$store.state.contractValues.merchant.toUpperCase()
+        this.$store.state.contractValues.owner.toUpperCase()
       ) {
         alert("only merchant can refund");
         return;
       }
-      methodSender("refund")
+      methodSender("refund", this.selectedClient)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },

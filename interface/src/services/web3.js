@@ -179,7 +179,7 @@ export async function methodSender(method, arg) {
   let transaction;
   switch (method) {
     case "refund":
-      transaction = contract.methods.refund().encodeABI();
+      transaction = contract.methods.refund(arg).encodeABI();
       break;
     case "reset":
       transaction = contract.methods.reset().encodeABI();
