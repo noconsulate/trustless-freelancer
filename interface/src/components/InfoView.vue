@@ -5,7 +5,7 @@
     <h2>contract address</h2>
     <p>{{ contractValues.address }}</p>
     <h2>client accounts</h2>
-    {{this.clients}}
+    {{clients}}
     <h2>contract balance</h2>
     <p>{{ contractValues.balance }}</p>
     <h2>admin address</h2>
@@ -25,18 +25,15 @@
 import { getClients } from '../services/web3'
 
 export default {
-  data() {
-    return {
-      clients: [],
-    };
-  },
   computed: {
     contractValues() {
       return this.$store.state.contractValues;
     },
     account() {
       return this.$store.state.account;
-      
+    },
+    clients() {
+      return this.$store.state.clients;
     }
   },
   created: async function() {
