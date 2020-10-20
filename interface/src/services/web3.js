@@ -86,38 +86,48 @@ async function sendTx(parameters) {
   return txHash;
 }
 
-export async function getValues() {
+export async function getEscrowValues(client) {
   const web3 = await initWeb3();
-  //temporary
-  window.myWeb3 = web3;
   const contract = await loadContract(web3);
 
-  let admin, merchant, client, isShipped, isReceived, balance;
+  let balance, isShipped, isReceived;
 
   try {
-    let values = await contract.methods.getValues().call({ from: null });
+    let values = await contract.methods.getEscrowValues(client).call({ from: null });
 
-    admin = values[0];
-    merchant = values[1];
-    client = values[2];
-    isShipped = values[3];
-    isReceived = values[4];
+    balance = values[0];
+    isShipped = values[1];
+    isReceived = values[2];
+  } catch (e) {
+    console.log(e.message);
+    throw e;
+  }
 
-    let wei = await web3.eth.getBalance(address);
-    balance = web3.utils.fromWei(wei, "ether");
+  balance = web3.utils.fromWei(balance, 'ether');
+  
+  const valuesObj = { balance, isShipped, isReceived, };
+  
+  return valuesObj;
+}
+
+export async function getValues() {
+  const web3 = await initWeb3();
+ 
+  const contract = await loadContract(web3);
+
+  let owner, balance;
+
+  try {
+    owner = await contract.methods.getOwner().call({ from: null });
   } catch (e) {
     console.log("error in values fetch", e.message);
     throw e.code;
   }
 
+  balance = web3.utils.fromWei(wei, "ether");
+
   const valuesObj = {
-    address,
-    admin,
-    merchant,
-    client,
-    isShipped,
-    isReceived,
-    balance,
+    owner, balance
   };
   return valuesObj;
 }

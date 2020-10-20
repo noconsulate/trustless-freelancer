@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import uniqueId from 'lodash.uniqueid';
 
-import {getValues, getClients} from '../services/web3.js';
+import {getValues, getClients, getEscrowValues} from '../services/web3.js';
 
 const ethereum = window.ethereum;
 
@@ -13,19 +14,28 @@ export default new Vuex.Store({
     contractValues: {},
     errorMessage: '',
     txHash: '',
-    clients: [],
+    clients: [{ id: null, address: null }],
+    escrowValues: { address: null, balance: null, isShipped: null, isReceived: null, },
   },
   mutations: {
     UPDATE_FIELDS(state, payload) {
       state.contractValues = payload;
     },
     UPDATE_CLIENTS(state, payload) {
-      //i think my warning is coming from here
-      console.log(payload);
-      state.clients = payload;
+      let clients = [];
+      payload.forEach(address => {
+        console.log(address);
+        const id = uniqueId();
+        console.log(id);
+        clients.push({ id, address});
+      })
+
+      state.clients = clients;
+    },
+    UPDATE_ESCROW(state, payload) {
+      state.escrowValues = payload;
     },
     UPDATE_ACCOUNT(state, payload) {
-      console.log(payload);
       state.account = payload;
     },
     UPDATE_ERROR(state, payload) {
@@ -36,14 +46,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchValues(context) {
-      // const valuesObj = await getValues();
-      // context.commit("UPDATE_FIELDS", valuesObj)
-      // ;
-
+    async fetchClients(context) {
       const clientsArray = await getClients();
       context.commit("UPDATE_CLIENTS", clientsArray);
-
+    },
+    async fetchEscrowValues(context, client) {
+      const values = await getEscrowValues(client);
+      values.address = client;
+      context.commit('UPDATE_ESCROW', values)
+    },
+    async fetchValues(context) {
+      const clientsArray = await getClients();
+      context.commit("UPDATE_CLIENTS", clientsArray);
 
       ethereum.on('accountsChanged', function(accounts) {
         console.log('accounts changed in store.js', accounts);

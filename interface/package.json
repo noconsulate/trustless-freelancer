@@ -10,6 +10,7 @@
   "dependencies": {
     "await-transaction-mined": "^1.0.12",
     "core-js": "^3.6.5",
+    "lodash.uniqueid": "^4.0.1",
     "vue": "^2.6.11",
     "vuex": "^3.5.1",
     "web3": "^1.3.0"

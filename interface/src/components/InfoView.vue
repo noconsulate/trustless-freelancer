@@ -1,28 +1,28 @@
 <template>
   <div>
     <h2>current account</h2>
-      <p>{{ account }}</p>
+    <p>{{ account }}</p>
     <h2>contract address</h2>
     <p>{{ contractValues.address }}</p>
-    <h2>client accounts</h2>
-    {{clients}}
+
+
     <h2>contract balance</h2>
     <p>{{ contractValues.balance }}</p>
     <h2>admin address</h2>
     <p>{{ contractValues.admin }}</p>
-    <h2>merchant address</h2>
-    <p>{{ contractValues.merchant }}</p>
     <h2>client address</h2>
-   <p> {{ contractValues.client }}</p>
+    <p>{{ escrowValues.address }}</p>
+    <h2>escrow balance</h2>
+    <p>{{ escrowValues.balance }} </p>
     <h2>shipped?</h2>
-   <p> {{ contractValues.isShipped }}</p>
+    <p>{{ escrowValues.isShipped }}</p>
     <h2>received?</h2>
-  <p>  {{ contractValues.isReceived }}</p>
+    <p>{{ escrowValues.isReceived }}</p>
   </div>
 </template>
 
 <script>
-import { getClients } from '../services/web3'
+import { getClients } from "../services/web3";
 
 export default {
   computed: {
@@ -32,13 +32,11 @@ export default {
     account() {
       return this.$store.state.account;
     },
-    clients() {
-      return this.$store.state.clients;
+    escrowValues() {
+      return this.$store.state.escrowValues;
     }
+   
   },
-  created: async function() {
-    const clients = await getClients();
-    this.clients = clients;
-  }
-}
+  created: async function() {},
+};
 </script>
