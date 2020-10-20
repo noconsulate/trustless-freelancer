@@ -103,4 +103,9 @@ contract Freelancer is Ownable {
   function getClients() public view returns (address[] memory) {
   return clients;
   }
+
+  function getOwner() public view returns (address) {
+    address owner = owner();
+    return owner;
+  }
 }
