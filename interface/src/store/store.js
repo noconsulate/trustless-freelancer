@@ -59,6 +59,9 @@ export default new Vuex.Store({
       const clientsArray = await getClients();
       context.commit("UPDATE_CLIENTS", clientsArray);
 
+      const values = await getValues();
+      console.log(values);
+
       ethereum.on('accountsChanged', function(accounts) {
         console.log('accounts changed in store.js', accounts);
         context.commit("UPDATE_ACCOUNT", accounts[0]);

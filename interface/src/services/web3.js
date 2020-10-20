@@ -9,7 +9,7 @@ let node_url, address;
 
 if (ENV_FLAG == "local") {
   node_url = "http://127.0.0.1:8545";
-  address = "0x6418BC56adDe7275BC7787a70829A5e2B30bf3aB";
+  address = "0xe79a43aef2BBEA79Fb83e0DA2d31d161f0Cfa31b";
 }
 
 class RequestParameters {
@@ -124,7 +124,8 @@ export async function getValues() {
     throw e.code;
   }
 
-  balance = web3.utils.fromWei(wei, "ether");
+  balance = 
+  balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
     owner, balance
