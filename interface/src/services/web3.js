@@ -129,7 +129,7 @@ export async function getValues() {
   balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
-    owner, balance
+    address, owner, balance
   };
   return valuesObj;
 }
@@ -178,9 +178,6 @@ export async function methodSender(method, arg) {
       break;
     case "reset":
       transaction = contract.methods.reset().encodeABI();
-      break;
-    case "setMerchant":
-      transaction = contract.methods.setMerchant(arg).encodeABI();
       break;
     case "markShipped":
       transaction = contract.methods.merchantMarkShipped().encodeABI();

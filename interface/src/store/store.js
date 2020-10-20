@@ -11,7 +11,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     account : 'please enable ethereum',
-    contractValues: { owner: null, balance: null},
+    contractValues: { address: null, owner: null, balance: null},
     errorMessage: '',
     txHash: '',
     clients: [{ id: null, address: null }],

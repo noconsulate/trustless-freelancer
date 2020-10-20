@@ -25,10 +25,7 @@
       <input v-model.number="etherAmount" type="number" />
       <button @click="callSendPayment">fund escrow</button>
     </div>
-    <div class="row">
-      <input v-model="merchant" type="text" />
-      <button @click="callSetMerchant">set merchant</button>
-    </div>
+
     <div class="row">
       <button @click="callDisperse">disperse</button>
       <button @click="callRefund">refund</button>
@@ -48,7 +45,6 @@ export default {
   data() {
     return {
       etherAmount: "0.05",
-      merchant: "0x83316a84d99c1232d0A596AA95c7dd1F488a3952",
       selectedClient: "0x3844f4d66EFC4b1441c94DB409dB0521cb718e56",
     };
   },
@@ -127,11 +123,7 @@ export default {
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
-    callSetMerchant() {
-      methodSender("setMerchant", this.merchant)
-        .catch((e) => this.$store.dispatch("setError", e.code))
-        .then((res) => this.postCall(res));
-    },
+
     callDisperse() {
       // product must be shipped and received
       if (
