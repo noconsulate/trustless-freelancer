@@ -9,7 +9,7 @@ let node_url, address;
 
 if (ENV_FLAG == "local") {
   node_url = "http://127.0.0.1:8545";
-  address = "0xe79a43aef2BBEA79Fb83e0DA2d31d161f0Cfa31b";
+  address = "0xEC73D2658034C6ccA3167ac4e220707dD9076Edc";
 }
 
 class RequestParameters {
@@ -28,7 +28,6 @@ if (typeof window.ethereum !== "undefined") {
 //not sure what to set this! oh well
 async function initWeb3() {
   const web3 = await new Web3(window.ethereum);
-  console.log('web3 version:', web3);
   return web3;
 }
 

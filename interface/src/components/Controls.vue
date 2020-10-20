@@ -72,10 +72,11 @@ export default {
       this.$store.dispatch("fetchEscrowValues", this.selectedClient);
     },
     callReset() {
-      //only admin can reset
+      //only owner can reset
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
-        this.$store.state.contractValues.admin.toUpperCase()
+        this.$store.state.contractValues.owner.toUpperCase() ||
+        window.ethereum.selectedAddress == null
       ) {
         alert("only the admin can reset");
         return;

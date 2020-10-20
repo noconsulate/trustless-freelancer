@@ -67,8 +67,9 @@ contract Freelancer is Ownable {
     for (uint256 i = length; i > 0; i--) {
       payable(owner).transfer(escrows[clients[i - 1]].balance);
       delete escrows[clients[i - 1]];
-      delete clients[i - 1];
+      // delete clients[i - 1];
     }
+    delete clients;
   }
 
   // is this effecient?
