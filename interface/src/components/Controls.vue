@@ -27,7 +27,6 @@
     </div>
 
     <div class="row">
-      <button @click="callDisperse">disperse</button>
       <button @click="callRefund">refund</button>
     </div>
   </div>
@@ -123,20 +122,6 @@ export default {
       sendPayment(this.etherAmount)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
-    },
-
-    callDisperse() {
-      // product must be shipped and received
-      if (
-        this.$store.state.contractValues.isShipped == true &&
-        this.$store.state.contractValues.isReceived == true
-      ) {
-        methodSender("disperse")
-          .catch((e) => this.$store.dispatch("setError", e.code))
-          .then((res) => this.postCall(res));
-      } else {
-        alert("product must be marked shipped and received to disperse!");
-      }
     },
     callRefund() {
       if (

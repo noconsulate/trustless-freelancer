@@ -178,9 +178,6 @@ export async function methodSender(method, arg) {
 
   let transaction;
   switch (method) {
-    case "disperse":
-      transaction = contract.methods.disperse().encodeABI();
-      break;
     case "refund":
       transaction = contract.methods.refund().encodeABI();
       break;
