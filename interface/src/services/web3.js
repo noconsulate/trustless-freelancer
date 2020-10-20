@@ -9,7 +9,7 @@ let node_url, address;
 
 if (ENV_FLAG == "local") {
   node_url = "http://127.0.0.1:8545";
-  address = "0xe941145418C60A84D98c0e9C181fd19c77f609C2";
+  address = "0x6418BC56adDe7275BC7787a70829A5e2B30bf3aB";
 }
 
 class RequestParameters {
@@ -28,6 +28,7 @@ if (typeof window.ethereum !== "undefined") {
 //not sure what to set this! oh well
 async function initWeb3() {
   const web3 = await new Web3(window.ethereum);
+  console.log('web3 version:', web3);
   return web3;
 }
 
@@ -53,6 +54,22 @@ export async function awaitTxMined(txHash) {
   return receipt;
 }
 
+export async function getClients() {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+
+  let clients 
+
+  try {
+    clients = await contract.methods.getClients().call({ from: null });
+  } catch (e) {
+    console.log(e.message);
+    throw e;
+  }
+
+  console.log(clients);
+  return clients;
+}
 async function sendTx(parameters) {
   let txHash;
   try {

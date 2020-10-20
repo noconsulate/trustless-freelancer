@@ -1,12 +1,8 @@
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
 
 pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
-  using SafeMath for uint256; 
-
-
 
   struct Escrow {
  //   address payable merchant;
@@ -102,5 +98,9 @@ contract Freelancer is Ownable {
     return (
       escrow.balance, escrow.isShipped, escrow.isReceived
       );
+  }
+
+  function getClients() public view returns (address[] memory) {
+  return clients;
   }
 }
