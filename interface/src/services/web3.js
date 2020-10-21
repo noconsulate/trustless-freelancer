@@ -3,7 +3,7 @@ const DEBUG_FLAG = false;
 
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
-import Freelancer from "../../../contract/build/contracts/Freelancer.json";
+//import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 
 let node_url, address;
 
