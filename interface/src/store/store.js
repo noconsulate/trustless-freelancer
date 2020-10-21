@@ -10,12 +10,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    account : 'please enable ethereum',
-    contractValues: { address: null, owner: null, balance: null},
+    account : '0x935a3de3217d9bb58c24343600f655141d118aeb',
+    contractValues: { address: "0xEC73D2658034C6ccA3167ac4e220707dD9076Edc", owner: "0x935A3dE3217D9BB58C24343600f655141d118aeB", balance: 0.2},
     errorMessage: '',
     txHash: '',
-    clients: [{ id: null, address: null }],
-    escrowValues: { address: null, balance: null, isShipped: null, isReceived: null, },
+    clients: [
+      { id: 1, address: "0x3844f4d66EFC4b1441c94DB409dB0521cb718e56" },
+      { id: 2, address: "0xe941145418C60A84D98c0e9C181fd19c77f609C2"}
+    ],
+    escrowValues: { address: "0x3844f4d66EFC4b1441c94DB409dB0521cb718e56", balance: 0.1 , isShipped: false, isReceived: false, },
   },
   mutations: {
     UPDATE_VALUES(state, payload) {
