@@ -19,3 +19,15 @@ false
 2: "0x3844f4d66EFC4b1441c94DB409dB0521cb718e56"
 ​
 3: "0xe941145418C60A84D98c0e9C181fd19c77f609C2"
+
+
+INSTRUCTIONS FOR GETTING IT GOING, MR AUSTIN
+
+**inside whatever directory you're going to work from**
+git clone https://github.com/noconsulate/trustless-freelancer.git
+cd trustless-freelancer
+cd interface
+git branch -f austin1 origin/austin1
+git checkout austin1
+npm install
+npm run serve
