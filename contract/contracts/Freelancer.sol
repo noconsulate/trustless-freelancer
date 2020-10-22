@@ -15,6 +15,12 @@ contract Freelancer is Ownable {
  // mapping(address => address) clientLookup;
   address[] public clients;
 
+  event Deposit(address , uint _value);
+
+  function logtest(uint _value) public {
+    emit Deposit(msg.sender, _value);
+  }
+
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
     // reject transfer from address already associated with escrow
@@ -22,6 +28,8 @@ contract Freelancer is Ownable {
 
     escrow.balance = msg.value;
     clients.push(msg.sender);
+
+    emit Deposit(msg.sender, msg.value);
   }
 
   //interface should check onlyOwner?
