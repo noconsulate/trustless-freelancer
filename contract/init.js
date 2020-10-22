@@ -13,7 +13,7 @@ const loader = setupLoader({ provider: web3 }).web3;
 
 let address 
 if (address == undefined) {
-   address = "0x2c4c6d5941af4D3e7845667B6e8C9A2f844bACDa";
+   address = "0xb800a700885A0d2191A45ED8594a4a1ff4e9507F";
 }
 const freelancer = loader.fromArtifact("Freelancer", address);
 let accounts;
@@ -57,3 +57,16 @@ function sendEth(acct) {
   .catch(console.log)
   .then(res => console.log(res));
 }
+
+function getLog() {
+  freelancer.getPastEvents('Deposit', {
+    filter: {},
+    fromBlock: 0,
+    toBlock: 'latest',
+  }, function(error, events) {console.log(events); })
+    .then(events => console.log(events));
+}
+
+ // await freelancer.methods.setMerchant('0x3fB71fB9ca3a4B5d7e6cbFa34E8997b6dbf29a57').send({
+  //   from: accounts[2], gas: 5000000, gasPrice: 1e6,
+  // })

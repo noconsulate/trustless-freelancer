@@ -17,10 +17,6 @@ contract Freelancer is Ownable {
 
   event Deposit(address , uint _value);
 
-  function logtest(uint _value) public {
-    emit Deposit(msg.sender, _value);
-  }
-
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
     // reject transfer from address already associated with escrow
