@@ -1,6 +1,14 @@
 <template>
   <div id="app">
+    <h1>trustless-freelancer</h1>
+    <router-link class="navLink" to="/">
+      Owner view
+    </router-link>
+    <router-link class="navLink" to="/logs">
+      logs
+    </router-link>
     <router-view></router-view>
+    
   </div>
 </template>
 
@@ -29,6 +37,10 @@ p {
 
 h2 {
   margin: 8px;
+}
+
+.navLink {
+  margin: 10px;
 }
 </style>
 //

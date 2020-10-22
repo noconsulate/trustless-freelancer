@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <h1>trustless-freelancer</h1>
     <info-view />
     <controls />
     <transaction-view />
