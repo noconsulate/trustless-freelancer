@@ -62,11 +62,8 @@ export async function getClients() {
   try {
     clients = await contract.methods.getClients().call({ from: null });
   } catch (e) {
-    console.log(e.message);
     throw e;
   }
-
-  console.log(clients);
 
   // filter zerod out addresses
   const hexZero = "0x0000000000000000000000000000000000000000";
@@ -131,7 +128,6 @@ export async function getValues() {
   }
 
   balance = await web3.eth.getBalance(address);
-  console.log(balance);
   balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {

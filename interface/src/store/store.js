@@ -24,9 +24,7 @@ export default new Vuex.Store({
     UPDATE_CLIENTS(state, payload) {
       let clients = [];
       payload.forEach(address => {
-        console.log(address);
         const id = uniqueId();
-        console.log(id);
         clients.push({ id, address});
       })
 
@@ -60,7 +58,6 @@ export default new Vuex.Store({
       context.commit("UPDATE_CLIENTS", clientsArray);
 
       const values = await getValues();
-      console.log(values);
       context.commit("UPDATE_VALUES", values)
 
       ethereum.on('accountsChanged', function(accounts) {
