@@ -2,7 +2,7 @@
   <div id="app">
     <h1>trustless-freelancer</h1>
     <router-link class="navLink" to="/">
-      Owner view
+      Merchant view
     </router-link>
     <router-link class="navLink" to="/logs">
       logs

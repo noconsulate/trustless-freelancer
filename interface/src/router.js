@@ -4,12 +4,12 @@ import VueRouter from 'vue-router';
 
 import App from "./App.vue";
 import Logs from './pages/Logs.vue'
-import OwnerView from './pages/OwnerView.vue';
+import MerchantView from './pages/MerchantView.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: OwnerView },
+  { path: '/', component: MerchantView },
   { path: '/logs', component: Logs },
 ];
 
