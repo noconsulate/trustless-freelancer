@@ -112,11 +112,12 @@ export default {
         .then((res) => this.postCall(res));
     },
     callSendPayment() {
+      const clients = this.$store.state.clients.map(client => client.address.toUpperCase());
+  
       if (
-        this.$store.state.contractValues.client !=
-        "0x0000000000000000000000000000000000000000"
+        clients.includes(window.ethereum.selectedAddress.toUpperCase())
       ) {
-        alert("the escrow is already paid");
+        alert("this address already has an escrow");
         return;
       }
       sendPayment(this.etherAmount)
