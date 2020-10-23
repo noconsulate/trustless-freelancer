@@ -41,10 +41,12 @@ export async function getLogs() {
   })
 
   window.logs = depositLogs;
+  console.log(depositLogs);
 
   let depositsReadable = [];
   depositLogs.map(log => {
     const client = log.returnValues._client;
+    console.log(log.returnValues._value);
     const value = web3.utils.fromWei(log.returnValues._value, "ether");
 
     depositsReadable.push({ client, value });
