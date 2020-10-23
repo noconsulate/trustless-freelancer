@@ -54,12 +54,4 @@ export default {
 
 <style>
 
-
-p {
-  margin: 8px;
-}
-
-h2 {
-  margin: 8px;
-}
 </style>

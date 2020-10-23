@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <h2>here are your logs, sir</h2>
     <div class="table">
       <table>
@@ -90,7 +90,7 @@ export default {
 </script>
 
 <style scoped>
-#table {
+.table {
   margin: 8px;
 }
 </style>
