@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <h1>trustless-freelancer</h1>
     <router-link class="navLink" to="/">
       Merchant view
@@ -27,20 +27,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
   color: #2c3e50;
-  /* margin-top: 60px;
-  margin-left: 30px; */
+  margin-top: 10x;
+  margin-left: 15px;
 }
 
-p {
+/* p {
   margin: 8px;
 }
 
 h2 {
   margin: 8px;
-}
+} */
 
 .navLink {
-  margin: 10px;
+  margin: 8px;
 }
 </style>
 //

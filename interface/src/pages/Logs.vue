@@ -91,6 +91,6 @@ export default {
 
 <style scoped>
 .table {
-  margin: 8px;
+
 }
 </style>
