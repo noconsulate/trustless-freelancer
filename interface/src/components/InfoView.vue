@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="info">
     <h2>current account</h2>
     <p>{{ account }}</p>
     <h2>contract address</h2>
@@ -40,3 +40,18 @@ export default {
   created: async function() {},
 };
 </script>
+
+<style scoped>
+#info {
+  
+}
+
+h2 {
+  color: green;
+  margin: 2px;
+}
+p {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+</style>
