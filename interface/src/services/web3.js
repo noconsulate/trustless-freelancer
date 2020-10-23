@@ -5,12 +5,13 @@ import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 
-let node_url, address;
+import { address } from '../../../address'
+let node_url
 
-if (ENV_FLAG == "local") {
-  node_url = "http://127.0.0.1:8545";
-  address = "0xEC73D2658034C6ccA3167ac4e220707dD9076Edc";
-}
+// if (ENV_FLAG == "local") {
+//   node_url = "http://127.0.0.1:8545";
+//   address = "0xb800a700885A0d2191A45ED8594a4a1ff4e9507F";
+// }
 
 class RequestParameters {
   constructor(to, from, data) {

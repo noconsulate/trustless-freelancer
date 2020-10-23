@@ -3,6 +3,8 @@
 const Web3 = require("web3");
 const { setupLoader } = require("@openzeppelin/contract-loader");
 
+const  {address}  = require('../address')
+
 const web3 = new Web3("http://localhost:8545");
 // const loader = setupLoader({
 //   provider: web3,
@@ -11,12 +13,8 @@ const web3 = new Web3("http://localhost:8545");
 // }).web3;
 const loader = setupLoader({ provider: web3 }).web3;
 
-let address 
-if (address == undefined) {
-   address = "0xb800a700885A0d2191A45ED8594a4a1ff4e9507F";
-}
 const freelancer = loader.fromArtifact("Freelancer", address);
-let accounts;
+let accounts, log
 
 // init contract with values for development
 async function main() {
@@ -40,8 +38,6 @@ async function main() {
       value: web3.utils.toWei(".1", "ether"),
     })
     .catch(console.log);
-
-  
 }
 
 main();
@@ -63,10 +59,6 @@ function getLog() {
     filter: {},
     fromBlock: 0,
     toBlock: 'latest',
-  }, function(error, events) {console.log(events); })
-    .then(events => console.log(events));
+  }, function(error, events) {console.log(events); return events })
+    .then(events => {return events});
 }
-
- // await freelancer.methods.setMerchant('0x3fB71fB9ca3a4B5d7e6cbFa34E8997b6dbf29a57').send({
-  //   from: accounts[2], gas: 5000000, gasPrice: 1e6,
-  // })

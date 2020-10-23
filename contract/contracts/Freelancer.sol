@@ -15,7 +15,7 @@ contract Freelancer is Ownable {
  // mapping(address => address) clientLookup;
   address[] public clients;
 
-  event Deposit(address , uint _value);
+  event Deposit(address indexed _client, uint _value);
 
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
