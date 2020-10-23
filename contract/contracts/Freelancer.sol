@@ -17,6 +17,7 @@ contract Freelancer is Ownable {
 
   event Deposit(address indexed _client, uint _value);
   event Refund(address indexed _client, uint _value);
+  event Disperse(address indexed _client, uint _value);
 
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
@@ -38,6 +39,7 @@ contract Freelancer is Ownable {
     if (escrow.isReceived == true) {
       address owner = owner();
       payable(owner).transfer(escrow.balance);
+      emit Disperse(_client, escrow.balance);
       delete escrows[_client];
       _cleanup(_client);
     }
@@ -51,6 +53,7 @@ contract Freelancer is Ownable {
     if(escrow.isShipped == true) {
       address owner = owner();
       payable(owner).transfer(escrow.balance);
+      emit Disperse(msg.sender, escrow.balance);
       delete escrows[msg.sender];
       _cleanup(msg.sender);
     }

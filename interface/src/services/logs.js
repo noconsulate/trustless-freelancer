@@ -55,19 +55,29 @@ export async function getLogs() {
     toBlock: 'latest',
   })
 
-  console.log(refundLogs);
   let refundsReadable = [];
   refundLogs.map(log => {
     const client = log.returnValues._client;
     const value = web3.utils.fromWei(log.returnValues._value, "ether");
     const block = log.blockNumber;
 
-
     refundsReadable.push({ client, value, block });
   });
 
-  console.log(refundsReadable);
+  let disperseLogs = await contract.getPastEvents('Disperse', {
+    filter: {},
+    fromBlock: 0,
+    toBlock: 'latest',
+  })
 
+  let disperseReadable = [];
+  disperseLogs.map(log => {
+    const client = log.returnValues._client;
+    const value = web3.utils.fromWei(log.returnValues._value, "ether");
+    const block = log.blockNumber;
 
-  return {depositsReadable, refundsReadable};
+    disperseReadable.push({ client, value, block });
+  });
+
+  return {depositsReadable, refundsReadable, disperseReadable};
 }

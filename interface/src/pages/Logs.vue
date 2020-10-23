@@ -43,6 +43,27 @@
         </tbody>
       </table>
     </div>
+     <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>dispersals</th>
+          </tr>
+        <tr>
+          <th>client</th>
+          <th>ether</th>
+          <th>block</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(dispersal, i) in dispersals" :key="i">
+            <td>{{ dispersal.client }}</td>
+            <td>{{ dispersal.value }}</td>
+            <td>{{ dispersal.block }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -54,6 +75,7 @@ export default {
     return {
       deposits: [],
       refunds: [],
+      dispersals: [],
     };
   },
   created: async function() {
@@ -61,6 +83,7 @@ export default {
 
     this.deposits = logs.depositsReadable;
     this.refunds = logs.refundsReadable;
+    this.dispersals = logs.disperseReadable;
   },
 };
 </script>
