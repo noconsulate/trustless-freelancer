@@ -71,6 +71,7 @@
 import { getLogs } from "../services/logs";
 
 export default {
+  name: 'LogsView',
   data() {
     return {
       deposits: [],
@@ -87,3 +88,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#table {
+  margin: 8px;
+}
+</style>
