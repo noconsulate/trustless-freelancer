@@ -16,6 +16,7 @@ contract Freelancer is Ownable {
   address[] public clients;
 
   event Deposit(address indexed _client, uint _value);
+  event Refund(address indexed _client, uint _value);
 
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
@@ -60,6 +61,9 @@ contract Freelancer is Ownable {
     require(escrow.balance > 0, "this escrow is empty!");
 
     payable(_client).transfer(escrow.balance);
+    // verify transfer somehow? probably not.
+    emit Refund(_client, escrow.balance);
+
     delete escrows[_client];
     _cleanup(_client);
   }

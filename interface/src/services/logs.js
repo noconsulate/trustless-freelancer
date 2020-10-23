@@ -40,17 +40,34 @@ export async function getLogs() {
     toBlock: 'latest',
   })
 
-  window.logs = depositLogs;
-  console.log(depositLogs);
-
   let depositsReadable = [];
   depositLogs.map(log => {
     const client = log.returnValues._client;
-    console.log(log.returnValues._value);
     const value = web3.utils.fromWei(log.returnValues._value, "ether");
+    const block = log.blockNumber;
 
-    depositsReadable.push({ client, value });
+    depositsReadable.push({ client, value, block });
   });
 
-  return {depositsReadable};
+  let refundLogs = await contract.getPastEvents('Refund', {
+    filter: {},
+    fromBlock: 0,
+    toBlock: 'latest',
+  })
+
+  console.log(refundLogs);
+  let refundsReadable = [];
+  refundLogs.map(log => {
+    const client = log.returnValues._client;
+    const value = web3.utils.fromWei(log.returnValues._value, "ether");
+    const block = log.blockNumber;
+
+
+    refundsReadable.push({ client, value, block });
+  });
+
+  console.log(refundsReadable);
+
+
+  return {depositsReadable, refundsReadable};
 }
