@@ -1,46 +1,38 @@
 <template>
-  <div>
-    <h1>trustless-freelancer</h1>
-    <router-link class="navLink" to="/">
-      Merchant view
-    </router-link>
-    <router-link class="navLink" to="/logs">
-      logs
-    </router-link>
+  <div class="border container mx-auto px-4">
+    <p class="border text-3xl">trustless-freelancer</p>
+    <div class="flex space-x-4">
+      <router-link to="/">
+        <p class="bg-gray-400">Merchant view</p>
+      </router-link>
+      <router-link class="bg-gray-300" to="/logs">
+        logs
+      </router-link>
+      <p>{{ routeName }}</p>
+    </div>
+
     <router-view></router-view>
-    
   </div>
 </template>
 
 <script>
-
 export default {
   name: "App",
-
+  computed: {
+  
+  },
+  data() {
+    return {
+      routeName: this.$route.name,
+    }
+  },
+  watch: {
+    '$route': 'currentRoute'
+  },
+  methods: {
+    currentRoute() {
+      this.routeName = this.$route.name;
+    }
+  }
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: left;
-  color: #2c3e50;
-  margin-top: 10x;
-  margin-left: 15px;
-}
-
-/* p {
-  margin: 8px;
-}
-
-h2 {
-  margin: 8px;
-} */
-
-.navLink {
-  margin: 8px;
-}
-</style>
-//

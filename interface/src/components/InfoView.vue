@@ -1,6 +1,6 @@
 <template>
   <div id="info">
-    <h2>current account</h2>
+    <h2 class="font-bold">current account</h2>
     <p>{{ account }}</p>
     <h2>contract address</h2>
     <p>{{ contractValues.address }}</p>

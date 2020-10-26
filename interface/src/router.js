@@ -9,8 +9,8 @@ import MerchantView from './pages/MerchantView.vue';
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: MerchantView },
-  { path: '/logs', component: Logs },
+  { path: '/', component: MerchantView, name: 'root', },
+  { path: '/logs', component: Logs, name: 'logs', },
 ];
 
 export default new VueRouter({

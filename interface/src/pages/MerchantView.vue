@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="border border-green-900">
     <info-view />
     <controls />
     <transaction-view />
@@ -50,7 +50,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>
