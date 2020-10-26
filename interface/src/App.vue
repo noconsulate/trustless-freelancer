@@ -3,9 +3,9 @@
     <p class="border text-3xl">trustless-freelancer</p>
     <div class="flex space-x-4">
       <router-link to="/">
-        <p :class="[ this.$route.name == 'root' ? 'bg-blue-200' : 'bg-gray-200' ]">Merchant view</p>
+        <p :class="rootButtonClass">Merchant view</p>
       </router-link>
-      <router-link :class="[ this.$route.name == 'logs' ? 'bg-blue-200' : 'bg-gray-200' ]" to="/logs">
+      <router-link :class="logsButtonClass" to="/logs">
         logs
       </router-link>
       <p>{{ routeName }}</p>
@@ -19,6 +19,18 @@
 export default {
   name: "App",
   computed: {
+    rootButtonClass: function() {
+      return {
+      'bg-blue-200': this.$route.name == 'root',
+      'bg-gray-300': this.$route.name != 'root'
+      }
+    },
+    logsButtonClass: function() {
+      return {
+      'bg-blue-200': this.$route.name == 'logs',
+      'bg-gray-300': this.$route.name != 'logs'
+      }
+    }
   },
   data() {
     return {
