@@ -3,9 +3,9 @@
     <p class="border text-3xl">trustless-freelancer</p>
     <div class="flex space-x-4">
       <router-link to="/">
-        <p class="bg-gray-400">Merchant view</p>
+        <p :class="[ this.$route.name == 'root' ? 'bg-blue-200' : 'bg-gray-200' ]">Merchant view</p>
       </router-link>
-      <router-link class="bg-gray-300" to="/logs">
+      <router-link :class="[ this.$route.name == 'logs' ? 'bg-blue-200' : 'bg-gray-200' ]" to="/logs">
         logs
       </router-link>
       <p>{{ routeName }}</p>
@@ -19,7 +19,6 @@
 export default {
   name: "App",
   computed: {
-  
   },
   data() {
     return {
