@@ -51,8 +51,8 @@ export default {
   },
   data() {
     return {
-      descriptionClass: "text-base font-bold bg-gradient-to-r from-gray-400",
-      contentClass: "flex items-center text-base text-red-600 h-7 pl-2",
+      descriptionClass: "font-bold bg-gradient-to-r from-gray-400",
+      contentClass: "flex items-center text-red-600 h-7 pl-2",
 
       NO_ESCROW: 'please select a client',
       NO_ACCOUNT: 'please enable ethereum',

@@ -1,65 +1,64 @@
 <template>
-  <div class="border">
-    <div>here are your logs, sir</div>
+  <div class="divide-y divide-gray-400">
     <div>
-      <table>
+      <table class="table-fixed">
         <thead>
           <tr>
-            <th>deposits</th>
+            <th class="flex justify-start pt-2">deposits</th>
           </tr>
         <tr>
-          <th>client</th>
-          <th>ether</th>
-          <th>block</th>
+          <th class="w-5/6">client</th>
+          <th class="w-1/12 px-2">ether</th>
+          <th class="w-1/12 px-2">block</th>
         </tr>
         </thead>
         <tbody>
           <tr v-for="(deposit, i) in deposits" :key="i">
-            <td>{{ deposit.client }}</td>
-            <td>{{ deposit.value }}</td>
-            <td>{{ deposit.block }}</td>
+            <td class=" w-5/6">{{ deposit.client }}</td>
+            <td class=" w-1/12 px-2">{{ deposit.value }}</td>
+            <td class=" w-1/12 px-2">{{ deposit.block }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="table">
-      <table>
+    <div>
+      <table class="table-fixed">
         <thead>
           <tr>
-            <th>refunds</th>
+            <th class="flex justify-start pt-2">refunds</th>
           </tr>
         <tr>
-          <th>client</th>
-          <th>ether</th>
-          <th>block</th>
+          <th class=" w-5/6">client</th>
+          <th class="w-1/12 px-2">ether</th>
+          <th class="w-1/12 px-2">block</th>
         </tr>
         </thead>
         <tbody>
           <tr v-for="(refund, i) in refunds" :key="i">
-            <td>{{ refund.client }}</td>
-            <td>{{ refund.value }}</td>
-            <td>{{ refund.block }}</td>
+            <td class=" w-5/6">{{ refund.client }}</td>
+            <td class="w-1/12 px-2">{{ refund.value }}</td>
+            <td class="w-1/12 px-2">{{ refund.block }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-     <div class="table">
-      <table>
+     <div>
+      <table class="table-fixed">
         <thead>
           <tr>
-            <th>dispersals</th>
+            <th class="flex justify-start pt-2">dispersals</th>
           </tr>
         <tr>
-          <th>client</th>
-          <th>ether</th>
-          <th>block</th>
+          <th class=" w-5/6">client</th>
+          <th class="w-1/12 px-2">ether</th>
+          <th class="w-1/12 px-2">block</th>
         </tr>
         </thead>
         <tbody>
           <tr v-for="(dispersal, i) in dispersals" :key="i">
-            <td>{{ dispersal.client }}</td>
-            <td>{{ dispersal.value }}</td>
-            <td>{{ dispersal.block }}</td>
+            <td class=" w-5/6">{{ dispersal.client }}</td>
+            <td class="w-1/12 px-2">{{ dispersal.value }}</td>
+            <td class="w-1/12 px-2">{{ dispersal.block }}</td>
           </tr>
         </tbody>
       </table>
