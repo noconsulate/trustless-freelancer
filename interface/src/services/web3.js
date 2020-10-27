@@ -4,8 +4,9 @@ const DEBUG_FLAG = false;
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
+import Deployer from "../../../contract/build/contracts/Deployer.json";
 
-import { address } from '../../../address'
+import { freelancerAddress, deployerAddress } from '../../../address'
 let node_url
 
 // if (ENV_FLAG == "local") {
@@ -33,8 +34,13 @@ async function initWeb3() {
 }
 
 async function loadContract(obj) {
-  const contract = await new obj.eth.Contract(Freelancer.abi, address);
+  const contract = await new obj.eth.Contract(Freelancer.abi, freelancerAddress);
   return contract;
+}
+
+async function loadDeployer(obj) {
+  const deployer = await new obj.eth.Contract(Deployer.abi, deployerAddress);
+  return deployer;
 }
 
 export async function awaitTxMined(txHash) {
@@ -74,6 +80,7 @@ export async function getClients() {
 }
 async function sendTx(parameters) {
   let txHash;
+  
   try {
     txHash = await ethereum.request({
       method: "eth_sendTransaction",
@@ -114,10 +121,31 @@ export async function getEscrowValues(client) {
   return valuesObj;
 }
 
+export async function getContract() {
+  const web3 = await initWeb3();
+  const deployer = await loadDeployer(web3);
+
+  console.log(window.ethereum.selectedAddress)
+  let freelancerAddress;
+
+  try {
+    freelancerAddress = await deployer.methods.getContract().call({
+      from: window.ethereum.selectedAddress
+    });
+  } catch (e) {
+    console.log('error in getContract()', e.message);
+    throw e.code;
+  }
+
+  console.log(freelancerAddress)
+  return freelancerAddress;
+}
+
 export async function getValues() {
   const web3 = await initWeb3();
-
   const contract = await loadContract(web3);
+
+  const address = freelancerAddress;
 
   let owner, balance;
 
@@ -141,6 +169,7 @@ export async function getValues() {
 
 export async function sendPayment(ether) {
   const web3 = await initWeb3();
+  const address = freelancerAddress;
 
   console.log(ether);
 
@@ -170,22 +199,35 @@ export async function sendPayment(ether) {
 export async function methodSender(method, arg) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
+  const deployer = await loadDeployer(web3);
 
   console.log(method, arg);
 
-  let transaction;
+  let transaction, address;
   switch (method) {
     case "refund":
       transaction = contract.methods.refund(arg).encodeABI();
+      address = freelancerAddress;
       break;
     case "reset":
       transaction = contract.methods.reset().encodeABI();
+      address = freelancerAddress;
       break;
     case "markShipped":
       transaction = contract.methods.markShipped(arg).encodeABI();
+      address = freelancerAddress;
       break;
     case "markReceived":
       transaction = contract.methods.markReceived().encodeABI();
+      address = freelancerAddress;
+      break;
+    case "deploy":
+      transaction = deployer.methods.deploy().encodeABI();
+      address = deployerAddress;
+      break;
+    default:
+      console.log('no matching method');
+      return;
   }
 
   const parameters = new RequestParameters(

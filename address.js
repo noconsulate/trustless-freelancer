@@ -1,3 +1,5 @@
-const address = "0x826745cE22E5d0c2d97193076BC3F12d5F4DD4B7";
+const freelancerAddress = "0x2b4356aFCA4d8E0F5518F55Bb09074fea3c1c03D";
+const deployerAddress = "0xba8B99f6796CF16af4535Fe97abA14CD287A5F2C";
 
-exports.address = address;
+exports.freelancerAddress = freelancerAddress;
+exports.deployerAddress = deployerAddress;

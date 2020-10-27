@@ -6,11 +6,16 @@
         <button :class="[rootButtonClass, 'px-4']">Merchant view</button>
       </router-link>
       <router-link to="/logs">
-    
         <button :class="[logsButtonClass, 'px-4']">
           logs
         </button> 
       </router-link>
+      <router-link to="/contract">
+        <button :class="[contractButtonClass, 'px-4']">
+          contract
+        </button>
+      </router-link>
+      
       <div class="absolute inset-y-o right-0">{{ routeName }}</div>
     </nav>
 
@@ -33,6 +38,13 @@ export default {
       'bg-blue-200': this.$route.name == 'logs',
       'bg-gray-300 hover:bg-gray-500': this.$route.name != 'logs'
       }
+    },
+    contractButtonClass: function() {
+      return {
+      'bg-blue-200': this.$route.name == 'contract',
+      'bg-gray-300 hover:bg-gray-500': this.$route.name != 'contract'
+      }
+    
     }
   },
   data() {
