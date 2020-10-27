@@ -19,6 +19,10 @@ contract Freelancer is Ownable {
   event Refund(address indexed _client, uint _value);
   event Disperse(address indexed _client, uint _value);
 
+  constructor(address _newOwner) public {
+    transferOwnership(_newOwner);
+  }
+
   receive() external payable {
     Escrow storage escrow = escrows[address(msg.sender)];
     // reject transfer from address already associated with escrow
