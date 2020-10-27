@@ -99,6 +99,7 @@ export default {
     },
     async callGetEscrowValues() {
       this.$store.dispatch("fetchEscrowValues", this.selectedClient);
+      console.log('callGetEscrowValues()')
     },
     callReset() {
       //only owner can reset

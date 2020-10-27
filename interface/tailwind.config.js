@@ -6,6 +6,10 @@ module.exports = {
   purge: [],
   theme: {
     extend: {},
+    fontSize: {
+      base: '.95rem',
+      
+    }
   },
   variants: {},
   plugins: [],
