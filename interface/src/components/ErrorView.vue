@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>error:</h2>
-    <p> {{ errorMessage }} </p>
+    <div>error:</div>
+    <div> {{ errorMessage }} </div>
   </div>
 </template>
 

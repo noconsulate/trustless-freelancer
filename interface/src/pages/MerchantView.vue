@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-green-900">
+  <div class="space-y-3">
     <info-view />
     <controls />
     <transaction-view />

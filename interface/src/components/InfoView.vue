@@ -1,23 +1,23 @@
 <template>
-  <div id="info">
-    <h2 class="font-bold">current account</h2>
-    <p>{{ account }}</p>
-    <h2>contract address</h2>
-    <p>{{ contractValues.address }}</p>
+  <div class="flex flex-col space-y-1">
+    <div :class="descriptionClass">current account</div>
+    <div :class="contentClass">{{ account }}</div>
+    <div :class="descriptionClass">contract address</div>
+    <div :class="contentClass">{{ contractValues.address }}</div>
 
 
-    <h2>contract balance</h2>
-    <p>{{ contractValues.balance }}</p>
-    <h2>owner address</h2>
-    <p>{{ contractValues.owner }}</p>
-    <h2>client address</h2>
-    <p>{{ escrowValues.address }}</p>
-    <h2>escrow balance</h2>
-    <p>{{ escrowValues.balance }} </p>
-    <h2>shipped?</h2>
-    <p>{{ escrowValues.isShipped }}</p>
-    <h2>received?</h2>
-    <p>{{ escrowValues.isReceived }}</p>
+    <div :class="descriptionClass">contract balance</div>
+    <div :class="contentClass">{{ contractValues.balance }} ether</div>
+    <div :class="descriptionClass">owner address</div>
+    <div :class="contentClass">{{ contractValues.owner }}</div>
+    <div :class="descriptionClass">client address</div>
+    <div :class="contentClass">{{ escrowValues.address }}</div>
+    <div :class="descriptionClass">escrow balance</div>
+    <div :class="contentClass">{{ escrowValues.balance }} ether</div>
+    <div :class="descriptionClass">shipped?</div>
+    <div :class="contentClass">{{ escrowValues.isShipped }}</div>
+    <div :class="descriptionClass">received?</div>
+    <div :class="contentClass">{{ escrowValues.isReceived }}</div>
   </div>
 </template>
 
@@ -35,23 +35,15 @@ export default {
     escrowValues() {
       return this.$store.state.escrowValues;
     }
-   
+  },
+  data () {
+    return {
+      descriptionClass: "text-lg font-bold bg-gradient-to-r from-gray-400",
+      contentClass: "flex items-center text-red-600 text-sm h-5 pl-2"
+    }
   },
   created: async function() {},
 };
 </script>
 
-<style scoped>
-#info {
-  
-}
 
-h2 {
-  color: green;
-  margin: 2px;
-}
-p {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-</style>

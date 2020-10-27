@@ -1,33 +1,59 @@
 <template>
-  <div>
-    <div class="row">
-      <button @click="enableEthereum">enable ethereum!</button>
+  <div class="space-y-2">
+    <div :class="rowClass">
+      <button @click="enableEthereum" :class="buttonClass">
+        enable ethereum!
+      </button>
     </div>
-    <div class="row">
-      <select v-model="selectedClient">
-        <option disabled value="">select a client</option>
+    <div :class="rowClass">
+      <div class="inline-block relative w-64">
+        <select
+          class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+        >
+        <option class="text-sm" disabled value="">select a client</option>
         <option
+          class="text-sm"
           v-for="client in clients"
           v-bind:selectedClient="client.address"
           v-bind:key="client.id"
         >
           {{ client.address }}
         </option>
-      </select>
-      <button @click="callGetEscrowValues" class="item">get escrow</button>
+        </select>
+        <div
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+        >
+          <svg
+            class="fill-current h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+            />
+          </svg>
+        </div>
+      </div>
+      <button @click="callGetEscrowValues" :class="buttonClass">
+        get escrow
+      </button>
     </div>
-    <div class="row">
-      <button @click="callReset" class="item">reset</button>
-      <button class="item" @click="callMarkShipped">mark shipped</button>
-      <button @click="callMarkReceived">mark received</button>
+    <div :class="rowClass">
+      <button @click="callReset" :class="buttonClass">reset</button>
+      <button :class="buttonClass" @click="callMarkShipped">
+        mark shipped
+      </button>
+      <button @click="callMarkReceived" :class="buttonClass">
+        mark received
+      </button>
     </div>
-    <div class="row">
+    <div :class="rowClass">
       <input v-model.number="etherAmount" type="number" />
-      <button @click="callSendPayment">fund escrow</button>
+      <button @click="callSendPayment" :class="buttonClass">fund escrow</button>
     </div>
 
-    <div class="row">
-      <button @click="callRefund">refund</button>
+    <div :class="rowClass">
+      <button @click="callRefund" :class="buttonClass">refund</button>
     </div>
   </div>
 </template>
@@ -45,6 +71,10 @@ export default {
     return {
       etherAmount: "0.05",
       selectedClient: "0x3844f4d66EFC4b1441c94DB409dB0521cb718e56",
+
+      buttonClass:
+        "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
+      rowClass: "flex space-x-2",
     };
   },
   computed: {
@@ -74,7 +104,7 @@ export default {
       //only owner can reset
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
-        this.$store.state.contractValues.owner.toUpperCase() ||
+          this.$store.state.contractValues.owner.toUpperCase() ||
         window.ethereum.selectedAddress == null
       ) {
         alert("only the admin can reset");
@@ -112,11 +142,11 @@ export default {
         .then((res) => this.postCall(res));
     },
     callSendPayment() {
-      const clients = this.$store.state.clients.map(client => client.address.toUpperCase());
-  
-      if (
-        clients.includes(window.ethereum.selectedAddress.toUpperCase())
-      ) {
+      const clients = this.$store.state.clients.map((client) =>
+        client.address.toUpperCase()
+      );
+
+      if (clients.includes(window.ethereum.selectedAddress.toUpperCase())) {
         alert("this address already has an escrow");
         return;
       }
@@ -139,17 +169,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.row {
-  margin-top: 5px;
-}
-
-button {
-  margin-right: 6px;
-}
-
-input {
-  margin-right: 6px;
-}
-</style>

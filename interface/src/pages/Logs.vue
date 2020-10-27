@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <h2>here are your logs, sir</h2>
-    <div class="table">
+  <div class="border">
+    <div>here are your logs, sir</div>
+    <div>
       <table>
         <thead>
           <tr>
@@ -88,9 +88,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.table {
-
-}
-</style>
