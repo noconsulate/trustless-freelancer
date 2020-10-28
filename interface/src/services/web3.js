@@ -34,7 +34,7 @@ async function initWeb3() {
 }
 
 async function loadContract(obj, address) {
-  console.log(address);
+  console.log('activeContract:' + address);
   const contract = await new obj.eth.Contract(Freelancer.abi, address);
   return contract;
 }
@@ -197,12 +197,12 @@ export async function sendPayment(ether) {
   return txHash;
 }
 
-export async function methodSender(method, arg) {
+export async function methodSender(method, arg, contractAddress) {
   const web3 = await initWeb3();
-  const contract = await loadContract(web3);
+  const contract = await loadContract(web3, contractAddress);
   const deployer = await loadDeployer(web3);
 
-  console.log(method, arg);
+  console.log(method, arg, contractAddress);
 
   let transaction, address;
   switch (method) {
@@ -216,11 +216,11 @@ export async function methodSender(method, arg) {
       break;
     case "markShipped":
       transaction = contract.methods.markShipped(arg).encodeABI();
-      address = freelancerAddress;
+      address = contractAddress;
       break;
     case "markReceived":
       transaction = contract.methods.markReceived().encodeABI();
-      address = freelancerAddress;
+      address = contractAddress;
       break;
     case "deploy":
       transaction = deployer.methods.deploy().encodeABI();

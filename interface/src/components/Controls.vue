@@ -103,14 +103,12 @@ export default {
     },
     async callGetEscrowValues() {
      
-      console.log(this.activeContract);
       const argsObj = {
         client: this.selectedClient,
         contract: this.activeContract,
       }
       // !!!*** I guess I can't send an object and only one argument? hmmm this requires deeb reserch
-      this.$store.dispatch("fetchEscrowValues", argsObj);
-      console.log('callGetEscrowValues()')
+      this.$store.dispatch("fetchEscrowValues", this.selectedClient);
     },
     callReset() {
       //only owner can reset
@@ -136,7 +134,7 @@ export default {
         return;
       }
 
-      methodSender("markShipped", this.selectedClient)
+      methodSender("markShipped", this.selectedClient, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
@@ -149,7 +147,7 @@ export default {
         alert("only client can mark shipped!");
         return;
       }
-      methodSender("markReceived")
+      methodSender("markReceived", null, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },

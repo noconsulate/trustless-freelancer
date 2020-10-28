@@ -62,8 +62,7 @@ export default {
     };
   },
   created: async function() {
-    console.log(this.activeContract)
-    this.$store.dispatch('fetchClients', this.activeContract)
+    this.$store.dispatch('fetchClients')
   },
 };
 </script>

@@ -50,26 +50,25 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchClients(context, address) {
-      const clientsArray = await getClients(address);
+    async fetchClients(context) {
+      const clientsArray = await getClients(context.state.activeContract);
       context.commit("UPDATE_CLIENTS", clientsArray);
     },
-    async fetchEscrowValues(context, argsObj) {
-      console.log(argsObj)
-      const { client, contract} = argsObj
-      const values = await getEscrowValues(client, contract);
+    async fetchEscrowValues(context, client) {
+      const values = await getEscrowValues(client, context.state.activeContract);
       values.address = client;
       context.commit('UPDATE_ESCROW', values)
     },
     async fetchValues(context, address) {
       const values = await getValues(address);
-      console.log(values)
       context.commit("UPDATE_VALUES", values)
 
-      ethereum.on('accountsChanged', function(accounts) {
-        console.log('accounts changed in store.js', accounts);
-        context.commit("UPDATE_ACCOUNT", accounts[0]);
-      })
+      // WHY THIS?
+
+      // ethereum.on('accountsChanged', function(accounts) {
+      //   console.log('accounts changed in store.js', accounts);
+      //   context.commit("UPDATE_ACCOUNT", accounts[0]);
+      // })
     },
     setAccount(context, account) {
       context.commit("UPDATE_ACCOUNT", account);
