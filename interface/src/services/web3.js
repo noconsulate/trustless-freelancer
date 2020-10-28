@@ -208,11 +208,11 @@ export async function methodSender(method, arg, contractAddress) {
   switch (method) {
     case "refund":
       transaction = contract.methods.refund(arg).encodeABI();
-      address = freelancerAddress;
+      address = contractAddress;
       break;
     case "reset":
       transaction = contract.methods.reset().encodeABI();
-      address = freelancerAddress;
+      address = contractAddress;
       break;
     case "markShipped":
       transaction = contract.methods.markShipped(arg).encodeABI();

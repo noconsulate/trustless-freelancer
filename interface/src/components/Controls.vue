@@ -120,7 +120,7 @@ export default {
         alert("only the admin can reset");
         return;
       }
-      methodSender("reset")
+      methodSender("reset", null, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
@@ -172,7 +172,7 @@ export default {
         alert("only merchant can refund");
         return;
       }
-      methodSender("refund", this.selectedClient)
+      methodSender("refund", this.selectedClient, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
