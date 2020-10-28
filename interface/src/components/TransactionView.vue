@@ -1,24 +1,29 @@
 <template>
   <div>
-    <div :class="descriptionClass">transaction hash</div>
-    <div :class="contentClass">
-      {{ txHash }}
+    <div class="border h-8">
     </div>
+    <div :class="descriptionClass">transaction hash</div>
+  
+      <div :class="contentClass">
+        {{ txHash }}
+      </div>
   </div>
 </template>
 
 <script>
+import { descriptionClass, contentClass } from "../assets/classMacros";
+
 export default {
   computed: {
     txHash() {
       return this.$store.state.txHash;
-    }
+    },
   },
-  data () {
+  data() {
     return {
-      descriptionClass: "text-lg font-bold bg-gradient-to-r from-gray-400",
-      contentClass: "text-red-600 text-sm h-4"
-    }
+      descriptionClass,
+      contentClass,
+    };
   },
-}
+};
 </script>

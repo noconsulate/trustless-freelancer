@@ -1,9 +1,10 @@
 <template>
   <div class="flex flex-col space-y-1">
     <div :class="descriptionClass">current account</div>
-    <div v-if="account == null" class="italic" :class="contentClass">{{ 
-      NO_ACCOUNT }}</div>
-    <div v-else :class="contentClass">{{ account }} </div>
+    <div v-if="account == null" class="italic" :class="contentClass">
+      {{ NO_ACCOUNT }}
+    </div>
+    <div v-else :class="contentClass">{{ account }}</div>
     <div :class="descriptionClass">contract address</div>
     <div :class="contentClass">{{ contractValues.address }}</div>
 
@@ -36,6 +37,7 @@
 
 <script>
 import { getClients } from "../services/web3";
+import { descriptionClass, contentClass } from "../assets/classMacros";
 
 export default {
   computed: {
@@ -50,19 +52,19 @@ export default {
     },
     activeContract() {
       return this.$store.state.activeContract;
-    }
+    },
   },
   data() {
     return {
-      descriptionClass: "font-bold bg-gradient-to-r from-gray-400",
-      contentClass: "flex items-center text-red-600 h-7 pl-2",
+      descriptionClass,
+      contentClass, //class
 
-      NO_ESCROW: 'please select a client',
-      NO_ACCOUNT: 'please enable ethereum',
+      NO_ESCROW: "please select a client",
+      NO_ACCOUNT: "please enable ethereum",
     };
   },
   created: async function() {
-    this.$store.dispatch('fetchClients')
+    this.$store.dispatch("fetchClients");
   },
 };
 </script>
