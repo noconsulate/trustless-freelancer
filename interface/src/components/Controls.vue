@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-2">
     <div :class="rowClass">
-      <button @click="enableEthereum" :class="buttonClass">
+      <button @click="enableEthereum" class="btn">
         enable ethereum!
       </button>
     </div>
@@ -35,26 +35,26 @@
           </svg>
         </div>
       </div>
-      <button @click="callGetEscrowValues" :class="buttonClass">
+      <button @click="callGetEscrowValues" class="btn">
         get escrow
       </button>
     </div>
     <div :class="rowClass">
-      <button @click="callReset" :class="buttonClass">reset</button>
-      <button :class="buttonClass" @click="callMarkShipped">
+      <button @click="callReset" class="btn">reset</button>
+      <button class="btn" @click="callMarkShipped">
         mark shipped
       </button>
-      <button @click="callMarkReceived" :class="buttonClass">
+      <button @click="callMarkReceived" class="btn">
         mark received
       </button>
     </div>
     <div :class="rowClass">
       <input v-model.number="etherAmount" type="number" />
-      <button @click="callSendPayment" :class="buttonClass">fund escrow</button>
+      <button @click="callSendPayment" class="btn">fund escrow</button>
     </div>
 
     <div :class="rowClass">
-      <button @click="callRefund" :class="buttonClass">refund</button>
+      <button @click="callRefund" class="btn">refund</button>
     </div>
   </div>
 </template>
@@ -179,3 +179,14 @@ export default {
   },
 };
 </script>
+
+<style>
+  .btn {
+    @apply bg-gray-400 rounded border border-black shadow-lg  px-2 py-1
+  }
+  .btn:hover {
+    @apply bg-gray-600 text-white
+  }
+
+
+</style>

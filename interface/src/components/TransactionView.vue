@@ -1,7 +1,5 @@
 <template>
   <div>
-    <div class="border h-8">
-    </div>
     <div :class="descriptionClass">transaction hash</div>
   
       <div :class="contentClass">
