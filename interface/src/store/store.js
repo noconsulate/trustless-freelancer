@@ -17,6 +17,7 @@ export default new Vuex.Store({
     clients: [{ id: null, address: null }],
     escrowValues: { address: null, balance: null, isShipped: null, isReceived: null, },
     escrowFetched: false,
+    activeContract: null,
   },
   mutations: {
     UPDATE_VALUES(state, payload) {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     UPDATE_TXHASH(state, payload) {
       state.txHash = payload;
+    },
+    UPDATE_ACTIVE_CONTRACT(state, payload) {
+      state.activeContract = payload;
     }
   },
   actions: {

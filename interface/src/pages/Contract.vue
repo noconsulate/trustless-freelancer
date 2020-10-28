@@ -6,7 +6,7 @@
       </button>
     </div>
     <div>
-      {{ freelancerAddress }}
+      {{ this.$store.state.activeContract }}
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
       const res = await getContract();
       console.log(res);
       this.freelancerAddress = res;
+      this.$store.state.activeContract = res;
     },
   },
   created: async function() {
