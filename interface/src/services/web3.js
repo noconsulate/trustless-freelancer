@@ -168,9 +168,9 @@ export async function getValues(address) {
   return valuesObj;
 }
 
-export async function sendPayment(ether) {
+export async function sendPayment(ether, contractAddress) {
   const web3 = await initWeb3();
-  const address = freelancerAddress;
+  // const address = freelancerAddress;
 
   console.log(ether);
 
@@ -182,7 +182,7 @@ export async function sendPayment(ether) {
   console.log(back2Hex);
 
   const parameters = {
-    to: address,
+    to: contractAddress,
     from: ethereum.selectedAddress,
     value: hexAmount,
   };

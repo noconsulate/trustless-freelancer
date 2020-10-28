@@ -160,7 +160,7 @@ export default {
         alert("this address already has an escrow");
         return;
       }
-      sendPayment(this.etherAmount)
+      sendPayment(this.etherAmount, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
