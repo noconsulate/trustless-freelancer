@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import uniqueId from 'lodash.uniqueid';
 
-import {getValues, getClients, getEscrowValues} from '../services/web3.js';
+import {getValues, getClients, getEscrowValues, getContract} from '../services/web3.js';
 
 const ethereum = window.ethereum;
 
@@ -17,7 +17,7 @@ export default new Vuex.Store({
     clients: [{ id: null, address: null }],
     escrowValues: { address: null, balance: null, isShipped: null, isReceived: null, },
     escrowFetched: false,
-    activeContract: null,
+    activeContract: "0xB09f06F5C3e76e9eda0dBA8b98E0f7ACC2a223aa",
   },
   mutations: {
     UPDATE_VALUES(state, payload) {
@@ -50,20 +50,20 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchClients(context) {
-      const clientsArray = await getClients();
+    async fetchClients(context, address) {
+      const clientsArray = await getClients(address);
       context.commit("UPDATE_CLIENTS", clientsArray);
     },
-    async fetchEscrowValues(context, client) {
-      const values = await getEscrowValues(client);
+    async fetchEscrowValues(context, argsObj) {
+      console.log(argsObj)
+      const { client, contract} = argsObj
+      const values = await getEscrowValues(client, contract);
       values.address = client;
       context.commit('UPDATE_ESCROW', values)
     },
-    async fetchValues(context) {
-      const clientsArray = await getClients();
-      context.commit("UPDATE_CLIENTS", clientsArray);
-
-      const values = await getValues();
+    async fetchValues(context, address) {
+      const values = await getValues(address);
+      console.log(values)
       context.commit("UPDATE_VALUES", values)
 
       ethereum.on('accountsChanged', function(accounts) {
@@ -79,6 +79,11 @@ export default new Vuex.Store({
     },
     setTxHash(context, hash) {
       context.commit("UPDATE_TXHASH", hash);
+    },
+    async fetchActiveContract(context) {
+      const address = await getContract();
+      console.log('fetch')
+      context.commit("UPDATE_ACTIVE_CONTRACT", address)
     }
   },
   getters: {

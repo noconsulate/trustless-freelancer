@@ -44,9 +44,10 @@ export default {
       window.location.reload();
     })
 
-    this.$store.dispatch('fetchValues', null);
+    this.$store.dispatch('fetchClients', this.$store.state.activeContract);
 
-    
+    this.$store.dispatch('fetchValues', this.$store.state.activeContract);
+
   },
 };
 </script>

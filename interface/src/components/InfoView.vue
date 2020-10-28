@@ -48,6 +48,9 @@ export default {
     escrowValues() {
       return this.$store.state.escrowValues;
     },
+    activeContract() {
+      return this.$store.state.activeContract;
+    }
   },
   data() {
     return {
@@ -58,6 +61,9 @@ export default {
       NO_ACCOUNT: 'please enable ethereum',
     };
   },
-  created: async function() {},
+  created: async function() {
+    console.log(this.activeContract)
+    this.$store.dispatch('fetchClients', this.activeContract)
+  },
 };
 </script>

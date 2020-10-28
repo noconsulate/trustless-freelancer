@@ -3,7 +3,9 @@
 const Web3 = require("web3");
 const { setupLoader } = require("@openzeppelin/contract-loader");
 
-const  {address}  = require('../address')
+// const  {address}  = require('../address')
+
+const address = "0xB09f06F5C3e76e9eda0dBA8b98E0f7ACC2a223aa";
 
 const web3 = new Web3("http://localhost:8545");
 // const loader = setupLoader({

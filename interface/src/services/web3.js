@@ -33,8 +33,9 @@ async function initWeb3() {
   return web3;
 }
 
-async function loadContract(obj) {
-  const contract = await new obj.eth.Contract(Freelancer.abi, freelancerAddress);
+async function loadContract(obj, address) {
+  console.log(address);
+  const contract = await new obj.eth.Contract(Freelancer.abi, address);
   return contract;
 }
 
@@ -60,9 +61,9 @@ export async function awaitTxMined(txHash) {
   return receipt;
 }
 
-export async function getClients() {
+export async function getClients(address) {
   const web3 = await initWeb3();
-  const contract = await loadContract(web3);
+  const contract = await loadContract(web3, address);
 
   let clients;
 
@@ -95,9 +96,9 @@ async function sendTx(parameters) {
   return txHash;
 }
 
-export async function getEscrowValues(client) {
+export async function getEscrowValues(client, contractAddress) {
   const web3 = await initWeb3();
-  const contract = await loadContract(web3);
+  const contract = await loadContract(web3, contractAddress);
 
   let balance, isShipped, isReceived;
 
@@ -141,11 +142,11 @@ export async function getContract() {
   return freelancerAddress;
 }
 
-export async function getValues() {
+export async function getValues(address) {
   const web3 = await initWeb3();
-  const contract = await loadContract(web3);
+  const contract = await loadContract(web3, address);
 
-  const address = freelancerAddress;
+  // const address = freelancerAddress;
 
   let owner, balance;
 

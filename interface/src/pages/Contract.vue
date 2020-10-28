@@ -32,9 +32,9 @@ export default {
     },
   },
   created: async function() {
-    this.callGetContract();
+    this.$store.dispatch('fetchActiveContract');
     window.ethereum.on('accountsChanged', (accounts) => {
-      this.callGetContract();
+      this.$store.dispatch('fetchActiveContract');
     })
   },
 };

@@ -9,6 +9,7 @@
       <div class="inline-block relative w-64">
         <select
           class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+          v-model="selectedClient"
         >
         <option class="text-sm" disabled value="">select a client</option>
         <option
@@ -70,7 +71,7 @@ export default {
   data() {
     return {
       etherAmount: "0.05",
-      selectedClient: "0x3844f4d66EFC4b1441c94DB409dB0521cb718e56",
+      selectedClient: "",
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
@@ -81,9 +82,12 @@ export default {
     clients() {
       return this.$store.state.clients;
     },
+    activeContract() {
+      return this.$store.state.activeContract;
+    }
   },
   methods: {
-    //update state after contract calls
+    //update state after contract sends
     async postCall(txHash) {
       this.$store.dispatch("setTxHash", txHash);
 
@@ -98,7 +102,14 @@ export default {
       this.$store.dispatch("setAccount", accounts[0]);
     },
     async callGetEscrowValues() {
-      this.$store.dispatch("fetchEscrowValues", this.selectedClient);
+     
+      console.log(this.activeContract);
+      const argsObj = {
+        client: this.selectedClient,
+        contract: this.activeContract,
+      }
+      // !!!*** I guess I can't send an object and only one argument? hmmm this requires deeb reserch
+      this.$store.dispatch("fetchEscrowValues", argsObj);
       console.log('callGetEscrowValues()')
     },
     callReset() {
