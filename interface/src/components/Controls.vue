@@ -11,15 +11,15 @@
           class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
           v-model="selectedClient"
         >
-        <option class="text-sm" disabled value="">select a client</option>
-        <option
-          class="text-sm"
-          v-for="client in clients"
-          v-bind:selectedClient="client.address"
-          v-bind:key="client.id"
-        >
-          {{ client.address }}
-        </option>
+          <option class="text-sm" disabled value="">select a client</option>
+          <option
+            class="text-sm"
+            v-for="client in clients"
+            v-bind:selectedClient="client.address"
+            v-bind:key="client.id"
+          >
+            {{ client.address }}
+          </option>
         </select>
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -84,7 +84,7 @@ export default {
     },
     activeContract() {
       return this.$store.state.activeContract;
-    }
+    },
   },
   methods: {
     //update state after contract sends
@@ -102,11 +102,10 @@ export default {
       this.$store.dispatch("setAccount", accounts[0]);
     },
     async callGetEscrowValues() {
-     
       const argsObj = {
         client: this.selectedClient,
         contract: this.activeContract,
-      }
+      };
       // !!!*** I guess I can't send an object and only one argument? hmmm this requires deeb reserch
       this.$store.dispatch("fetchEscrowValues", this.selectedClient);
     },
@@ -179,14 +178,3 @@ export default {
   },
 };
 </script>
-
-<style>
-  .btn {
-    @apply bg-gray-400 rounded border border-black shadow-lg  px-2 py-1
-  }
-  .btn:hover {
-    @apply bg-gray-600 text-white
-  }
-
-
-</style>

@@ -1,16 +1,14 @@
 <template>
   <div>
-    <div :class="descriptionClass">transaction hash</div>
-  
-      <div :class="contentClass">
-        {{ txHash }}
-      </div>
+    <div class="description">transaction hash</div>
+
+    <div class="content">
+      {{ txHash }}
+    </div>
   </div>
 </template>
 
 <script>
-import { descriptionClass, contentClass } from "../assets/classMacros";
-
 export default {
   computed: {
     txHash() {
@@ -18,10 +16,7 @@ export default {
     },
   },
   data() {
-    return {
-      descriptionClass,
-      contentClass,
-    };
+    return {};
   },
 };
 </script>
