@@ -20,12 +20,22 @@
     </nav>
 
     <router-view></router-view>
+
+    <transaction-view />
+    <error-view />
   </div>
 </template>
 
 <script>
+import TransactionView from './components/TransactionView';
+import ErrorView from './components/ErrorView';
+
 export default {
   name: "App",
+  components: {
+    'transaction-view': TransactionView,
+    'error-view': ErrorView,
+  },
   computed: {
     rootButtonClass: function() {
       return {
