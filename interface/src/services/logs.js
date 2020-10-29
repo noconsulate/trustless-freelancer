@@ -5,7 +5,7 @@ import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 
-import { address } from '../../../address'
+import { address } from "../../../address";
 
 class RequestParameters {
   constructor(to, from, data) {
@@ -25,23 +25,23 @@ async function initWeb3() {
   return web3;
 }
 
-async function loadContract(obj) {
+async function loadContract(obj, address) {
   const contract = await new obj.eth.Contract(Freelancer.abi, address);
   return contract;
 }
 
-export async function getLogs() {
+export async function getLogs(address) {
   const web3 = await initWeb3();
-  const contract = await loadContract(web3);
+  const contract = await loadContract(web3, address);
 
-  const depositLogs = await contract.getPastEvents('Deposit', {
+  const depositLogs = await contract.getPastEvents("Deposit", {
     filter: {},
     fromBlock: 0,
-    toBlock: 'latest',
-  })
+    toBlock: "latest",
+  });
 
   let depositsReadable = [];
-  depositLogs.map(log => {
+  depositLogs.map((log) => {
     const client = log.returnValues._client;
     const value = web3.utils.fromWei(log.returnValues._value, "ether");
     const block = log.blockNumber;
@@ -49,14 +49,14 @@ export async function getLogs() {
     depositsReadable.push({ client, value, block });
   });
 
-  let refundLogs = await contract.getPastEvents('Refund', {
+  let refundLogs = await contract.getPastEvents("Refund", {
     filter: {},
     fromBlock: 0,
-    toBlock: 'latest',
-  })
+    toBlock: "latest",
+  });
 
   let refundsReadable = [];
-  refundLogs.map(log => {
+  refundLogs.map((log) => {
     const client = log.returnValues._client;
     const value = web3.utils.fromWei(log.returnValues._value, "ether");
     const block = log.blockNumber;
@@ -64,14 +64,14 @@ export async function getLogs() {
     refundsReadable.push({ client, value, block });
   });
 
-  let disperseLogs = await contract.getPastEvents('Disperse', {
+  let disperseLogs = await contract.getPastEvents("Disperse", {
     filter: {},
     fromBlock: 0,
-    toBlock: 'latest',
-  })
+    toBlock: "latest",
+  });
 
   let disperseReadable = [];
-  disperseLogs.map(log => {
+  disperseLogs.map((log) => {
     const client = log.returnValues._client;
     const value = web3.utils.fromWei(log.returnValues._value, "ether");
     const block = log.blockNumber;
@@ -79,5 +79,5 @@ export async function getLogs() {
     disperseReadable.push({ client, value, block });
   });
 
-  return {depositsReadable, refundsReadable, disperseReadable};
+  return { depositsReadable, refundsReadable, disperseReadable };
 }

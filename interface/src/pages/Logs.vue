@@ -6,11 +6,11 @@
           <tr>
             <th class="flex justify-start pt-2">deposits</th>
           </tr>
-        <tr>
-          <th class="w-5/6">client</th>
-          <th class="w-1/12 px-2">ether</th>
-          <th class="w-1/12 px-2">block</th>
-        </tr>
+          <tr>
+            <th class="w-5/6">client</th>
+            <th class="w-1/12 px-2">ether</th>
+            <th class="w-1/12 px-2">block</th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="(deposit, i) in deposits" :key="i">
@@ -27,11 +27,11 @@
           <tr>
             <th class="flex justify-start pt-2">refunds</th>
           </tr>
-        <tr>
-          <th class=" w-5/6">client</th>
-          <th class="w-1/12 px-2">ether</th>
-          <th class="w-1/12 px-2">block</th>
-        </tr>
+          <tr>
+            <th class=" w-5/6">client</th>
+            <th class="w-1/12 px-2">ether</th>
+            <th class="w-1/12 px-2">block</th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="(refund, i) in refunds" :key="i">
@@ -42,17 +42,17 @@
         </tbody>
       </table>
     </div>
-     <div>
+    <div>
       <table class="table-fixed">
         <thead>
           <tr>
             <th class="flex justify-start pt-2">dispersals</th>
           </tr>
-        <tr>
-          <th class=" w-5/6">client</th>
-          <th class="w-1/12 px-2">ether</th>
-          <th class="w-1/12 px-2">block</th>
-        </tr>
+          <tr>
+            <th class=" w-5/6">client</th>
+            <th class="w-1/12 px-2">ether</th>
+            <th class="w-1/12 px-2">block</th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="(dispersal, i) in dispersals" :key="i">
@@ -70,7 +70,7 @@
 import { getLogs } from "../services/logs";
 
 export default {
-  name: 'LogsView',
+  name: "LogsView",
   data() {
     return {
       deposits: [],
@@ -79,7 +79,7 @@ export default {
     };
   },
   created: async function() {
-    const logs = await getLogs();
+    const logs = await getLogs(this.$store.state.activeContract);
 
     this.deposits = logs.depositsReadable;
     this.refunds = logs.refundsReadable;

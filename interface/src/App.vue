@@ -1,34 +1,36 @@
 <template>
-  <div class="containter md mx-auto p-8 border border-1 h-screen flex flex-col">
-    <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
-      trustless-freelancer
-    </div>
-    <nav class="flex relative space-x-4">
-      <router-link to="/merchant">
-        <button :disabled="noContract" :class="[rootButtonClass, 'px-4']">
-          Merchant view
-        </button>
-      </router-link>
-      <router-link to="/logs">
-        <button :disabled="noContract" :class="[logsButtonClass, 'px-4']">
-          logs
-        </button>
-      </router-link>
-      <router-link to="/contract">
-        <button :class="[contractButtonClass, 'px-4']">
-          contract
-        </button>
-      </router-link>
+  <div class="container md mx-auto">
+    <div class=" border border-1 h-screen flex p-8 flex-col">
+      <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
+        trustless-freelancer
+      </div>
+      <nav class="flex relative space-x-4">
+        <router-link to="/merchant">
+          <button :disabled="noContract" :class="[rootButtonClass, 'px-4']">
+            Merchant view
+          </button>
+        </router-link>
+        <router-link to="/logs">
+          <button :disabled="noContract" :class="[logsButtonClass, 'px-4']">
+            logs
+          </button>
+        </router-link>
+        <router-link to="/contract">
+          <button :class="[contractButtonClass, 'px-4']">
+            contract
+          </button>
+        </router-link>
 
-      <div class="absolute inset-y-o right-0">{{ routeName }}</div>
-    </nav>
-    <div class="flex-grow overflow-y-auto">
-      <router-view></router-view>
-    </div>
+        <div class="absolute inset-y-o right-0">{{ routeName }}</div>
+      </nav>
+      <div class="flex-grow overflow-y-auto">
+        <router-view></router-view>
+      </div>
 
-    <div class="object-none object-bottom">
-      <transaction-view />
-      <error-view />
+      <div class="object-none object-bottom">
+        <transaction-view />
+        <error-view />
+      </div>
     </div>
   </div>
 </template>
