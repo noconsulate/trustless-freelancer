@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div>
-      <button @click="callGetContract" class="btn block">
+    <div class="space-x-1">
+      <button @click="callGetContract" class="btn ">
         get contract
       </button>
-      <button @click="callSendDeploy" class="btn block">
+      <button @click="callSendDeploy" class="btn ">
         deploy
       </button>
     </div>
@@ -12,8 +12,9 @@
       freelancer contract at
     </div>
     <div class="content">
-      {{ this.$store.state.activeContract }}
+      {{ activeContract }}
     </div>
+    <div v-if="activeContract == 0">why don't you make a contract</div>
   </div>
 </template>
 
@@ -25,6 +26,11 @@ export default {
     return {
       freelancerAddress: null,
     };
+  },
+  computed: {
+    activeContract() {
+      return this.$store.state.activeContract;
+    },
   },
   methods: {
     async callSendDeploy() {

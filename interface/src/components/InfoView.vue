@@ -59,8 +59,5 @@ export default {
       NO_ACCOUNT: "please enable ethereum",
     };
   },
-  created: async function() {
-    this.$store.dispatch("fetchClients");
-  },
 };
 </script>
