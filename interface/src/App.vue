@@ -5,10 +5,12 @@
     </div>
     <nav class="flex relative space-x-4">
       <router-link to="/">
-        <button :class="[rootButtonClass, 'px-4']">Merchant view</button>
+        <button :disabled="noContract" :class="[rootButtonClass, 'px-4']">
+          Merchant view
+        </button>
       </router-link>
       <router-link to="/logs">
-        <button :class="[logsButtonClass, 'px-4']">
+        <button :disabled="noContract" :class="[logsButtonClass, 'px-4']">
           logs
         </button>
       </router-link>
@@ -39,6 +41,12 @@ export default {
     "error-view": ErrorView,
   },
   computed: {
+    noContract() {
+      return (
+        this.$store.state.activeContract == null ||
+        this.$store.state.activeContract == 0
+      );
+    },
     rootButtonClass: function() {
       return {
         "bg-blue-200": this.$route.name == "root",
@@ -71,5 +79,6 @@ export default {
       this.routeName = this.$route.name;
     },
   },
+  created: function() {},
 };
 </script>
