@@ -1,5 +1,5 @@
 <template>
-  <div class="container md px-16 h-64">
+  <div class="containter mx-auto p-8 border border-1 h-screen flex flex-col">
     <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
       trustless-freelancer
     </div>
@@ -22,9 +22,10 @@
 
       <div class="absolute inset-y-o right-0">{{ routeName }}</div>
     </nav>
+    <div class="border border-3 border-yellow-500 flex-grow overflow-y-auto">
+      <router-view></router-view>
+    </div>
 
-    <router-view></router-view>
-    <div class="h-3" />
     <div class="object-none object-bottom">
       <transaction-view />
       <error-view />
