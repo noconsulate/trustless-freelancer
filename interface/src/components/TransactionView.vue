@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="border border-red-400 border-3">
     <div class="description">transaction hash</div>
 
     <div class="content">

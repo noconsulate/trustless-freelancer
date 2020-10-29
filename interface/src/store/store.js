@@ -1,8 +1,13 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import uniqueId from 'lodash.uniqueid';
+import Vue from "vue";
+import Vuex from "vuex";
+import uniqueId from "lodash.uniqueid";
 
-import {getValues, getClients, getEscrowValues, getContract} from '../services/web3.js';
+import {
+  getValues,
+  getClients,
+  getEscrowValues,
+  getContract,
+} from "../services/web3.js";
 
 const ethereum = window.ethereum;
 
@@ -10,14 +15,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    account : null,
-    contractValues: { address: null, owner: null, balance: null},
-    errorMessage: '',
-    txHash: '',
+    account: null,
+    contractValues: { address: null, owner: null, balance: null },
+    errorMessage: "",
+    txHash: "",
     clients: [{ id: null, address: null }],
-    escrowValues: { address: null, balance: null, isShipped: null, isReceived: null, },
+    escrowValues: {
+      address: null,
+      balance: null,
+      isShipped: null,
+      isReceived: null,
+    },
     escrowFetched: false,
-    activeContract: "0xB09f06F5C3e76e9eda0dBA8b98E0f7ACC2a223aa",
+    activeContract: null,
   },
   mutations: {
     UPDATE_VALUES(state, payload) {
@@ -25,10 +35,10 @@ export default new Vuex.Store({
     },
     UPDATE_CLIENTS(state, payload) {
       let clients = [];
-      payload.forEach(address => {
+      payload.forEach((address) => {
         const id = uniqueId();
-        clients.push({ id, address});
-      })
+        clients.push({ id, address });
+      });
 
       state.clients = clients;
     },
@@ -47,7 +57,7 @@ export default new Vuex.Store({
     },
     UPDATE_ACTIVE_CONTRACT(state, payload) {
       state.activeContract = payload;
-    }
+    },
   },
   actions: {
     async fetchClients(context) {
@@ -55,13 +65,16 @@ export default new Vuex.Store({
       context.commit("UPDATE_CLIENTS", clientsArray);
     },
     async fetchEscrowValues(context, client) {
-      const values = await getEscrowValues(client, context.state.activeContract);
+      const values = await getEscrowValues(
+        client,
+        context.state.activeContract
+      );
       values.address = client;
-      context.commit('UPDATE_ESCROW', values)
+      context.commit("UPDATE_ESCROW", values);
     },
     async fetchValues(context, address) {
       const values = await getValues(address);
-      context.commit("UPDATE_VALUES", values)
+      context.commit("UPDATE_VALUES", values);
 
       // WHY THIS?
 
@@ -81,10 +94,9 @@ export default new Vuex.Store({
     },
     async fetchActiveContract(context) {
       const address = await getContract();
-      console.log('fetch')
-      context.commit("UPDATE_ACTIVE_CONTRACT", address)
-    }
+      console.log("fetch");
+      context.commit("UPDATE_ACTIVE_CONTRACT", address);
+    },
   },
-  getters: {
-  },
+  getters: {},
 });

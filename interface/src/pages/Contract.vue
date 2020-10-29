@@ -1,11 +1,17 @@
 <template>
   <div>
     <div>
-      <button @click="callSendDeploy">
+      <button @click="callGetContract" class="btn block">
+        get contract
+      </button>
+      <button @click="callSendDeploy" class="btn block">
         deploy
       </button>
     </div>
-    <div>
+    <div class="description">
+      freelancer contract at
+    </div>
+    <div class="content">
       {{ this.$store.state.activeContract }}
     </div>
   </div>
@@ -22,6 +28,13 @@ export default {
   },
   methods: {
     async callSendDeploy() {
+      const contract = await getContract();
+      if (contract != 0) {
+        alert(
+          `the account you're sending from already has a freelancer contract!`
+        );
+        return;
+      }
       methodSender("deploy");
     },
     async callGetContract() {
@@ -32,10 +45,10 @@ export default {
     },
   },
   created: async function() {
-    this.$store.dispatch('fetchActiveContract');
-    window.ethereum.on('accountsChanged', (accounts) => {
-      this.$store.dispatch('fetchActiveContract');
-    })
+    // this.$store.dispatch("fetchActiveContract");
+    // window.ethereum.on("accountsChanged", (accounts) => {
+    //   this.$store.dispatch("fetchActiveContract");
+    // });
   },
 };
 </script>
