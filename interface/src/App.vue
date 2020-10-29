@@ -1,10 +1,10 @@
 <template>
-  <div class="container px-16">
+  <div class="container md px-16 h-64">
     <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
       trustless-freelancer
     </div>
     <nav class="flex relative space-x-4">
-      <router-link to="/">
+      <router-link to="/merchant">
         <button :disabled="noContract" :class="[rootButtonClass, 'px-4']">
           Merchant view
         </button>
@@ -25,8 +25,10 @@
 
     <router-view></router-view>
     <div class="h-3" />
-    <transaction-view />
-    <error-view />
+    <div class="object-none object-bottom">
+      <transaction-view />
+      <error-view />
+    </div>
   </div>
 </template>
 

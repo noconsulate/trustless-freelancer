@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div>error:</div>
-    <div> {{ errorMessage }} </div>
+  <div class="border">
+    <div class="description">error:</div>
+    <div class="content">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -9,10 +9,10 @@
 export default {
   computed: {
     errorMessage() {
-      return this.$store.state.errorMessage
-    }
-  }
-}
+      return this.$store.state.errorMessage;
+    },
+  },
+};
 </script>
 
 <style scoped>

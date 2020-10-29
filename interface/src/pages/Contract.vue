@@ -44,10 +44,12 @@ export default {
       methodSender("deploy");
     },
     async callGetContract() {
-      const res = await getContract();
-      console.log(res);
-      this.freelancerAddress = res;
-      this.$store.state.activeContract = res;
+      await this.$store.dispatch("fetchActiveContract");
+
+      if (this.activeContract != null || this.activeContract != 0) {
+        this.$store.dispatch("fetchClients", this.$store.state.activeContract);
+        this.$store.dispatch("fetchValues", this.$store.state.activeContract);
+      }
     },
   },
   created: async function() {
