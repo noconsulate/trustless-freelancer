@@ -1,6 +1,6 @@
 <template>
   <div class="container md mx-auto">
-    <div class=" border border-1 h-screen flex p-8 flex-col space-y-2">
+    <div class=" border border-1 h-screen flex p-4 flex-col space-y-2">
       <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
         trustless-freelancer
       </div>

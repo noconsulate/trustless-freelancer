@@ -1,10 +1,12 @@
 <template>
   <div class="divide-y divide-gray-400">
+    <div></div>
+
     <div>
       <table class="table-fixed">
         <thead>
           <tr>
-            <th class="flex justify-start pt-2">deposits</th>
+            <th class="flex justify-start pt-2 ">deposits</th>
           </tr>
           <tr>
             <th class="w-5/6">client</th>

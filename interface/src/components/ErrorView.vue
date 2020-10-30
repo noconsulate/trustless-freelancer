@@ -1,5 +1,5 @@
 <template>
-  <div class="border">
+  <div class="border border-red-700">
     <div class="description">error:</div>
     <div class="content">{{ errorMessage }}</div>
   </div>
