@@ -6,8 +6,8 @@ import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 import Deployer from "../../../contract/build/contracts/Deployer.json";
 
-import { freelancerAddress, deployerAddress } from '../../../address'
-let node_url
+import { freelancerAddress, deployerAddress } from "../../../address";
+let node_url;
 
 // if (ENV_FLAG == "local") {
 //   node_url = "http://127.0.0.1:8545";
@@ -34,7 +34,7 @@ async function initWeb3() {
 }
 
 async function loadContract(obj, address) {
-  console.log('activeContract:' + address);
+  console.log("activeContract:" + address);
   const contract = await new obj.eth.Contract(Freelancer.abi, address);
   return contract;
 }
@@ -81,7 +81,7 @@ export async function getClients(address) {
 }
 async function sendTx(parameters) {
   let txHash;
-  
+
   try {
     txHash = await ethereum.request({
       method: "eth_sendTransaction",
@@ -126,19 +126,19 @@ export async function getContract() {
   const web3 = await initWeb3();
   const deployer = await loadDeployer(web3);
 
-  console.log(window.ethereum.selectedAddress)
+  console.log(window.ethereum.selectedAddress);
   let freelancerAddress;
 
   try {
     freelancerAddress = await deployer.methods.getContract().call({
-      from: window.ethereum.selectedAddress
+      from: window.ethereum.selectedAddress,
     });
   } catch (e) {
-    console.log('error in getContract()', e.message);
+    console.log("error in getContract()", e.message);
     throw e.code;
   }
 
-  console.log(freelancerAddress)
+  console.log(freelancerAddress);
   return freelancerAddress;
 }
 
@@ -227,7 +227,7 @@ export async function methodSender(method, arg, contractAddress) {
       address = deployerAddress;
       break;
     default:
-      console.log('no matching method');
+      console.log("no matching method");
       return;
   }
 

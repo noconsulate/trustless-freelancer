@@ -56,6 +56,11 @@
     <div :class="rowClass">
       <button @click="callRefund" class="btn">refund</button>
     </div>
+    <div>
+      <button @click="callSendTokens" class="btn">
+        send tokens
+      </button>
+    </div>
   </div>
 </template>
 
@@ -66,6 +71,7 @@ import {
   methodSender,
   getEscrowValues,
 } from "../services/web3";
+import { sendTokens } from "../services/token";
 
 export default {
   data() {
@@ -174,6 +180,11 @@ export default {
       methodSender("refund", this.selectedClient, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
+    },
+    callSendTokens() {
+      sendTokens("1000000000000000000", this.activeContract)
+        .then((res) => console.log(res))
+        .catch((e) => console.log(e));
     },
   },
 };
