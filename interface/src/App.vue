@@ -21,7 +21,7 @@
           </button>
         </router-link>
 
-        <div class="absolute inset-y-o right-0">{{ routeName }}</div>
+        <div class="absolute inset-y-o right-0 italic">{{ routeName }}</div>
       </nav>
       <div class="flex-grow overflow-y-auto">
         <router-view></router-view>
