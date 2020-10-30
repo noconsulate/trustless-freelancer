@@ -1,10 +1,10 @@
 <template>
   <div class="container md mx-auto">
-    <div class=" border border-1 h-screen flex p-8 flex-col">
+    <div class=" border border-1 h-screen flex p-8 flex-col space-y-2">
       <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
         trustless-freelancer
       </div>
-      <nav class="flex relative space-x-4">
+      <nav class="flex relative space-x-4 border border-black">
         <router-link to="/merchant">
           <button :disabled="noContract" :class="[rootButtonClass, 'px-4']">
             Merchant view

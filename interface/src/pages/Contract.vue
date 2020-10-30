@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col space-y-2">
     <div class="space-x-1">
       <button @click="callGetContract" class="btn ">
         get contract
@@ -8,12 +8,15 @@
         deploy
       </button>
     </div>
-    <div class="description">
-      freelancer contract at
+    <div>
+      <div class="description">
+        freelancer contract at
+      </div>
+      <div class="content">
+        {{ activeContract }}
+      </div>
     </div>
-    <div class="content">
-      {{ activeContract }}
-    </div>
+
     <div v-if="activeContract == 0">why don't you make a contract</div>
   </div>
 </template>
