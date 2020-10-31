@@ -182,6 +182,8 @@ export default {
         .then((res) => this.postCall(res));
     },
     callSendTokens() {
+      // do allowance on token from sender to freelancer,
+      // then do transferFrom() on freelancer
       sendTokens("1", this.activeContract)
         .then((res) => console.log(res))
         .catch((e) => console.log(e));

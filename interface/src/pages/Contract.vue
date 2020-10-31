@@ -36,6 +36,7 @@ export default {
     },
   },
   methods: {
+    // should fetchActiveContract after confirmation
     async callSendDeploy() {
       const contract = await getContract();
       if (contract != 0) {
