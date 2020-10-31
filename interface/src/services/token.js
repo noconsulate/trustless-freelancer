@@ -48,8 +48,11 @@ export async function sendTokens(amount, freelancerAddress) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
 
+  const weiAmount = web3.utils.toWei(String(amount), "ether");
+  console.log(weiAmount);
+
   const transaction = contract.methods
-    .transfer(freelancerAddress, amount)
+    .transfer(freelancerAddress, weiAmount)
     .encodeABI();
 
   console.log(transaction);

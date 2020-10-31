@@ -182,7 +182,7 @@ export default {
         .then((res) => this.postCall(res));
     },
     callSendTokens() {
-      sendTokens("1000000000000000000", this.activeContract)
+      sendTokens("1", this.activeContract)
         .then((res) => console.log(res))
         .catch((e) => console.log(e));
     },

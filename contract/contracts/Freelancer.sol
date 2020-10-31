@@ -21,8 +21,9 @@ contract Freelancer is Ownable {
 
     IERC20 public token;
 
-    constructor(address _newOwner) public {
+    constructor(address _newOwner, address _tokenAddress) public {
         transferOwnership(_newOwner);
+        token = IERC20(_tokenAddress);
     }
 
     function sendToken(uint256 _value) external returns (bool) {
