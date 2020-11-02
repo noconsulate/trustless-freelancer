@@ -126,7 +126,6 @@ export async function getContract() {
   const web3 = await initWeb3();
   const deployer = await loadDeployer(web3);
 
-  console.log(window.ethereum.selectedAddress);
   let freelancerAddress;
 
   try {
@@ -138,7 +137,6 @@ export async function getContract() {
     throw e.code;
   }
 
-  console.log(freelancerAddress);
   return freelancerAddress;
 }
 
@@ -166,6 +164,14 @@ export async function getValues(address) {
     balance,
   };
   return valuesObj;
+}
+
+async function convertTokenValue(value) {
+  const web3 = await initWevb3();
+  const weiValue = web3.utils.toWei(String(value), "ether");
+  const hexValue = web3.utils.toHex(weiValue);
+
+  return hexValue;
 }
 
 export async function sendPayment(ether, contractAddress) {
@@ -197,15 +203,42 @@ export async function sendPayment(ether, contractAddress) {
   return txHash;
 }
 
+export async function deploy() {
+  const web3 = await initWeb3();
+  const deployer = await loadDeployer(web3);
+
+  const transaction = deployer.methods.deploy().encodeABI();
+
+  const parameters = new RequestParameters(
+    deployerAddress,
+    ethereum.selectedAddress,
+    transaction
+  );
+
+  let txHash;
+  try {
+    txHash = await sendTx(parameters);
+  } catch (e) {
+    throw e;
+  }
+  return txHash;
+}
+
 export async function methodSender(method, arg, contractAddress) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, contractAddress);
-  const deployer = await loadDeployer(web3);
 
   console.log(method, arg, contractAddress);
 
   let transaction, address;
   switch (method) {
+    // need "preTrnsferFrom"
+    case "transferFrom":
+      transaction = contracts.methods
+        .sendToken(convertTokenValue(arg))
+        .encodeABI();
+      address = contractAddress;
+      break;
     case "refund":
       transaction = contract.methods.refund(arg).encodeABI();
       address = contractAddress;
@@ -221,10 +254,6 @@ export async function methodSender(method, arg, contractAddress) {
     case "markReceived":
       transaction = contract.methods.markReceived().encodeABI();
       address = contractAddress;
-      break;
-    case "deploy":
-      transaction = deployer.methods.deploy().encodeABI();
-      address = deployerAddress;
       break;
     default:
       console.log("no matching method");

@@ -42,6 +42,37 @@ async function sendTx(parameters) {
   return txHash;
 }
 
+export async function sendApprove(amount, freelancerAddress) {
+  console.log("sendApprove", amount, freelancerAddress);
+
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+
+  const weiAmount = web3.utils.toWei(String(amount), "ether");
+  console.log(weiAmount);
+
+  const transaction = contract.methods
+    .approve(freelancerAddress, weiAmount)
+    .encodeABI();
+
+  console.log(transaction);
+
+  const parameters = new RequestParameters(
+    tokenAddress,
+    window.ethereum.selectedAddress,
+    transaction
+  );
+
+  let txHash;
+  try {
+    txHash = await sendTx(parameters);
+  } catch (e) {
+    throw e;
+  }
+
+  return txHash;
+}
+
 export async function sendTokens(amount, freelancerAddress) {
   console.log("sendTokens", amount, freelancerAddress);
 

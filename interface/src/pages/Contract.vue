@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { methodSender, getContract } from "../services/web3";
+import { deploy, getContract } from "../services/web3";
 
 export default {
   data() {
@@ -38,6 +38,7 @@ export default {
   methods: {
     // should fetchActiveContract after confirmation
     async callSendDeploy() {
+      // this line is sluggy
       const contract = await getContract();
       if (contract != 0) {
         alert(
@@ -45,22 +46,23 @@ export default {
         );
         return;
       }
-      methodSender("deploy");
+      deploy();
     },
+    // is this function/button necessary?
     async callGetContract() {
       await this.$store.dispatch("fetchActiveContract");
 
-      if (this.activeContract != null || this.activeContract != 0) {
+      if (this.activeContract != null && this.activeContract != 0) {
         this.$store.dispatch("fetchClients", this.$store.state.activeContract);
         this.$store.dispatch("fetchValues", this.$store.state.activeContract);
       }
     },
   },
   created: async function() {
-    // this.$store.dispatch("fetchActiveContract");
-    // window.ethereum.on("accountsChanged", (accounts) => {
-    //   this.$store.dispatch("fetchActiveContract");
-    // });
+    this.$store.dispatch("fetchActiveContract");
+    window.ethereum.on("accountsChanged", (accounts) => {
+      this.$store.dispatch("fetchActiveContract");
+    });
   },
 };
 </script>

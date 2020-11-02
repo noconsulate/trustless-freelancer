@@ -94,7 +94,6 @@ export default new Vuex.Store({
     },
     async fetchActiveContract(context) {
       const address = await getContract();
-      console.log("fetch");
       context.commit("UPDATE_ACTIVE_CONTRACT", address);
     },
   },

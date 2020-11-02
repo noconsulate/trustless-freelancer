@@ -71,13 +71,14 @@ import {
   methodSender,
   getEscrowValues,
 } from "../services/web3";
-import { sendTokens } from "../services/token";
+import { sendApprove } from "../services/token";
 
 export default {
   data() {
     return {
       etherAmount: "0.05",
       selectedClient: "",
+      tokenAmount: "0.1",
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
@@ -187,6 +188,27 @@ export default {
       sendTokens("1", this.activeContract)
         .then((res) => console.log(res))
         .catch((e) => console.log(e));
+    },
+    async callApproveAndTransferFrom() {
+      let txHash;
+
+      try {
+        txHash = await methodSender(
+          "transferFrom",
+          this.tokenAmount,
+          this.activeContract
+        );
+      } catch (e) {
+        console.log(e);
+      }
+      const confirmation = await awaitTxMined(txHash);
+
+      try {
+        txHash = await sendTransferFrom(this.activeContract, this.tokenAmount);
+      } catch (e) {
+        console.log(e);
+      }
+      this.postCall(txHash);
     },
   },
 };
