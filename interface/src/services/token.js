@@ -2,7 +2,9 @@ import Web3 from "web3";
 
 import FreelancerToken from "./FreelancerTOKEN.json";
 
-const tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
+import { tokenAddress } from "../../../address";
+
+const ethereum = window.ethereum;
 
 async function initWeb3() {
   const web3 = new Web3(window.ethereum);
@@ -42,20 +44,25 @@ async function sendTx(parameters) {
   return txHash;
 }
 
-export async function sendApprove(amount, freelancerAddress) {
-  console.log("sendApprove", amount, freelancerAddress);
+export async function sendApprove(freelancerAddress, value) {
+  console.log(
+    "sendApprove",
+    freelancerAddress,
+    value,
+    ethereum.selectedAddress
+  );
 
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
 
-  const weiAmount = web3.utils.toWei(String(amount), "ether");
+  const weiAmount = web3.utils.toWei(String(value), "ether");
+  const hexAmount = web3.utils.toHex(weiAmount);
   console.log(weiAmount);
 
+  const stringNum = "1000000000";
   const transaction = contract.methods
-    .approve(freelancerAddress, weiAmount)
+    .approve(freelancerAddress, 1000)
     .encodeABI();
-
-  console.log(transaction);
 
   const parameters = new RequestParameters(
     tokenAddress,

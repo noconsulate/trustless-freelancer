@@ -5,7 +5,7 @@ const { setupLoader } = require("@openzeppelin/contract-loader");
 
 // const  {address}  = require('../address')
 
-const address = "0xB09f06F5C3e76e9eda0dBA8b98E0f7ACC2a223aa";
+const address = "0x733659184283d3B1aCa6D87B361915240CB59FEB";
 
 const web3 = new Web3("http://localhost:8545");
 // const loader = setupLoader({
@@ -16,7 +16,7 @@ const web3 = new Web3("http://localhost:8545");
 const loader = setupLoader({ provider: web3 }).web3;
 
 const freelancer = loader.fromArtifact("Freelancer", address);
-let accounts, log
+let accounts, log;
 
 // init contract with values for development
 async function main() {
@@ -44,23 +44,33 @@ async function main() {
 
 main();
 
-      // **TOOLS FOR PLAYING IN NODE**
+// **TOOLS FOR PLAYING IN NODE**
 function sendEth(acct) {
   web3.eth
-  .sendTransaction({
-    from: acct,
-    to: address,
-    value: web3.utils.toWei(".1", "ether"),
-  })
-  .catch(console.log)
-  .then(res => console.log(res));
+    .sendTransaction({
+      from: acct,
+      to: address,
+      value: web3.utils.toWei(".1", "ether"),
+    })
+    .catch(console.log)
+    .then((res) => console.log(res));
 }
 
 function getLog() {
-  freelancer.getPastEvents('Deposit', {
-    filter: {},
-    fromBlock: 0,
-    toBlock: 'latest',
-  }, function(error, events) {console.log(events); return events })
-    .then(events => {return events});
+  freelancer
+    .getPastEvents(
+      "Deposit",
+      {
+        filter: {},
+        fromBlock: 0,
+        toBlock: "latest",
+      },
+      function (error, events) {
+        console.log(events);
+        return events;
+      }
+    )
+    .then((events) => {
+      return events;
+    });
 }

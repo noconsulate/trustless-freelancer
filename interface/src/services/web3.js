@@ -6,7 +6,11 @@ import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 import Deployer from "../../../contract/build/contracts/Deployer.json";
 
-import { freelancerAddress, deployerAddress } from "../../../address";
+import {
+  freelancerAddress,
+  deployerAddress,
+  tokenAddress,
+} from "../../../address";
 let node_url;
 
 // if (ENV_FLAG == "local") {
@@ -42,6 +46,11 @@ async function loadContract(obj, address) {
 async function loadDeployer(obj) {
   const deployer = await new obj.eth.Contract(Deployer.abi, deployerAddress);
   return deployer;
+}
+
+async function loadToken(obj, address) {
+  const token = await new obj.eth.Contract(IERC20.abi, address);
+  return token;
 }
 
 export async function awaitTxMined(txHash) {
@@ -166,14 +175,6 @@ export async function getValues(address) {
   return valuesObj;
 }
 
-async function convertTokenValue(value) {
-  const web3 = await initWevb3();
-  const weiValue = web3.utils.toWei(String(value), "ether");
-  const hexValue = web3.utils.toHex(weiValue);
-
-  return hexValue;
-}
-
 export async function sendPayment(ether, contractAddress) {
   const web3 = await initWeb3();
   // const address = freelancerAddress;
@@ -234,7 +235,7 @@ export async function methodSender(method, arg, contractAddress) {
   switch (method) {
     // need "preTrnsferFrom"
     case "transferFrom":
-      transaction = contracts.methods
+      transaction = contract.methods
         .sendToken(convertTokenValue(arg))
         .encodeABI();
       address = contractAddress;

@@ -57,7 +57,7 @@
       <button @click="callRefund" class="btn">refund</button>
     </div>
     <div>
-      <button @click="callSendTokens" class="btn">
+      <button @click="callApproveAndTransferFrom" class="btn">
         send tokens
       </button>
     </div>
@@ -103,6 +103,7 @@ export default {
       this.$store.dispatch("fetchValues", null);
     },
     async enableEthereum() {
+      // is this necessary?
       let accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -193,22 +194,13 @@ export default {
       let txHash;
 
       try {
-        txHash = await methodSender(
-          "transferFrom",
-          this.tokenAmount,
-          this.activeContract
-        );
+        txHash = await sendApprove(this.activeContract, this.tokenAmount);
       } catch (e) {
         console.log(e);
       }
-      const confirmation = await awaitTxMined(txHash);
+      this.$store.dispatch("setTxHash", txHash);
 
-      try {
-        txHash = await sendTransferFrom(this.activeContract, this.tokenAmount);
-      } catch (e) {
-        console.log(e);
-      }
-      this.postCall(txHash);
+      console.log(txHash);
     },
   },
 };
