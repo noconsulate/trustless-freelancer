@@ -16,7 +16,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     account: null,
-    contractValues: { address: null, owner: null, balance: null },
+    contractValues: { owner: null, balance: null },
     errorMessage: "",
     txHash: "",
     clients: [{ id: null, address: null }],
@@ -27,7 +27,7 @@ export default new Vuex.Store({
       isReceived: null,
     },
     escrowFetched: false,
-    activeContract: 0x8a1042a14567d4696388af9e427448606131edc3,
+    activeContract: null,
   },
   mutations: {
     UPDATE_VALUES(state, payload) {

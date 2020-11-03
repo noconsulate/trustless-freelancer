@@ -6,7 +6,7 @@
     </div>
     <div v-else class="content">{{ account }}</div>
     <div class="description">contract address</div>
-    <div class="content">{{ contractValues.address }}</div>
+    <div class="content">{{ activeContract }}</div>
 
     <div class="description">contract balance</div>
     <div class="content">{{ contractValues.balance }} ether</div>
