@@ -61,7 +61,7 @@ export async function sendApprove(freelancerAddress, value) {
 
   const stringNum = "1000000000";
   const transaction = contract.methods
-    .approve(freelancerAddress, 1000)
+    .approve(freelancerAddress, weiAmount)
     .encodeABI();
 
   const parameters = new RequestParameters(

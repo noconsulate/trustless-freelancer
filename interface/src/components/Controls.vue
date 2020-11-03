@@ -78,7 +78,7 @@ export default {
     return {
       etherAmount: "0.05",
       selectedClient: "",
-      tokenAmount: "0.1",
+      tokenAmount: "0.043",
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
@@ -193,12 +193,25 @@ export default {
     async callApproveAndTransferFrom() {
       let txHash;
 
+      // try {
+      //   txHash = await sendApprove(this.activeContract, this.tokenAmount);
+      // } catch (e) {
+      //   console.log(e);
+      // }
+      // this.$store.dispatch("setTxHash", txHash);
+
+      // let receipt = await awaitTxMined(txHash);
+      // console.log("confirmed");
+
       try {
-        txHash = await sendApprove(this.activeContract, this.tokenAmount);
+        txHash = await methodSender(
+          "transferFrom",
+          this.tokenAmount,
+          this.activeContract
+        );
       } catch (e) {
         console.log(e);
       }
-      this.$store.dispatch("setTxHash", txHash);
 
       console.log(txHash);
     },
