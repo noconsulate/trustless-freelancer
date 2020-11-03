@@ -27,7 +27,7 @@ export default new Vuex.Store({
       isReceived: null,
     },
     escrowFetched: false,
-    activeContract: null,
+    activeContract: 0x8a1042a14567d4696388af9e427448606131edc3,
   },
   mutations: {
     UPDATE_VALUES(state, payload) {

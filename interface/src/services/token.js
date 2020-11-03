@@ -47,9 +47,9 @@ async function sendTx(parameters) {
 export async function sendApprove(freelancerAddress, value) {
   console.log(
     "sendApprove",
-    freelancerAddress,
-    value,
-    ethereum.selectedAddress
+    "freelancer:" + freelancerAddress,
+    "value:" + value,
+    "selectedAddress" + ethereum.selectedAddress
   );
 
   const web3 = await initWeb3();
