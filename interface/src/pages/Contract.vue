@@ -60,9 +60,6 @@ export default {
   },
   created: async function() {
     this.$store.dispatch("fetchActiveContract");
-    window.ethereum.on("accountsChanged", (accounts) => {
-      this.$store.dispatch("fetchActiveContract");
-    });
   },
 };
 </script>
