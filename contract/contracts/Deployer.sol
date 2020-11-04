@@ -5,6 +5,8 @@ import "./Freelancer.sol";
 contract Deployer {
     mapping(address => address) contractByOwner;
 
+    address[] owners;
+
     function getContract() public view returns (address) {
         return contractByOwner[msg.sender];
     }
@@ -20,5 +22,15 @@ contract Deployer {
             address(0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266)
         );
         contractByOwner[msg.sender] = address(freelancer);
+    }
+
+    function clearAll() public {
+        uint256 length = clients.length;
+
+        for (uint256 i = length; i > 0; i--) {
+            delete contractByOwner[owners[i - 1]];
+        }
+
+        delete owners;
     }
 }
