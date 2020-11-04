@@ -102,7 +102,7 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       console.log(receipt);
-      this.$store.dispatch("fetchValues", null);
+      this.$store.dispatch("fetchValues", this.activeContract);
     },
     dispatchSetAccount(account) {
       this.$store.dispatch("setAccount", account);
