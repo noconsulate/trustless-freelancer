@@ -212,19 +212,17 @@ export default {
       let receipt = await awaitTxMined(txHash);
       console.log("confirmed");
 
-      // debugger;
+      try {
+        txHash = await methodSender(
+          "transferFrom",
+          this.tokenAmount,
+          this.activeContract
+        );
+      } catch (e) {
+        console.log(e);
+      }
 
-      // try {
-      //   txHash = await methodSender(
-      //     "transferFrom",
-      //     this.tokenAmount,
-      //     this.activeContract
-      //   );
-      // } catch (e) {
-      //   console.log(e);
-      // }
-
-      // console.log(txHash);
+      this.postCall(txHash);
     },
     async approve() {
       let txHash;

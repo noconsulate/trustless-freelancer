@@ -9,14 +9,14 @@
     <div class="content">{{ activeContract }}</div>
 
     <div class="description">contract balance</div>
-    <div class="content">{{ contractValues.balance }} ether</div>
+    <div class="content">{{ contractValues.balance }} token</div>
     <div class="description">owner address</div>
     <div class="content">{{ contractValues.owner }}</div>
     <template v-if="this.$store.state.escrowFetched == true">
       <div class="description">client address</div>
       <div class="content">{{ escrowValues.address }}</div>
       <div class="description">escrow balance</div>
-      <div class="content">{{ escrowValues.balance }} ether</div>
+      <div class="content">{{ escrowValues.balance }} token</div>
       <div class="description">shipped?</div>
       <div class="content">{{ escrowValues.isShipped }}</div>
       <div class="description">received?</div>

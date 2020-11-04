@@ -38,6 +38,7 @@ contract Freelancer is Ownable {
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
+        return sent
     }
 
     //interface should check onlyOwner?
@@ -48,7 +49,11 @@ contract Freelancer is Ownable {
 
         if (escrow.isReceived == true) {
             address owner = owner();
-            payable(owner).transfer(escrow.balance);
+            // payable(owner).transfer(escrow.balance);
+
+            bool sent = token.transfer(owner, escrow.balance); 
+            require(sent, "transfer failed");
+
             emit Disperse(_client, escrow.balance);
             delete escrows[_client];
             _cleanup(_client);
@@ -62,7 +67,10 @@ contract Freelancer is Ownable {
 
         if (escrow.isShipped == true) {
             address owner = owner();
-            payable(owner).transfer(escrow.balance);
+            // payable(owner).transfer(escrow.balance);
+            bool sent = token.transfer(owner, escrow.balance); 
+            require(sent, "transfer failed");
+
             emit Disperse(msg.sender, escrow.balance);
             delete escrows[msg.sender];
             _cleanup(msg.sender);
