@@ -60,6 +60,8 @@
       <button @click="callApproveAndTransferFrom" class="btn">
         send tokens
       </button>
+      <button @click="approve">approve</button>
+      <button @click="transferFrom">transferFrom</button>
     </div>
   </div>
 </template>
@@ -102,12 +104,19 @@ export default {
       console.log(receipt);
       this.$store.dispatch("fetchValues", null);
     },
+    dispatchSetAccount(account) {
+      this.$store.dispatch("setAccount", account);
+    },
     async enableEthereum() {
       // is this necessary?
       let accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       this.$store.dispatch("setAccount", accounts[0]);
+      // window.ethereum.on("accountsChanged", function(newAccounts) {
+      //   console.log("account changed event", newAccounts);
+      //   this.dispatchSetAccount(newAccounts[0]);
+      // });
     },
     async callGetEscrowValues() {
       const argsObj = {
@@ -203,8 +212,35 @@ export default {
       let receipt = await awaitTxMined(txHash);
       console.log("confirmed");
 
-      debugger;
+      // debugger;
 
+      // try {
+      //   txHash = await methodSender(
+      //     "transferFrom",
+      //     this.tokenAmount,
+      //     this.activeContract
+      //   );
+      // } catch (e) {
+      //   console.log(e);
+      // }
+
+      // console.log(txHash);
+    },
+    async approve() {
+      let txHash;
+
+      try {
+        txHash = await sendApprove(this.activeContract, this.tokenAmount);
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
+    },
+
+    async transferFrom() {
       try {
         txHash = await methodSender(
           "transferFrom",

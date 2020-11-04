@@ -59,5 +59,6 @@ export default {
       NO_ACCOUNT: "please enable ethereum",
     };
   },
+  created: function() {},
 };
 </script>

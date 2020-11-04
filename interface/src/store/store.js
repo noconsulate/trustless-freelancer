@@ -77,14 +77,15 @@ export default new Vuex.Store({
       context.commit("UPDATE_VALUES", values);
 
       // WHY THIS?
-
-      // ethereum.on('accountsChanged', function(accounts) {
-      //   console.log('accounts changed in store.js', accounts);
-      //   context.commit("UPDATE_ACCOUNT", accounts[0]);
-      // })
     },
     setAccount(context, account) {
+      console.log("setAccount action", account);
       context.commit("UPDATE_ACCOUNT", account);
+
+      ethereum.on("accountsChanged", function(accounts) {
+        console.log("accounts changed in store.js", accounts);
+        context.commit("UPDATE_ACCOUNT", accounts[0]);
+      });
     },
     setError(context, message) {
       context.commit("UPDATE_ERROR", message);
