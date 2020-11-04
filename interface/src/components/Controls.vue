@@ -241,6 +241,8 @@ export default {
     },
 
     async transferFrom() {
+      let txHash;
+
       try {
         txHash = await methodSender(
           "transferFrom",
@@ -252,6 +254,11 @@ export default {
       }
 
       console.log(txHash);
+
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
     },
   },
 };
