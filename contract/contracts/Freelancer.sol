@@ -150,6 +150,7 @@ contract Freelancer is Ownable {
         return clients;
     }
 
+    // mark for deletion, already in Ownable.sol
     function getOwner() public view returns (address) {
         address owner = owner();
         return owner;
