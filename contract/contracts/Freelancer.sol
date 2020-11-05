@@ -53,14 +53,23 @@ contract Freelancer is Ownable {
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isShipped = true;
 
-        if (escrow.isReceived == true) {
-            address owner = owner();
-            bool sent = token.transfer(owner, escrow.balance);
-            require(sent, "transfer failed");
+        require(escrow.isReceived, "tough luck pal");
+        address owner = owner();
+        token.transfer(owner, escrow.balance);
 
-            // emit Disperse(msg.sender, escrow.balance);
-            delete escrows[_client];
-        }
+        emit Disperse(msg.sender, escrow.balance);
+        delete escrows[_client];
+        _cleanup(_client);
+
+        // if (escrow.isReceived == true) {
+        //     address owner = owner();
+        //     bool sent = token.transfer(owner, escrow.balance);
+        //     require(sent, "transfer failed");
+
+        //     // emit Disperse(msg.sender, escrow.balance);
+        //     delete escrows[_client];
+        //     _cleanup(_client);
+        // }
     }
 
     function markReceived() public {
