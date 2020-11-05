@@ -58,7 +58,7 @@ contract Freelancer is Ownable {
             bool sent = token.transfer(owner, escrow.balance);
             require(sent, "transfer failed");
 
-            emit Disperse(msg.sender, escrow.balance);
+            // emit Disperse(msg.sender, escrow.balance);
             delete escrows[_client];
         }
     }
