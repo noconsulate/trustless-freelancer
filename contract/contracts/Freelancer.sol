@@ -41,7 +41,7 @@ contract Freelancer is Ownable {
         return sent;
     }
 
-    function _transfer(address receiver, uint256 value) public {
+    function _transfer(address receiver, uint256 value) internal {
         bool sent = token.transfer(receiver, value);
 
         require(sent, "didn't send");
@@ -106,7 +106,8 @@ contract Freelancer is Ownable {
         uint256 length = clients.length;
 
         for (uint256 i = length; i > 0; i--) {
-            payable(owner).transfer(escrows[clients[i - 1]].balance);
+            // payable(owner).transfer(escrows[clients[i - 1]].balance);
+            // _transfer(owner, escrows[clients[i - 1]].balance);
             delete escrows[clients[i - 1]];
             // delete clients[i - 1];
         }
