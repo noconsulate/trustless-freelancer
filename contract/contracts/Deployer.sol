@@ -22,10 +22,11 @@ contract Deployer {
             address(0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266)
         );
         contractByOwner[msg.sender] = address(freelancer);
+        owners.push(msg.sender);
     }
 
     function clearAll() public {
-        uint256 length = clients.length;
+        uint256 length = owners.length;
 
         for (uint256 i = length; i > 0; i--) {
             delete contractByOwner[owners[i - 1]];
