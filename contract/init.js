@@ -6,51 +6,42 @@ const contract = require("@truffle/contract");
 const FreelancerABI = require("./build/contracts/Freelancer.json");
 const TokenABI = require("./build/contracts/ERC20.json");
 
+const freelancerAddress = "0xb5a92d26624b2fa595e268498252d42267aa95ec";
+const tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
+
 const web3 = new Web3("http://localhost:8545");
+const provider = new Web3.providers.HttpProvider("http://localhost:8545");
 
 const Freelancer = contract(FreelancerABI);
-Freelancer.setProvider(web3);
-// Token.setProvider(web3);
+Freelancer.setProvider(provider);
+
+const Token = contract(TokenABI);
+Token.setProvider(provider);
 
 let accounts, freelancer, token;
 
 let res;
 
-Freelancer.at(freelancerAddress).then(function (instance) {
-  freelancer = instance;
-});
-
 // init contract with values for development
 async function main() {
-  accounts = await web3.eth.getAccounts();
-  console.log(accounts);
-
   freelancer = await Freelancer.at(freelancerAddress);
   token = await Token.at(tokenAddress);
 
-  res = await freelancer.getClients();
+  const accounts = await web3.eth.getAccounts();
+
+  res = await freelancer.reset({ from: accounts[0] });
+
+  res = await token.approve(freelancerAddress, 10000, { from: accounts[1] });
   console.log(res);
 
-  // const token = await loader.fromArtifact("IERC20", tokenAddress);
-  // const freelancer = await Freelancer.deploy(
-  //   accounts[0],
-  //   "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266"
-  // ).send();
+  res = await freelancer.sendToken(10000, { from: accounts[1] });
+  console.log(res.logs);
 
-  // let balance = await token.methods.balanceOf(accounts[0]).call();
-  // console.log(balance);
+  // res = await freelancer.markShipped(accounts[1], { from: accounts[0] });
+  // console.log(res);
 
-  // await freelancer.methods.reset().send();
-  // const foobutt = await freelancer.methods.getEscrowValues(accounts[0]).send();
-  // console.log(foobutt);
-
-  // waiter = await token.methods
-  //   .approve(freelancerAddress, 50000)
-  //   .send({ from: accounts[1] });
-  // console.log("approve returned");
-
-  // waiter = await freelancer.methods.sendToken(5000).send({ from: accounts[1] });
-  // console.log(waiter);
+  // res = await freelancer.markReceived({ from: accounts[1] });
+  // console.log(res);
 }
 
 main();
