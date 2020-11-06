@@ -188,6 +188,18 @@ export default {
         .catch((e) => console.log(e));
     },
     async callApproveAndTransferFrom() {
+      let clientExists = false;
+      this.clients.map((item) => {
+        item.address.toUpperCase() ==
+        window.ethereum.selectedAddress.toUpperCase()
+          ? (clientExists = true)
+          : null;
+      });
+      console.log(clientExists);
+      if (clientExists) {
+        alert("client exists");
+        return;
+      }
       let txHash;
 
       try {
