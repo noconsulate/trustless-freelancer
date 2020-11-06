@@ -42,6 +42,10 @@ async function main() {
 
   // res = await freelancer.markReceived({ from: accounts[1] });
   // console.log(res);
+
+  return;
 }
 
 main();
+
+return;

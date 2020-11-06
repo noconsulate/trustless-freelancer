@@ -8,6 +8,13 @@
         deploy
       </button>
     </div>
+    <div class="description">
+      set contract manually
+    </div>
+    <div class="space-x-1">
+      <input class="border border-black" v-model="contractInput" />
+      <button class="btn" @click="manualSetContract">set</button>
+    </div>
     <div>
       <div class="description">
         freelancer contract at
@@ -28,6 +35,7 @@ export default {
   data() {
     return {
       freelancerAddress: null,
+      contractInput: "0x30BC65980677697abAA2a50DBd3DEA6c9211bC78",
     };
   },
   computed: {
@@ -57,9 +65,17 @@ export default {
         this.$store.dispatch("fetchValues", this.$store.state.activeContract);
       }
     },
+    async manualSetContract() {
+      await this.$store.dispatch("manualSetContract", this.contractInput);
+
+      if (this.activeContract != null && this.activeContract != 0) {
+        this.$store.dispatch("fetchClients", this.$store.state.activeContract);
+        this.$store.dispatch("fetchValues", this.$store.state.activeContract);
+      }
+    },
   },
   created: async function() {
-    this.$store.dispatch("fetchActiveContract");
+    // this.$store.dispatch("fetchActiveContract");
   },
 };
 </script>

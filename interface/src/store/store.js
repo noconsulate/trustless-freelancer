@@ -97,6 +97,9 @@ export default new Vuex.Store({
       const address = await getContract();
       context.commit("UPDATE_ACTIVE_CONTRACT", address);
     },
+    async manualSetContract(context, address) {
+      context.commit("UPDATE_ACTIVE_CONTRACT", address);
+    },
   },
   getters: {},
 });

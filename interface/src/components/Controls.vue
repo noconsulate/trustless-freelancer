@@ -56,12 +56,15 @@
     <div :class="rowClass">
       <button @click="callRefund" class="btn">refund</button>
     </div>
-    <div>
+    <div :class="rowClass">
       <button @click="callApproveAndTransferFrom" class="btn">
         send tokens
       </button>
       <button @click="approve">approve</button>
       <button @click="transferFrom">transferFrom</button>
+    </div>
+    <div :class="rowClass">
+      <button class="btn" @click="callGetEscrowValues">refresh</button>
     </div>
   </div>
 </template>
@@ -123,7 +126,6 @@ export default {
         client: this.selectedClient,
         contract: this.activeContract,
       };
-      // !!!*** I guess I can't send an object and only one argument? hmmm this requires deeb reserch
       this.$store.dispatch("fetchEscrowValues", this.selectedClient);
     },
     callReset() {
@@ -257,6 +259,14 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       console.log("confirmed");
+    },
+    async refresh() {
+      this.$store.dispatch("fetchValues", this.activeContract);
+      this.$store.dispatch("fetchClients");
+
+      if (this.clients.length > 0) {
+        this.$store.dispatch("fetchEscrowValues", this.selectedClient);
+      }
     },
   },
 };
