@@ -49,7 +49,7 @@
       </button>
     </div>
     <div :class="rowClass">
-      <input v-model.number="etherAmount" type="number" />
+      <input v-model.number="tokenAmount" type="number" />
       <button @click="callApproveAndTransferFrom" class="btn">
         fund escrow
       </button>
@@ -75,14 +75,14 @@ import {
   methodSender,
   getEscrowValues,
 } from "../services/web3";
-import { sendApprove } from "../services/token";
+import { sendApprove, checkBalance } from "../services/token";
 
 export default {
   data() {
     return {
       etherAmount: "0.05",
       selectedClient: "",
-      tokenAmount: "0.05",
+      tokenAmount: "999",
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
@@ -195,11 +195,21 @@ export default {
           ? (clientExists = true)
           : null;
       });
-      console.log(clientExists);
       if (clientExists) {
         alert("client exists");
         return;
       }
+
+      let balance = await checkBalance(
+        window.ethereum.selectedAddress,
+        this.tokenAmount
+      );
+      console.log(balance);
+      if (!balance) {
+        alert("this account doesn't have enough tokens to proceed");
+        return;
+      }
+
       let txHash;
 
       try {

@@ -44,6 +44,46 @@ async function sendTx(parameters) {
   return txHash;
 }
 
+export async function checkBalance(client, value) {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+
+  let balance;
+  try {
+    balance = await contract.methods.balanceOf(client).call({ from: null });
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+
+  const weiAmount = await web3.utils.toWei(String(value), "ether");
+  console.log(balance, weiAmount, balance > weiAmount);
+
+  const enough = balance > weiAmount;
+  console.log(enough);
+
+  return enough;
+}
+
+export async function getClients(address) {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3, address);
+
+  let clients;
+
+  try {
+    clients = await contract.methods.getClients().call({ from: null });
+  } catch (e) {
+    throw e;
+  }
+
+  // filter zerod out addresses
+  const hexZero = "0x0000000000000000000000000000000000000000";
+  clients = clients.filter((item) => item != hexZero);
+
+  return clients;
+}
+
 export async function sendApprove(freelancerAddress, value) {
   console.log(
     "sendApprove",
