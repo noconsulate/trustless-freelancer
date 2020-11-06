@@ -200,12 +200,9 @@ export default {
         return;
       }
 
-      let balance = await checkBalance(
-        window.ethereum.selectedAddress,
-        this.tokenAmount
-      );
-      console.log(balance);
-      if (!balance) {
+      let balance = await checkBalance(window.ethereum.selectedAddress);
+      console.log(balance > this.tokenAmount);
+      if (balance < this.tokenAmount) {
         alert("this account doesn't have enough tokens to proceed");
         return;
       }

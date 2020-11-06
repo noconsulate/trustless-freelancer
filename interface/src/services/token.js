@@ -56,13 +56,9 @@ export async function checkBalance(client, value) {
     throw e;
   }
 
-  const weiAmount = await web3.utils.toWei(String(value), "ether");
-  console.log(balance, weiAmount, balance > weiAmount);
+  balance = web3.utils.fromWei(balance, "ether");
 
-  const enough = balance > weiAmount;
-  console.log(enough);
-
-  return enough;
+  return balance;
 }
 
 export async function getClients(address) {
