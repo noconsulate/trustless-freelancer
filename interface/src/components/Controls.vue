@@ -80,9 +80,8 @@ import { sendApprove, checkBalance } from "../services/token";
 export default {
   data() {
     return {
-      etherAmount: "0.05",
       selectedClient: "",
-      tokenAmount: "999",
+      tokenAmount: "0.001",
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
@@ -104,21 +103,18 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       console.log(receipt);
-      this.$store.dispatch("fetchValues", this.activeContract);
+      this.$store.dispatch("fetchValues");
+      this.$store.dispatch("fetchClients");
     },
-    dispatchSetAccount(account) {
-      this.$store.dispatch("setAccount", account);
-    },
+    // dispatchSetAccount(account) {
+    //   this.$store.dispatch("setAccount", account);
+    // },
     async enableEthereum() {
       // is this necessary?
       let accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       this.$store.dispatch("setAccount", accounts[0]);
-      // window.ethereum.on("accountsChanged", function(newAccounts) {
-      //   console.log("account changed event", newAccounts);
-      //   this.dispatchSetAccount(newAccounts[0]);
-      // });
     },
     async callGetEscrowValues() {
       const argsObj = {
@@ -267,7 +263,7 @@ export default {
       console.log("confirmed");
     },
     async refresh() {
-      this.$store.dispatch("fetchValues", this.activeContract);
+      this.$store.dispatch("fetchValues");
       this.$store.dispatch("fetchClients");
 
       console.log(this.clients);

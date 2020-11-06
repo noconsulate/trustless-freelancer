@@ -74,8 +74,8 @@ export default new Vuex.Store({
       values.address = client;
       context.commit("UPDATE_ESCROW", values);
     },
-    async fetchValues(context, address) {
-      const values = await getValues(address);
+    async fetchValues(context) {
+      const values = await getValues(context.state.activeContract);
       context.commit("UPDATE_VALUES", values);
     },
     setAccount(context, account) {
