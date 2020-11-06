@@ -153,7 +153,6 @@ export async function getValues(address) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, address);
 
-  console.log(contract.methods);
   let owner, balance;
 
   try {
@@ -170,7 +169,7 @@ export async function getValues(address) {
     throw e.code;
   }
 
-  // balance = web3.utils.fromWei(balance, "ether");
+  balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
     address,

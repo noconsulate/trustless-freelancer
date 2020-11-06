@@ -50,18 +50,17 @@
     </div>
     <div :class="rowClass">
       <input v-model.number="etherAmount" type="number" />
-      <button @click="callSendPayment" class="btn">fund escrow</button>
+      <button @click="callApproveAndTransferFrom" class="btn">
+        fund escrow
+      </button>
     </div>
 
     <div :class="rowClass">
       <button @click="callRefund" class="btn">refund</button>
     </div>
     <div :class="rowClass">
-      <button @click="callApproveAndTransferFrom" class="btn">
-        send tokens
-      </button>
-      <button @click="approve">approve</button>
-      <button @click="transferFrom">transferFrom</button>
+      <button class="btn" @click="approve">approve</button>
+      <button class="btn" @click="transferFrom">transferFrom</button>
     </div>
     <div :class="rowClass">
       <button class="btn" @click="refresh">refresh</button>
@@ -169,19 +168,6 @@ export default {
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
-    callSendPayment() {
-      const clients = this.$store.state.clients.map((client) =>
-        client.address.toUpperCase()
-      );
-
-      if (clients.includes(window.ethereum.selectedAddress.toUpperCase())) {
-        alert("this address already has an escrow");
-        return;
-      }
-      sendPayment(this.etherAmount, this.activeContract)
-        .catch((e) => this.$store.dispatch("setError", e.code))
-        .then((res) => this.postCall(res));
-    },
     callRefund() {
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
@@ -222,6 +208,7 @@ export default {
         );
       } catch (e) {
         console.log(e);
+        this.$store.dispatch("setError", e.code);
       }
 
       this.postCall(txHash);
