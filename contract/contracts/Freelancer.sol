@@ -53,13 +53,15 @@ contract Freelancer is Ownable {
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isShipped = true;
 
-        require(escrow.isReceived, "tough luck pal");
-        address owner = owner();
-        token.transfer(owner, escrow.balance);
+        if (escrow.isReceived) {
+            address owner = owner();
+            bool sent = token.transfer(address(owner), escrow.balance);
 
-        emit Disperse(msg.sender, escrow.balance);
-        delete escrows[_client];
-        _cleanup(_client);
+            require(sent, "transfer went wrong");
+            emit Disperse(msg.sender, escrow.balance);
+            delete escrows[_client];
+            _cleanup(_client);
+        }
 
         // if (escrow.isReceived == true) {
         //     address owner = owner();
@@ -79,8 +81,7 @@ contract Freelancer is Ownable {
 
         if (escrow.isShipped == true) {
             address owner = owner();
-            // payable(owner).transfer(escrow.balance);
-            bool sent = token.transfer(owner, escrow.balance);
+            bool sent = token.transfer(address(owner), escrow.balance);
             require(sent, "transfer failed");
 
             emit Disperse(msg.sender, escrow.balance);
