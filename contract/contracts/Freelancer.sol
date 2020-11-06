@@ -110,7 +110,7 @@ contract Freelancer is Ownable {
             delete clients[i - 1];
         }
 
-        uint256 balance = token.balanceOf(address(owner));
+        uint256 balance = token.balanceOf(address(this));
         token.transfer(address(owner), balance);
         totalBalance = 0;
         delete clients;
@@ -158,7 +158,7 @@ contract Freelancer is Ownable {
         return owner;
     }
 
-    function getBalance() public view returns (uint256) {
+    function total() public view returns (uint256) {
         return totalBalance;
     }
 }

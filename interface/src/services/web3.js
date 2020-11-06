@@ -153,8 +153,7 @@ export async function getValues(address) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, address);
 
-  // const address = freelancerAddress;
-
+  console.log(contract.methods);
   let owner, balance;
 
   try {
@@ -164,8 +163,14 @@ export async function getValues(address) {
     throw e.code;
   }
 
-  balance = await web3.eth.getBalance(address);
-  balance = web3.utils.fromWei(balance, "ether");
+  try {
+    balance = await contract.methods.total().call({ from: null });
+  } catch (e) {
+    console.log(e);
+    throw e.code;
+  }
+
+  // balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
     address,
