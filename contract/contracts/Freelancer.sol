@@ -14,7 +14,6 @@ contract Freelancer is Ownable {
     mapping(address => Escrow) escrows;
     // mapping(address => address) clientLookup;
     address[] public clients;
-    uint256 public totalBalance;
 
     IERC20 public token;
 
@@ -38,8 +37,6 @@ contract Freelancer is Ownable {
         escrow.balance = _value;
         clients.push(msg.sender);
 
-        totalBalance += _value;
-
         emit Deposit(msg.sender, _value);
         return sent;
     }
@@ -62,7 +59,6 @@ contract Freelancer is Ownable {
 
             require(sent, "transfer went wrong");
             emit Disperse(msg.sender, escrow.balance);
-            totalBalance -= escrow.balance;
             delete escrows[_client];
             _cleanup(_client);
         }
@@ -79,7 +75,6 @@ contract Freelancer is Ownable {
 
             require(sent, "transfer failed");
             emit Disperse(msg.sender, escrow.balance);
-            totalBalance -= escrow.balance;
             delete escrows[msg.sender];
             _cleanup(msg.sender);
         }
@@ -93,7 +88,6 @@ contract Freelancer is Ownable {
 
         require(sent, "transfer failed");
         emit Refund(_client, escrow.balance);
-        totalBalance -= escrow.balance;
         delete escrows[_client];
         _cleanup(_client);
     }
@@ -112,7 +106,6 @@ contract Freelancer is Ownable {
 
         uint256 balance = token.balanceOf(address(this));
         token.transfer(address(owner), balance);
-        totalBalance = 0;
         delete clients;
     }
 
@@ -159,6 +152,7 @@ contract Freelancer is Ownable {
     }
 
     function total() public view returns (uint256) {
-        return totalBalance;
+        uint256 balance = token.balanceOf(address(this));
+        return balance;
     }
 }
