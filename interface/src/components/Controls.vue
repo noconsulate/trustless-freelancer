@@ -64,7 +64,7 @@
       <button @click="transferFrom">transferFrom</button>
     </div>
     <div :class="rowClass">
-      <button class="btn" @click="callGetEscrowValues">refresh</button>
+      <button class="btn" @click="refresh">refresh</button>
     </div>
   </div>
 </template>
@@ -264,8 +264,12 @@ export default {
       this.$store.dispatch("fetchValues", this.activeContract);
       this.$store.dispatch("fetchClients");
 
-      if (this.clients.length > 0) {
+      console.log(this.clients);
+      if (this.clients.length > 0 && this.selectedClient != "") {
+        console.log("??");
         this.$store.dispatch("fetchEscrowValues", this.selectedClient);
+      } else {
+        this.$store.dispatch("resetEscrow");
       }
     },
   },

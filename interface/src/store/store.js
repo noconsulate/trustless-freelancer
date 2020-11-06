@@ -13,6 +13,13 @@ const ethereum = window.ethereum;
 
 Vue.use(Vuex);
 
+const ESCROW_VALUES_DEFAULT = {
+  address: null,
+  balance: null,
+  isShipped: null,
+  isReceived: null,
+};
+
 export default new Vuex.Store({
   state: {
     account: null,
@@ -20,12 +27,7 @@ export default new Vuex.Store({
     errorMessage: "",
     txHash: "",
     clients: [{ id: null, address: null }],
-    escrowValues: {
-      address: null,
-      balance: null,
-      isShipped: null,
-      isReceived: null,
-    },
+    escrowValues: ESCROW_VALUES_DEFAULT,
     escrowFetched: false,
     activeContract: null,
   },
@@ -75,8 +77,6 @@ export default new Vuex.Store({
     async fetchValues(context, address) {
       const values = await getValues(address);
       context.commit("UPDATE_VALUES", values);
-
-      // WHY THIS?
     },
     setAccount(context, account) {
       console.log("setAccount action", account);
@@ -99,6 +99,9 @@ export default new Vuex.Store({
     },
     async manualSetContract(context, address) {
       context.commit("UPDATE_ACTIVE_CONTRACT", address);
+    },
+    resetEscrow(context) {
+      context.commit("UPDATE_ESCROW", ESCROW_VALUES_DEFAULT);
     },
   },
   getters: {},
