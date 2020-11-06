@@ -102,7 +102,7 @@ export default {
       this.$store.dispatch("setTxHash", txHash);
 
       let receipt = await awaitTxMined(txHash);
-      console.log(receipt);
+      console.log("confirmed");
       this.$store.dispatch("fetchValues");
       this.$store.dispatch("fetchClients");
     },

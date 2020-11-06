@@ -3,7 +3,7 @@
     <div></div>
 
     <div>
-      <table class="table-fixed">
+      <table :class="tableClass">
         <thead>
           <tr>
             <th class="flex justify-start pt-2 ">deposits</th>
@@ -24,7 +24,7 @@
       </table>
     </div>
     <div>
-      <table class="table-fixed">
+      <table :class="tableClass">
         <thead>
           <tr>
             <th class="flex justify-start pt-2">refunds</th>
@@ -45,7 +45,7 @@
       </table>
     </div>
     <div>
-      <table class="table-fixed">
+      <table :class="tableClass">
         <thead>
           <tr>
             <th class="flex justify-start pt-2">dispersals</th>
@@ -78,6 +78,7 @@ export default {
       deposits: [],
       refunds: [],
       dispersals: [],
+      tableClass: "table-fixed mb-4",
     };
   },
   created: async function() {
