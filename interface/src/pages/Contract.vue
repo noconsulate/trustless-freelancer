@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       freelancerAddress: null,
-      contractInput: "0x30BC65980677697abAA2a50DBd3DEA6c9211bC78",
+      contractInput: "0x6a90A9910d36f77dd77bdc75A190233f54439BCe",
     };
   },
   computed: {

@@ -158,7 +158,7 @@ export async function getValues(address) {
   let owner, balance;
 
   try {
-    owner = await contract.methods.getOwner().call({ from: null });
+    owner = await contract.methods.owner().call({ from: null });
   } catch (e) {
     console.log("error in values fetch", e.message);
     throw e.code;

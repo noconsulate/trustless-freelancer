@@ -14,12 +14,13 @@ contract Freelancer is Ownable {
     mapping(address => Escrow) escrows;
     // mapping(address => address) clientLookup;
     address[] public clients;
+    uint256 public totalBalance;
+
+    IERC20 public token;
 
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
     event Disperse(address indexed _client, uint256 _value);
-
-    IERC20 public token;
 
     constructor(address _newOwner, address _tokenAddress) public {
         transferOwnership(_newOwner);
@@ -36,6 +37,8 @@ contract Freelancer is Ownable {
 
         escrow.balance = _value;
         clients.push(msg.sender);
+
+        totalBalance += _value;
 
         emit Deposit(msg.sender, _value);
         return sent;
@@ -59,19 +62,10 @@ contract Freelancer is Ownable {
 
             require(sent, "transfer went wrong");
             emit Disperse(msg.sender, escrow.balance);
+            totalBalance -= escrow.balance;
             delete escrows[_client];
             _cleanup(_client);
         }
-
-        // if (escrow.isReceived == true) {
-        //     address owner = owner();
-        //     bool sent = token.transfer(owner, escrow.balance);
-        //     require(sent, "transfer failed");
-
-        //     // emit Disperse(msg.sender, escrow.balance);
-        //     delete escrows[_client];
-        //     _cleanup(_client);
-        // }
     }
 
     function markReceived() public {
@@ -82,9 +76,10 @@ contract Freelancer is Ownable {
         if (escrow.isShipped == true) {
             address owner = owner();
             bool sent = token.transfer(address(owner), escrow.balance);
-            require(sent, "transfer failed");
 
+            require(sent, "transfer failed");
             emit Disperse(msg.sender, escrow.balance);
+            totalBalance -= escrow.balance;
             delete escrows[msg.sender];
             _cleanup(msg.sender);
         }
@@ -94,10 +89,11 @@ contract Freelancer is Ownable {
         Escrow storage escrow = escrows[_client];
         require(escrow.balance > 0, "this escrow is empty!");
 
-        payable(_client).transfer(escrow.balance);
-        // verify transfer somehow? probably not.
-        emit Refund(_client, escrow.balance);
+        bool sent = token.transfer(address(_client), escrow.balance);
 
+        require(sent, "transfer failed");
+        emit Refund(_client, escrow.balance);
+        totalBalance -= escrow.balance;
         delete escrows[_client];
         _cleanup(_client);
     }
@@ -109,9 +105,14 @@ contract Freelancer is Ownable {
         for (uint256 i = length; i > 0; i--) {
             // payable(owner).transfer(escrows[clients[i - 1]].balance);
             // _transfer(owner, escrows[clients[i - 1]].balance);
+            // token.transfer(address(owner), escrows[clients[i-1]].balance);
             delete escrows[clients[i - 1]];
-            // delete clients[i - 1];
+            delete clients[i - 1];
         }
+
+        uint256 balance = token.balanceOf(address(owner));
+        token.transfer(address(owner), balance);
+        totalBalance = 0;
         delete clients;
     }
 
@@ -155,5 +156,9 @@ contract Freelancer is Ownable {
     function getOwner() public view returns (address) {
         address owner = owner();
         return owner;
+    }
+
+    function getBalance() public view returns (uint256) {
+        return totalBalance;
     }
 }
