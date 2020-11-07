@@ -6,61 +6,53 @@
       <table :class="tableClass">
         <thead>
           <tr>
-            <th class="flex justify-start pt-2 ">deposits</th>
+            <th>deposits</th>
           </tr>
           <tr>
-            <th class="w-5/6">client</th>
-            <th class="w-1/12 px-2">ether</th>
-            <th class="w-1/12 px-2">block</th>
+            <th :class="headerClientClass">client</th>
+            <th :class="headerValueClass">ether</th>
+            <th :class="headerBlockClass">block</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(deposit, i) in deposits" :key="i">
-            <td class=" w-5/6">{{ deposit.client }}</td>
-            <td class=" w-1/12 px-2">{{ deposit.value }}</td>
-            <td class=" w-1/12 px-2">{{ deposit.block }}</td>
+            <td>{{ deposit.client }}</td>
+            <td>{{ deposit.value }}</td>
+            <td>{{ deposit.block }}</td>
           </tr>
         </tbody>
-      </table>
-    </div>
-    <div>
-      <table :class="tableClass">
         <thead>
           <tr>
-            <th class="flex justify-start pt-2">refunds</th>
+            <th>refunds</th>
           </tr>
           <tr>
-            <th class=" w-5/6">client</th>
-            <th class="w-1/12 px-2">ether</th>
-            <th class="w-1/12 px-2">block</th>
+            <th :class="headerClientClass">client</th>
+            <th :class="headerValueClass">ether</th>
+            <th :class="headerBlockClass">block</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(refund, i) in refunds" :key="i">
-            <td class=" w-5/6">{{ refund.client }}</td>
-            <td class="w-1/12 px-2">{{ refund.value }}</td>
-            <td class="w-1/12 px-2">{{ refund.block }}</td>
+            <td>{{ refund.client }}</td>
+            <td>{{ refund.value }}</td>
+            <td>{{ refund.block }}</td>
           </tr>
         </tbody>
-      </table>
-    </div>
-    <div>
-      <table :class="tableClass">
         <thead>
           <tr>
-            <th class="flex justify-start pt-2">dispersals</th>
+            <th>dispersals</th>
           </tr>
           <tr>
-            <th class=" w-5/6">client</th>
-            <th class="w-1/12 px-2">ether</th>
-            <th class="w-1/12 px-2">block</th>
+            <th :class="headerClientClass">client</th>
+            <th :class="headerValueClass">ether</th>
+            <th :class="headerBlockClass">block</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(dispersal, i) in dispersals" :key="i">
-            <td class=" w-5/6">{{ dispersal.client }}</td>
-            <td class="w-1/12 px-2">{{ dispersal.value }}</td>
-            <td class="w-1/12 px-2">{{ dispersal.block }}</td>
+            <td>{{ dispersal.client }}</td>
+            <td>{{ dispersal.value }}</td>
+            <td>{{ dispersal.block }}</td>
           </tr>
         </tbody>
       </table>
@@ -78,7 +70,10 @@ export default {
       deposits: [],
       refunds: [],
       dispersals: [],
-      tableClass: "table-fixed mb-4",
+      tableClass: "mb-8 table-auto border-collapse border-2 border-gray-200",
+      headerClientClass: "border border-2 border-red-700",
+      headerValueClass: "border border-2 border-blue-500",
+      headerBlockClass: "border border-2 border-pink-800",
     };
   },
   created: async function() {
