@@ -97,7 +97,20 @@ export default {
       alert("please install metamask");
     }
 
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+    } catch (e) {
+      console.log("problem enabling ethereum");
+    }
+
+    if (window.ethereum.chainId !== "0x539") {
+      alert("please switch Metamask to the correct chain");
+    }
+
     window.ethereum.on("chainChanged", (chainId) => {
+      if (chainId !== "0x539") {
+        alert("please switch Metamask to the correct chain");
+      }
       window.location.reload();
     });
   },

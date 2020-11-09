@@ -115,6 +115,9 @@ export default {
         method: "eth_requestAccounts",
       });
       this.$store.dispatch("setAccount", accounts[0]);
+      if (window.ethereum.chainId !== "0x539") {
+        alert("please switch Metamask to the correct chain");
+      }
     },
     async callGetEscrowValues() {
       const argsObj = {

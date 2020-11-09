@@ -6,11 +6,7 @@ import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 import Deployer from "../../../contract/build/contracts/Deployer.json";
 
-import {
-  freelancerAddress,
-  deployerAddress,
-  tokenAddress,
-} from "../../../address";
+import { deployerAddress } from "../../../address";
 
 class RequestParameters {
   constructor(to, from, data) {
@@ -42,11 +38,6 @@ async function loadDeployer(obj) {
   return deployer;
 }
 
-async function loadToken(obj, address) {
-  const token = await new obj.eth.Contract(IERC20.abi, address);
-  return token;
-}
-
 export async function awaitTxMined(txHash) {
   console.log("awaitTxMined()", txHash);
   const web3 = await initWeb3();
@@ -56,7 +47,7 @@ export async function awaitTxMined(txHash) {
     receipt = await awaitTransactionMined.awaitTx(web3, txHash, {
       blocksToWait: 1,
     });
-    console.log(receipt);
+    console.log("confirmation received");
   } catch (e) {
     console.log(e);
   }
@@ -76,7 +67,7 @@ export async function getClients(address) {
     throw e;
   }
 
-  // filter zerod out addresses
+  // filter zerod out addresses because how solidity behaves
   const hexZero = "0x0000000000000000000000000000000000000000";
   clients = clients.filter((item) => item != hexZero);
 
