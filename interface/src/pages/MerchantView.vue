@@ -29,12 +29,9 @@ export default {
   },
   methods: {},
   created: async function() {
-    if (window.ethereum == undefined) {
-      alert("sorry, you need metamask to use this app");
-    }
-    window.ethereum.on("chainChanged", (chainId) => {
-      window.location.reload();
-    });
+    // if (window.ethereum == undefined) {
+    //   alert("sorry, you need metamask to use this app");
+    // }
 
     if (this.activeContract == 0 || this.activeContract == null) {
       alert("please deploy a new contract or load an existing one");

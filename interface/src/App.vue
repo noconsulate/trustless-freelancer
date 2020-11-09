@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import detectEthereumProvider from "@metamask/detect-provider";
+
 import TransactionView from "./components/TransactionView";
 import ErrorView from "./components/ErrorView";
 
@@ -84,6 +86,20 @@ export default {
       this.routeName = this.$route.name;
     },
   },
-  created: function() {},
+  created: async function() {
+    const provider = await detectEthereumProvider({
+      mustBeMetaMask: true,
+    });
+
+    if (provider) {
+      console.log("Ethereum detected", provider);
+    } else {
+      alert("please install metamask");
+    }
+
+    window.ethereum.on("chainChanged", (chainId) => {
+      window.location.reload();
+    });
+  },
 };
 </script>

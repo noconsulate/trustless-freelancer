@@ -11,12 +11,6 @@ import {
   deployerAddress,
   tokenAddress,
 } from "../../../address";
-let node_url;
-
-// if (ENV_FLAG == "local") {
-//   node_url = "http://127.0.0.1:8545";
-//   address = "0xb800a700885A0d2191A45ED8594a4a1ff4e9507F";
-// }
 
 class RequestParameters {
   constructor(to, from, data) {
@@ -33,7 +27,7 @@ if (typeof window.ethereum !== "undefined") {
 
 //not sure what to set this! oh well
 async function initWeb3() {
-  const web3 = await new Web3(window.ethereum);
+  const web3 = new Web3(window.ethereum);
   return web3;
 }
 
