@@ -1,7 +1,9 @@
 <template>
-  <div class="space-y-3">
-    <info-view />
-    <controls />
+  <div class="flex justify-center max-w-full">
+    <div class="shadow-xl p-3">
+      <info-view />
+      <controls />
+    </div>
   </div>
 </template>
 

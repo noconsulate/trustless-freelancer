@@ -1,14 +1,9 @@
 <template>
-  <div class="space-y-2">
-    <div :class="rowClass">
-      <button @click="enableEthereum" class="btn">
-        enable ethereum!
-      </button>
-    </div>
+  <div class="space-y-2 pt-2">
     <div :class="rowClass">
       <div class="inline-block relative w-64">
         <select
-          class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+          class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
           v-model="selectedClient"
         >
           <option class="text-sm" disabled value="">select a client</option>
@@ -40,13 +35,15 @@
       </button>
     </div>
     <div :class="rowClass">
-      <button @click="callReset" class="btn">reset</button>
       <button class="btn" @click="callMarkShipped">
         mark shipped
       </button>
       <button @click="callMarkReceived" class="btn">
         mark received
       </button>
+      <div :class="rowClass">
+        <button @click="callRefund" class="btn">refund</button>
+      </div>
     </div>
     <div :class="rowClass">
       <input v-model.number="tokenAmount" type="number" />
@@ -56,9 +53,8 @@
     </div>
 
     <div :class="rowClass">
-      <button @click="callRefund" class="btn">refund</button>
-    </div>
-    <div :class="rowClass">
+      <button @click="callReset" class="btn">reset</button>
+
       <button class="btn" @click="refresh">refresh</button>
     </div>
   </div>

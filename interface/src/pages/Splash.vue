@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div class="flex justify-center">
+    <div class="flex justify-center" v-if="showAlert">
       <div
-        v-if="showAlert"
         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative
       w-2/3 flex justify-center"
         role="alert"
@@ -11,7 +10,7 @@
         <span class="block sm:inline">Something seriously bad happened.</span>
         <span
           class="absolute top-0 bottom-0 right-0 px-4 py-3"
-          @click="() => console.log('click')"
+          @click="showAlert = false"
         >
           <svg
             class="fill-current h-6 w-6 text-red-500"
@@ -25,6 +24,11 @@
             />
           </svg>
         </span>
+      </div>
+    </div>
+    <div v-else>
+      <div v-if="!isMetamask">
+        you have to install metamask
       </div>
     </div>
   </div>

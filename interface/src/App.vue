@@ -1,30 +1,47 @@
 <template>
   <div class="container md mx-auto">
-    <div class=" border border-1 h-screen flex p-4 flex-col space-y-2">
-      <div class="text-3xl bg-gradient-to-r to-red-400 from-blue-300">
-        trustless-freelancer
-      </div>
-      <nav class="flex relative space-x-4 border border-black">
-        <router-link to="/merchant">
-          <button :disabled="noContract" :class="[rootButtonClass, 'px-4']">
-            Merchant view
-          </button>
-        </router-link>
-        <router-link to="/logs">
-          <button :disabled="noContract" :class="[logsButtonClass, 'px-4']">
-            logs
-          </button>
-        </router-link>
-        <router-link to="/contract">
-          <button :class="[contractButtonClass, 'px-4']">
-            contract
-          </button>
-        </router-link>
+    <div class=" border border-1 h-screen flex flex-col space-y-2">
+      <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-2">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+          <span class="font-semibold text-xl tracking-tight"
+            >Trustless-Freelancer</span
+          >
+        </div>
 
-        <div class="absolute inset-y-o right-0 pr-2 italic">
-          {{ routeName }}
+        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+          <div class="text-sm lg:flex-grow">
+            <router-link
+              :disabled="noContract"
+              to="/merchant"
+              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            >
+              Merchant
+            </router-link>
+            <router-link
+              :disabled="noContract"
+              to="/logs"
+              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            >
+              Logs
+            </router-link>
+            <router-link
+              :disabled="noContract"
+              to="/contract"
+              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white"
+            >
+              Contract
+            </router-link>
+          </div>
+          <div>
+            <a
+              href="#"
+              class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+              >Download</a
+            >
+          </div>
         </div>
       </nav>
+
       <div class="flex-grow overflow-y-auto">
         <router-view></router-view>
       </div>

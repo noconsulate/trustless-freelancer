@@ -1,35 +1,34 @@
 <template>
   <div class="flex flex-col space-y-1">
-    <div class="description">current account</div>
+    <div class="description">Current account</div>
     <div v-if="account == null" class="italic content">
       {{ NO_ACCOUNT }}
     </div>
     <div v-else class="content">{{ account }}</div>
-    <div class="description">contract address</div>
+    <div class="description">Contract address</div>
     <div class="content">{{ activeContract }}</div>
-
-    <div class="description">contract balance</div>
+    <div class="description">Contract balance</div>
     <div class="content">{{ contractValues.balance }} token</div>
-    <div class="description">owner address</div>
+    <div class="description">Owner address</div>
     <div class="content">{{ contractValues.owner }}</div>
     <template v-if="this.$store.state.escrowFetched == true">
-      <div class="description">client address</div>
+      <div class="description">Client address</div>
       <div class="content">{{ escrowValues.address }}</div>
-      <div class="description">escrow balance</div>
+      <div class="description">Escrow balance</div>
       <div class="content">{{ escrowValues.balance }} token</div>
-      <div class="description">shipped?</div>
+      <div class="description">Shipped?</div>
       <div class="content">{{ escrowValues.isShipped }}</div>
-      <div class="description">received?</div>
+      <div class="description">Received?</div>
       <div class="content">{{ escrowValues.isReceived }}</div>
     </template>
     <template v-else>
-      <div class="description">client address</div>
+      <div class="description">Client address</div>
       <div class="italic content">{{ NO_ESCROW }}</div>
-      <div class="description">escrow balance</div>
+      <div class="description">Escrow balance</div>
       <div class="italic content">{{ NO_ESCROW }}</div>
-      <div class="description">shipped?</div>
+      <div class="description">Shipped?</div>
       <div class="italic content">{{ NO_ESCROW }}</div>
-      <div class="description">received?</div>
+      <div class="description">Received?</div>
       <div class="italic content">{{ NO_ESCROW }}</div>
     </template>
   </div>
