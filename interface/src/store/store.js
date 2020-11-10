@@ -22,6 +22,7 @@ const ESCROW_VALUES_DEFAULT = {
 
 export default new Vuex.Store({
   state: {
+    isMetamask: null,
     account: null,
     contractValues: { owner: null, balance: null },
     errorMessage: "",
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     activeContract: null,
   },
   mutations: {
+    UPDATE_ISMETAMASK(state, payload) {
+      state.isMetamask = payload;
+    },
     UPDATE_VALUES(state, payload) {
       state.contractValues = payload;
     },
@@ -62,6 +66,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setIsMetamask(context, value) {
+      context.commit("UPDATE_ISMETAMASK", value);
+    },
     async fetchClients(context) {
       const clientsArray = await getClients(context.state.activeContract);
       context.commit("UPDATE_CLIENTS", clientsArray);
