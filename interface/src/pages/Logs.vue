@@ -3,13 +3,11 @@
     <div></div>
 
     <div>
+      <div :class="descriptionClass">
+        Deposits
+      </div>
       <table :class="tableClass">
         <thead>
-          <tr>
-            <div class="py-2 flex items-center justify-center">
-              deposits
-            </div>
-          </tr>
           <tr>
             <th :class="headerClientClass">client</th>
             <th :class="headerValueClass">ether</th>
@@ -23,10 +21,13 @@
             <td :class="colBlockClass">{{ deposit.block }}</td>
           </tr>
         </tbody>
+      </table>
+
+      <div :class="descriptionClass">
+        Refunds
+      </div>
+      <table :class="tableClass">
         <thead>
-          <tr>
-            <th>refunds</th>
-          </tr>
           <tr>
             <th :class="headerClientClass">client</th>
             <th :class="headerValueClass">ether</th>
@@ -40,10 +41,13 @@
             <td :class="colBlockClass">{{ refund.block }}</td>
           </tr>
         </tbody>
+      </table>
+
+      <div :class="descriptionClass">
+        Dispersals
+      </div>
+      <table :class="tableClass">
         <thead>
-          <tr>
-            <th>dispersals</th>
-          </tr>
           <tr>
             <th :class="headerClientClass">client</th>
             <th :class="headerValueClass">ether</th>
@@ -72,14 +76,15 @@ export default {
       deposits: [],
       refunds: [],
       dispersals: [],
-      tableClass: "mb-8 table-fixed border-collapse border-2 border-gray-200",
-      headerClientClass: "w-1/2 px-2 py-1 border border-2 border-red-700",
-      headerValueClass: "w-1/4 px-2 py-1 border border-2 border-blue-500",
-      headerBlockClass: "w-1/4 px-2 py-1 border border-2 border-pink-800",
+      tableClass: "table-fixed",
+      headerClientClass: "w-1/2 px-2 py-1 ",
+      headerValueClass: "w-1/4 px-2 py-1 ",
+      headerBlockClass: "w-1/4 px-2 py-1 ",
       colClientClass: "w-1/2 px-2",
       colValueClass: "w-1/4 px-2",
       colBlockClass: "w-1/4 px-2",
-      descriptionClass: "w-1/4 py-5 bg-red-400",
+      descriptionClass:
+        "py-2 flex items-center justify-center italic font-bold",
     };
   },
   created: async function() {
