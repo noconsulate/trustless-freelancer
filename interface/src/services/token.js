@@ -61,6 +61,25 @@ export async function checkBalance(client, value) {
   return balance;
 }
 
+export async function checkAllowance(spender) {
+  const web3 = await initWeb3();
+  const contract = await loadContract(web3);
+
+  const owner = window.ethereum.selectedAddress;
+
+  let allowance;
+  try {
+    allowance = await contract.methods.allowance(owner, spender).call();
+    console.log(allowance);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+
+  allowance = web3.utils.fromWei(allowance.toString(), "ether");
+  return allowance;
+}
+
 export async function getClients(address) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, address);

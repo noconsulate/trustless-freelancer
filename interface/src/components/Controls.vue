@@ -75,7 +75,7 @@ import {
   methodSender,
   getEscrowValues,
 } from "../services/web3";
-import { sendApprove, checkBalance } from "../services/token";
+import { sendApprove, checkBalance, checkAllowance } from "../services/token";
 
 export default {
   data() {
@@ -187,6 +187,7 @@ export default {
         .catch((e) => console.log(e));
     },
     async callApproveAndTransferFrom() {
+      // check client doesn't already have an escrow
       let clientExists = false;
       this.clients.map((item) => {
         item.address.toUpperCase() ==
@@ -199,6 +200,7 @@ export default {
         return;
       }
 
+      // check sender has enough balance
       let balance = await checkBalance(window.ethereum.selectedAddress);
       console.log(balance > this.tokenAmount);
       if (balance < this.tokenAmount) {
@@ -217,6 +219,13 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       console.log("confirmed");
+
+      // check that sender=>spender has allwoance
+      const allowance = await checkAllowance(this.activeContract);
+      if (allowance < this.tokenAmount) {
+        alert("something went wrong and there isn't enough token alowance");
+        return;
+      }
 
       try {
         txHash = await methodSender(

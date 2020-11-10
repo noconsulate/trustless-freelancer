@@ -48,6 +48,7 @@ export default {
     "error-view": ErrorView,
   },
   computed: {
+    // disable nav buttons if no contract loaded
     noContract() {
       return (
         this.$store.state.activeContract == null ||
@@ -87,6 +88,7 @@ export default {
     },
   },
   created: async function() {
+    // check browser for metamask
     const provider = await detectEthereumProvider({
       mustBeMetaMask: true,
     });
@@ -97,12 +99,14 @@ export default {
       alert("please install metamask");
     }
 
+    // enable metamask in browser(require user login to metamask)
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
     } catch (e) {
       console.log("problem enabling ethereum");
     }
 
+    // make sure we're on the right chain
     if (window.ethereum.chainId !== "0x539") {
       alert("please switch Metamask to the correct chain");
     }

@@ -38,6 +38,7 @@ async function loadDeployer(obj) {
   return deployer;
 }
 
+// returns when tx has confirmed
 export async function awaitTxMined(txHash) {
   console.log("awaitTxMined()", txHash);
   const web3 = await initWeb3();
@@ -109,6 +110,7 @@ export async function getEscrowValues(client, contractAddress) {
     throw e;
   }
 
+  // convert crazy token values (should depend on token)
   balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = { balance, isShipped, isReceived };
