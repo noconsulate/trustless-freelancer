@@ -59,10 +59,6 @@
       <button @click="callRefund" class="btn">refund</button>
     </div>
     <div :class="rowClass">
-      <button class="btn" @click="approve">approve</button>
-      <button class="btn" @click="transferFrom">transferFrom</button>
-    </div>
-    <div :class="rowClass">
       <button class="btn" @click="refresh">refresh</button>
     </div>
   </div>
@@ -239,40 +235,6 @@ export default {
       }
 
       this.postCall(txHash);
-    },
-    async approve() {
-      let txHash;
-
-      try {
-        txHash = await sendApprove(this.activeContract, this.tokenAmount);
-      } catch (e) {
-        console.log(e);
-      }
-      this.$store.dispatch("setTxHash", txHash);
-
-      let receipt = await awaitTxMined(txHash);
-      console.log("confirmed");
-    },
-
-    async transferFrom() {
-      let txHash;
-
-      try {
-        txHash = await methodSender(
-          "transferFrom",
-          this.tokenAmount,
-          this.activeContract
-        );
-      } catch (e) {
-        console.log(e);
-      }
-
-      console.log(txHash);
-
-      this.$store.dispatch("setTxHash", txHash);
-
-      let receipt = await awaitTxMined(txHash);
-      console.log("confirmed");
     },
     async refresh() {
       this.$store.dispatch("fetchValues");
