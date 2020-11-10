@@ -11,7 +11,7 @@
   }
 
   .description {
-    @apply font-bold bg-gradient-to-r from-gray-400;
+    @apply font-bold pl-1 bg-gradient-to-r from-gray-400;
   }
 
   .content {

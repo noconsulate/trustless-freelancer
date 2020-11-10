@@ -21,7 +21,9 @@
           </button>
         </router-link>
 
-        <div class="absolute inset-y-o right-0 italic">{{ routeName }}</div>
+        <div class="absolute inset-y-o right-0 pr-2 italic">
+          {{ routeName }}
+        </div>
       </nav>
       <div class="flex-grow overflow-y-auto">
         <router-view></router-view>
@@ -101,7 +103,10 @@ export default {
 
     // enable metamask in browser(require user login to metamask)
     try {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      this.$store.dispatch("setAccount", accounts[0]);
     } catch (e) {
       console.log("problem enabling ethereum");
     }
