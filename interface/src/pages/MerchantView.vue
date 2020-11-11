@@ -103,7 +103,7 @@
               </dd>
             </div>
             <div class="bg-white px-4 py-3 ">
-              <controls class="w-2/3 " />
+              <controls class="w-1/2 " />
             </div>
           </dl>
         </div>
