@@ -81,7 +81,10 @@
               <dd
                 class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
               >
-                {{ escrowValues.isShipped }}
+                <checkbox
+                  :isTrue="escrowValues.isShipped"
+                  :sendTx="callMarkShipped"
+                />
               </dd>
             </div>
             <div
@@ -93,7 +96,10 @@
               <dd
                 class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
               >
-                {{ escrowValues.isReceived }}
+                <checkbox
+                  :isTrue="escrowValues.isReceived"
+                  :sendTx="callMarkReceived"
+                />
               </dd>
             </div>
             <div class="bg-white px-4 py-3 ">
@@ -107,10 +113,11 @@
 </template>
 
 <script>
-import { doThing, getAccount } from "../services/web3.js";
+import { getAccount, awaitTxMined, methodSender } from "../services/web3.js";
 import InfoView from "../components/InfoView";
 import Controls from "../components/Controls";
-import Select from "../components/ elements/Select";
+import Select from "../components/elements/Select";
+import Checkbox from "../components/elements/Checkbox";
 
 export default {
   name: "MerchantView",
@@ -118,6 +125,7 @@ export default {
     "info-view": InfoView,
     controls: Controls,
     "select-client": Select,
+    checkbox: Checkbox,
   },
   computed: {
     account() {
@@ -139,7 +147,62 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    async postCall(txHash) {
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
+      this.$store.dispatch("fetchValues");
+      this.$store.dispatch("fetchClients");
+    },
+    async callMarkShipped() {
+      if (
+        window.ethereum.selectedAddress.toUpperCase() !=
+        this.$store.state.contractValues.owner.toUpperCase()
+      ) {
+        alert("only the merchant can mark shipped");
+        return;
+      }
+
+      let txHash;
+
+      try {
+        txHash = await methodSender(
+          "markShipped",
+          this.escrowValues.address,
+          this.activeContract
+        );
+      } catch (e) {
+        this.$store.dispatch("setError", e.code);
+      }
+
+      this.postCall(txHash);
+    },
+    async callMarkReceived() {
+      console.log(
+        window.ethereum.selectedAddress,
+        this.$store.state.escrowValues.address
+      );
+      if (
+        window.ethereum.selectedAddress.toUpperCase() !=
+        this.$store.state.escrowValues.address.toUpperCase()
+      ) {
+        alert("only the client can mark shipped");
+        return;
+      }
+
+      let txHash;
+
+      try {
+        txHash = await methodSender("markReceived", null, this.activeContract);
+      } catch (e) {
+        this.$store.dispatch("setError", e.code);
+      }
+
+      this.postCall(txHash);
+    },
+  },
   created: async function() {
     if (this.activeContract == 0 || this.activeContract == null) {
       alert("please deploy a new contract or load an existing one");

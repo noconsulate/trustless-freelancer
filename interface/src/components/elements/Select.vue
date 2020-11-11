@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       selectedClient: null,
+      activeContract: this.$store.state.activeContract,
     };
   },
   methods: {

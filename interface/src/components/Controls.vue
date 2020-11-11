@@ -1,19 +1,11 @@
 <template>
   <div class="space-y-1 ">
-    <div :class="rowClass">
-      <button class="btn flex-1" @click="callMarkShipped">
-        mark shipped
-      </button>
-      <button @click="callMarkReceived" class="btn flex-1">
-        mark received
-      </button>
-      <button @click="callRefund" class="btn flex-1">refund</button>
-    </div>
-
     <div :class="rowClass" class="justify-center">
-      <button @click="callReset" class="btn w-1/4">reset</button>
+      <button @click="callRefund" class="btn flex-1">refund</button>
 
-      <button class="btn w-1/4" @click="refresh">refresh</button>
+      <button @click="callReset" class="btn flex-1">reset</button>
+
+      <button class="btn flex-1" @click="refresh">refresh</button>
     </div>
   </div>
 </template>
