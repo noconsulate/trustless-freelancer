@@ -24,7 +24,7 @@
               <dd
                 class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
               >
-                <div class="w-full space-x-1 flex">
+                <div class="w-full  flex">
                   <input
                     v-model="addressInput"
                     placeholder="enter address"
@@ -46,9 +46,9 @@
                 class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
               >
                 <div class="flex w-full space-x-1">
-                  <p class="w-3/4">
+                  <div class="w-3/4">
                     {{ clientBalance }}
-                  </p>
+                  </div>
                   <button class="btn w-1/4" @click="callGetEscrowValues">
                     get
                   </button>
