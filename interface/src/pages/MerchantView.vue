@@ -79,7 +79,7 @@
                 Shipped?
               </dt>
               <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-y-1"
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 \"
               >
                 <checkbox
                   :isTrue="escrowValues.isShipped"
