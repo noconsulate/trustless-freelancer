@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-2 pt-2">
+  <div class="space-y-1 pt-2">
     <div :class="rowClass">
       <div class="inline-block relative w-64">
         <select
@@ -30,20 +30,18 @@
           </svg>
         </div>
       </div>
-      <button @click="callGetEscrowValues" class="btn">
+      <button @click="callGetEscrowValues" class="btn flex-grow">
         get escrow
       </button>
     </div>
     <div :class="rowClass">
-      <button class="btn" @click="callMarkShipped">
+      <button class="btn w-1/3" @click="callMarkShipped">
         mark shipped
       </button>
-      <button @click="callMarkReceived" class="btn">
+      <button @click="callMarkReceived" class="btn w-1/3">
         mark received
       </button>
-      <div :class="rowClass">
-        <button @click="callRefund" class="btn">refund</button>
-      </div>
+      <button @click="callRefund" class="btn w-1/3">refund</button>
     </div>
     <div :class="rowClass">
       <input v-model.number="tokenAmount" type="number" />
@@ -77,7 +75,7 @@ export default {
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
-      rowClass: "flex space-x-2",
+      rowClass: "flex space-x-1",
     };
   },
   computed: {

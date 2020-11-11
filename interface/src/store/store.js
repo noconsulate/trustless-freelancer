@@ -30,7 +30,7 @@ export default new Vuex.Store({
     clients: [{ id: null, address: null }],
     escrowValues: ESCROW_VALUES_DEFAULT,
     escrowFetched: false,
-    activeContract: null,
+    activeContract: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
   },
   mutations: {
     UPDATE_ISMETAMASK(state, payload) {

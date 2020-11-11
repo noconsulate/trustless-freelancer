@@ -1,8 +1,12 @@
 <template>
   <div class="flex justify-center max-w-full">
-    <div class="shadow-xl p-3">
-      <info-view />
-      <controls />
+    <div class="flex flex-col">
+      <div class="shadow-lg p-3">
+        <info-view />
+      </div>
+      <div class="shadow-lg p-3">
+        <controls />
+      </div>
     </div>
   </div>
 </template>
