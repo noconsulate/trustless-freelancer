@@ -6,11 +6,13 @@
         v-model="selectedClient"
       >
         <option class="text-sm" disabled value="">select a client</option>
+
         <option
           class="text-sm"
           v-for="client in clients"
           v-bind:selectedClient="client.address"
           v-bind:key="client.id"
+          selected="currentSelection"
         >
           {{ client.address }}
         </option>
@@ -41,19 +43,25 @@ export default {
   props: ["clients"],
   data() {
     return {
-      selectedClient: null,
+      selectedClient: null ? null : this.currentSelection,
       activeContract: this.$store.state.activeContract,
     };
   },
+  computed: {},
   methods: {
     async callGetEscrowValues() {
       console.log("getvalues");
       const argsObj = {
-        client: this.selectedClient,
+        client: this.currentSelection,
         contract: this.activeContract,
       };
       this.$store.dispatch("fetchEscrowValues", this.selectedClient);
     },
+  },
+  mounted() {
+    this.$store.state.escrowValues.address
+      ? (this.selectedClient = this.$store.state.escrowValues.address)
+      : null;
   },
 };
 </script>
