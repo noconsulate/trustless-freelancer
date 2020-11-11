@@ -69,7 +69,7 @@ export default {
 
       buttonClass:
         "bg-gray-400 rounded border border-black shadow-lg hover:bg-gray-600 hover:text-white px-2 py-1",
-      rowClass: "flex space-x-1",
+      rowClass: "flex items-center space-x-1",
     };
   },
   computed: {
