@@ -43,13 +43,32 @@
       </button>
       <button @click="callRefund" class="btn flex-1">refund</button>
     </div>
+
     <div :class="rowClass">
-      <input v-model.number="tokenAmount" type="number" />
+      <div>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          ></div>
+          <input
+            v-model.number="tokenAmount"
+            class="form-input block w-full pl-3 pr-12 sm:text-sm sm:leading-5"
+            placeholder="0.00"
+          />
+          <div class="absolute inset-y-0 right-0 flex items-center">
+            <select
+              aria-label="Currency"
+              class="form-select h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm sm:leading-5"
+            >
+              <option>TLT</option>
+            </select>
+          </div>
+        </div>
+      </div>
       <button @click="callApproveAndTransferFrom" class="btn">
         fund escrow
       </button>
     </div>
-
     <div :class="rowClass">
       <button @click="callReset" class="btn">reset</button>
 

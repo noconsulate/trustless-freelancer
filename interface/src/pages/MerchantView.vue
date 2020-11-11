@@ -1,10 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="max-w-lg">
-      <!--
-  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
-  Read the documentation to get started: https://tailwindui.com/documentation
--->
+    <div class="">
       <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -100,8 +96,8 @@
                 {{ escrowValues.isReceived }}
               </dd>
             </div>
-            <div class="bg-white px-4 py-5  sm:px-6">
-              <controls />
+            <div class="bg-white px-4 py-5  sm:px-6 flex justify-center">
+              <controls class="w-2/3" />
             </div>
           </dl>
         </div>
