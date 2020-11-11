@@ -13,21 +13,20 @@
             <router-link
               :disabled="noContract"
               to="/merchant"
-              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+              :class="navButton"
             >
               Merchant
             </router-link>
-            <router-link
-              :disabled="noContract"
-              to="/logs"
-              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
-            >
+            <router-link to="/client" :class="navButton">
+              Client
+            </router-link>
+            <router-link :disabled="noContract" to="/logs" :class="navButton">
               Logs
             </router-link>
             <router-link
               :disabled="noContract"
               to="/contract"
-              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white"
+              :class="navButton"
             >
               Contract
             </router-link>
@@ -74,28 +73,30 @@ export default {
         this.$store.state.activeContract == 0
       );
     },
-    rootButtonClass: function() {
-      return {
-        "bg-blue-200": this.$route.name == "root",
-        "bg-gray-300 hover:bg-gray-500": this.$route.name != "root",
-      };
-    },
-    logsButtonClass: function() {
-      return {
-        "bg-blue-200": this.$route.name == "logs",
-        "bg-gray-300 hover:bg-gray-500": this.$route.name != "logs",
-      };
-    },
-    contractButtonClass: function() {
-      return {
-        "bg-blue-200": this.$route.name == "contract",
-        "bg-gray-300 hover:bg-gray-500": this.$route.name != "contract",
-      };
-    },
+    // rootButtonClass: function() {
+    //   return {
+    //     "bg-blue-200": this.$route.name == "root",
+    //     "bg-gray-300 hover:bg-gray-500": this.$route.name != "root",
+    //   };
+    // },
+    // logsButtonClass: function() {
+    //   return {
+    //     "bg-blue-200": this.$route.name == "logs",
+    //     "bg-gray-300 hover:bg-gray-500": this.$route.name != "logs",
+    //   };
+    // },
+    // contractButtonClass: function() {
+    //   return {
+    //     "bg-blue-200": this.$route.name == "contract",
+    //     "bg-gray-300 hover:bg-gray-500": this.$route.name != "contract",
+    //   };
+    // },
   },
   data() {
     return {
       routeName: this.$route.name,
+      navButton:
+        "block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4",
     };
   },
   watch: {
