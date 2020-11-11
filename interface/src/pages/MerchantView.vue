@@ -96,8 +96,8 @@
                 {{ escrowValues.isReceived }}
               </dd>
             </div>
-            <div class="bg-white px-4 py-5  sm:px-6 flex justify-center">
-              <controls class="w-2/3" />
+            <div class="bg-white px-4 py-3 ">
+              <controls class="w-2/3 " />
             </div>
           </dl>
         </div>
