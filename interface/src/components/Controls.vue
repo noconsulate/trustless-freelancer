@@ -35,13 +35,13 @@
       </button>
     </div>
     <div :class="rowClass">
-      <button class="btn w-1/3" @click="callMarkShipped">
+      <button class="btn flex-1" @click="callMarkShipped">
         mark shipped
       </button>
-      <button @click="callMarkReceived" class="btn w-1/3">
+      <button @click="callMarkReceived" class="btn flex-1">
         mark received
       </button>
-      <button @click="callRefund" class="btn w-1/3">refund</button>
+      <button @click="callRefund" class="btn flex-1">refund</button>
     </div>
     <div :class="rowClass">
       <input v-model.number="tokenAmount" type="number" />

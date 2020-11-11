@@ -1,13 +1,129 @@
 <template>
-  <div class="flex justify-center max-w-full">
-    <div class="flex flex-col">
+  <div class="flex justify-center">
+    <div class="max-w-lg">
+      <!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Contract Information
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+            Contract details and interaction.
+          </p>
+        </div>
+        <div>
+          <dl>
+            <div
+              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Contract address
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ activeContract }}
+              </dd>
+            </div>
+            <div
+              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Contract balance
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ contractValues.balance }} tokens
+              </dd>
+            </div>
+            <div
+              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Owner address
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ contractValues.owner }}
+              </dd>
+            </div>
+            <div
+              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Client Address
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ escrowValues.address }}
+              </dd>
+            </div>
+            <div
+              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Escrow balance
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ escrowValues.balance }}
+              </dd>
+            </div>
+            <div
+              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Shipped?
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ escrowValues.isShipped }}
+              </dd>
+            </div>
+            <div
+              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Received?
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                {{ escrowValues.isReceived }}
+              </dd>
+            </div>
+            <div
+              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Interaction
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                <controls />
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="flex flex-col max-w-md">
       <div class="shadow-lg p-3">
         <info-view />
       </div>
       <div class="shadow-lg p-3">
         <controls />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -28,6 +144,12 @@ export default {
     },
     activeContract() {
       return this.$store.state.activeContract;
+    },
+    escrowValues() {
+      return this.$store.state.escrowValues;
+    },
+    contractValues() {
+      return this.$store.state.contractValues;
     },
   },
   data() {

@@ -7,10 +7,9 @@ module.exports = {
   theme: {
     extend: {},
     fontSize: {
-      base: '.95rem',
-      
-    }
+      base: ".95rem",
+    },
   },
   variants: {},
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/ui")],
+};
