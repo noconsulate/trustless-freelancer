@@ -135,15 +135,8 @@
           </dl>
         </div>
       </div>
+      <select-client :clients="this.clients" />
     </div>
-    <!-- <div class="flex flex-col max-w-md">
-      <div class="shadow-lg p-3">
-        <info-view />
-      </div>
-      <div class="shadow-lg p-3">
-        <controls />
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -151,12 +144,14 @@
 import { doThing, getAccount, getValues } from "../services/web3.js";
 import InfoView from "../components/InfoView";
 import Controls from "../components/Controls";
+import Select from "../components/ elements/Select";
 
 export default {
   name: "MerchantView",
   components: {
     "info-view": InfoView,
     controls: Controls,
+    "select-client": Select,
   },
   computed: {
     account() {
