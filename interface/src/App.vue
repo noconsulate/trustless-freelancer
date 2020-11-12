@@ -73,24 +73,6 @@ export default {
         this.$store.state.activeContract == 0
       );
     },
-    // rootButtonClass: function() {
-    //   return {
-    //     "bg-blue-200": this.$route.name == "root",
-    //     "bg-gray-300 hover:bg-gray-500": this.$route.name != "root",
-    //   };
-    // },
-    // logsButtonClass: function() {
-    //   return {
-    //     "bg-blue-200": this.$route.name == "logs",
-    //     "bg-gray-300 hover:bg-gray-500": this.$route.name != "logs",
-    //   };
-    // },
-    // contractButtonClass: function() {
-    //   return {
-    //     "bg-blue-200": this.$route.name == "contract",
-    //     "bg-gray-300 hover:bg-gray-500": this.$route.name != "contract",
-    //   };
-    // },
   },
   data() {
     return {

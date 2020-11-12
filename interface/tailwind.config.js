@@ -6,9 +6,9 @@ module.exports = {
   purge: [],
   theme: {
     extend: {},
-    fontSize: {
-      base: ".95rem",
-    },
+    // fontSize: {
+    //   base: ".95rem",
+    // },
   },
   variants: {},
   plugins: [require("@tailwindcss/ui")],
