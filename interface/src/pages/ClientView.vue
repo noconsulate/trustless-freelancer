@@ -3,9 +3,9 @@
     <div class="">
       <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+          <h2 class="text-xl leading-6 font-medium text-gray-900">
             Contract Information
-          </h3>
+          </h2>
           <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
             {{ contractDescription1 }}
           </p>
@@ -24,7 +24,7 @@
               <dd
                 class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
               >
-                <div class="w-full  flex">
+                <div class="w-full ``` flex">
                   <input
                     v-model="addressInput"
                     placeholder="enter address"
@@ -49,8 +49,27 @@
                   <div class="w-3/4">
                     {{ clientBalance }}
                   </div>
-                  <button class="btn w-1/4" @click="callGetEscrowValues">
-                    get
+                </div>
+              </dd>
+            </div>
+            <div
+              v-if="this.clientBalance == 0"
+              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm leading-5 font-medium text-gray-500">
+                Send escrow
+              </dt>
+              <dd
+                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
+              >
+                <div class="w-full ``` flex">
+                  <input
+                    v-model="tokenAmount"
+                    placeholder="enter amount to send"
+                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  />
+                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
+                    set
                   </button>
                 </div>
               </dd>
@@ -63,13 +82,19 @@
 </template>
 
 <script>
+import { awaitTxMined, sendPayment, methodSender } from "../services/web3";
+import { sendApprove, checkBalance, checkAllowance } from "../services/token";
 export default {
   data() {
     return {
-      addressInput: null,
+      addressInput: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
+      tokenAmount: null,
     };
   },
   computed: {
+    activeAccount() {
+      return this.$store.state.account;
+    },
     activeContract() {
       return this.$store.state.activeContract;
     },
@@ -115,6 +140,73 @@ export default {
         "fetchEscrowValues",
         window.ethereum.selectedAddress
       );
+    },
+    async postCall(txHash) {
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
+      this.$store.dispatch("fetchValues");
+      this.$store.dispatch("fetchClients");
+    },
+    async callApproveAndTransferFrom() {
+      // check client doesn't already have an escrow
+      let clientExists = false;
+      this.clients.map((item) => {
+        item.address.toUpperCase() ==
+        window.ethereum.selectedAddress.toUpperCase()
+          ? (clientExists = true)
+          : null;
+      });
+      if (clientExists) {
+        alert("client exists");
+        return;
+      }
+
+      // check sender has enough balance
+      let balance = await checkBalance(window.ethereum.selectedAddress);
+      console.log(balance > this.tokenAmount);
+      if (balance < this.tokenAmount) {
+        alert("this account doesn't have enough tokens to proceed");
+        return;
+      }
+
+      let txHash;
+
+      try {
+        txHash = await sendApprove(this.activeContract, this.tokenAmount);
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
+
+      // check that sender=>spender has allwoance
+      const allowance = await checkAllowance(this.activeContract);
+      if (allowance < this.tokenAmount) {
+        alert("something went wrong and there isn't enough token alowance");
+        return;
+      }
+
+      try {
+        txHash = await methodSender(
+          "transferFrom",
+          this.tokenAmount,
+          this.activeContract
+        );
+      } catch (e) {
+        console.log(e);
+        this.$store.dispatch("setError", e.code);
+      }
+
+      this.postCall(txHash);
+    },
+  },
+  watch: {
+    activeAccount: function() {
+      this.callGetEscrowValues();
     },
   },
 };
