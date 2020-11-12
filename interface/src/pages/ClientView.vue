@@ -1,94 +1,98 @@
 <template>
   <div class="flex justify-center">
-    <div class="">
-      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h2 class="text-xl leading-6 font-medium text-gray-900">
-            Contract Information
-          </h2>
-          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
-            {{ contractDescription1 }}
-          </p>
-          <p class="mt-2 max-w-2xl text-sm leading-5 text-gray-500">
-            {{ contractDescription2 }}
-          </p>
-        </div>
-        <div>
-          <dl>
-            <div
-              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+    <div class="w-2/3 bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h2 class="text-xl leading-6 font-medium text-gray-900">
+          Client interaction
+        </h2>
+        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+          {{ contractDescription1 }}
+        </p>
+        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+          {{ contractDescription2 }}
+        </p>
+      </div>
+      <div>
+        <dl>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Contract address
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Contract address
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
-              >
-                <div class="w-full ``` flex">
-                  <input
-                    v-model="addressInput"
-                    placeholder="enter address"
-                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
-                  />
-                  <button class="btn w-1/4" @click="manualSetContract">
-                    set
-                  </button>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              <div class="w-full ``` flex">
+                <input
+                  v-model="addressInput"
+                  placeholder="enter address"
+                  class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                />
+                <button class="btn w-1/4" @click="manualSetContract">
+                  set
+                </button>
+              </div>
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Your escrow
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Your escrow
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                <div class="flex w-full space-x-1">
-                  <div class="w-3/4">
-                    {{ clientBalance }}
-                  </div>
+              <div class="flex w-full space-x-1">
+                <div class="w-3/4">
+                  {{ clientBalance }}
                 </div>
-              </dd>
-            </div>
-            <div
-              v-if="this.clientBalance == 0"
-              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              </div>
+            </dd>
+          </div>
+          <div
+            v-if="this.clientBalance == 0"
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Send escrow
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Send escrow
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
-              >
-                <div class="w-full ``` flex">
-                  <input
-                    v-model="tokenAmount"
-                    placeholder="enter amount to send"
-                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
-                  />
-                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
-                    set
-                  </button>
-                </div>
-              </dd>
-            </div>
-          </dl>
-        </div>
+              <div class="w-full ``` flex">
+                <input
+                  v-model="tokenAmount"
+                  placeholder="enter amount to send"
+                  class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                />
+                <button class="btn w-1/4" @click="callApproveAndTransferFrom">
+                  set
+                </button>
+              </div>
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { awaitTxMined, sendPayment, methodSender } from "../services/web3";
+import {
+  awaitTxMined,
+  sendPayment,
+  methodSender,
+  getEscrowValues,
+} from "../services/web3";
 import { sendApprove, checkBalance, checkAllowance } from "../services/token";
 export default {
   data() {
     return {
       addressInput: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
       tokenAmount: null,
+      clientBalance: null,
     };
   },
   computed: {
@@ -114,9 +118,9 @@ export default {
       });
       return exists;
     },
-    clientBalance() {
-      return this.$store.state.escrowValues.balance;
-    },
+    // clientBalance() {
+    //   return this.$store.state.escrowValues.balance;
+    // },
     contractDescription1() {
       return this.activeContract
         ? `Client interaction for contract at:`
@@ -135,11 +139,18 @@ export default {
         this.$store.dispatch("fetchValues", this.$store.state.activeContract);
       }
     },
-    callGetEscrowValues() {
-      this.$store.dispatch(
-        "fetchEscrowValues",
-        window.ethereum.selectedAddress
+    async callGetEscrowValues() {
+      // this.$store.dispatch(
+      //   "fetchEscrowValues",
+      //   window.ethereum.selectedAddress
+      // );
+
+      let clientValues = await getEscrowValues(
+        window.ethereum.selectedAddress,
+        this.activeContract
       );
+
+      this.clientBalance = clientValues.balance;
     },
     async postCall(txHash) {
       this.$store.dispatch("setTxHash", txHash);
@@ -203,6 +214,9 @@ export default {
 
       this.postCall(txHash);
     },
+  },
+  created() {
+    this.callGetEscrowValues();
   },
   watch: {
     activeAccount: function() {
