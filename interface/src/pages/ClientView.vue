@@ -44,9 +44,15 @@
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <div class="flex w-full space-x-1">
+              <div v-if="clientBalance > 0" class="flex w-full space-x-1">
                 <div class="w-3/4">
                   {{ clientBalance }}
+                </div>
+              </div>
+              <div v-else class="flex w-full space-x-1 italic">
+                <div class="w-3/4">
+                  There is no escrow between this contract and your current
+                  Ethereum address.
                 </div>
               </div>
             </dd>
@@ -73,6 +79,19 @@
               </div>
             </dd>
           </div>
+          <div
+            v-else
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Received?
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+            >
+              <checkbox :isTrue="isReceived" :sendTx="callMarkReceived" />
+            </dd>
+          </div>
         </dl>
       </div>
     </div>
@@ -87,12 +106,19 @@ import {
   getEscrowValues,
 } from "../services/web3";
 import { sendApprove, checkBalance, checkAllowance } from "../services/token";
+
+import Checkbox from "../components/elements/Checkbox";
 export default {
+  name: "ClientView",
+  components: {
+    checkbox: Checkbox,
+  },
   data() {
     return {
       addressInput: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
       tokenAmount: null,
       clientBalance: null,
+      isReceived: null,
     };
   },
   computed: {
@@ -151,6 +177,7 @@ export default {
       );
 
       this.clientBalance = clientValues.balance;
+      this.isReceived = clientValues.isReceived;
     },
     async postCall(txHash) {
       this.$store.dispatch("setTxHash", txHash);
@@ -209,6 +236,29 @@ export default {
         );
       } catch (e) {
         console.log(e);
+        this.$store.dispatch("setError", e.code);
+      }
+
+      this.postCall(txHash);
+    },
+    async callMarkReceived() {
+      // console.log(
+      //   window.ethereum.selectedAddress,
+      //   this.$store.state.escrowValues.address
+      // );
+      // if (
+      //   window.ethereum.selectedAddress.toUpperCase() !=
+      //   this.$store.state.escrowValues.address.toUpperCase()
+      // ) {
+      //   alert("only the client can mark shipped");
+      //   return;
+      // }
+
+      let txHash;
+
+      try {
+        txHash = await methodSender("markReceived", null, this.activeContract);
+      } catch (e) {
         this.$store.dispatch("setError", e.code);
       }
 
