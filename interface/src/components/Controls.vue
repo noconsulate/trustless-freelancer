@@ -22,7 +22,6 @@ import { sendApprove, checkBalance, checkAllowance } from "../services/token";
 export default {
   data() {
     return {
-      selectedClient: "",
       tokenAmount: "0.001",
 
       buttonClass:
@@ -36,6 +35,9 @@ export default {
     },
     activeContract() {
       return this.$store.state.activeContract;
+    },
+    selectedClient() {
+      return this.$store.state.selectedClient;
     },
   },
   methods: {

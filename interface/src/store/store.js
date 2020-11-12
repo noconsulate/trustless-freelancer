@@ -31,6 +31,7 @@ export default new Vuex.Store({
     escrowValues: ESCROW_VALUES_DEFAULT,
     escrowFetched: false,
     activeContract: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
+    selectedClient: null,
   },
   mutations: {
     UPDATE_ISMETAMASK(state, payload) {
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     },
     UPDATE_ACTIVE_CONTRACT(state, payload) {
       state.activeContract = payload;
+    },
+    UPDATE_SELECTED_CLIENT(state, payload) {
+      state.selectedClient = payload;
     },
   },
   actions: {
@@ -109,6 +113,9 @@ export default new Vuex.Store({
     },
     resetEscrow(context) {
       context.commit("UPDATE_ESCROW", ESCROW_VALUES_DEFAULT);
+    },
+    setSelectedClient(context, client) {
+      context.commit("UPDATE_SELECTED_CLIENT", client);
     },
   },
   getters: {},
