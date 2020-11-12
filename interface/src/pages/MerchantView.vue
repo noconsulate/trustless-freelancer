@@ -1,112 +1,108 @@
 <template>
   <div class="flex justify-center">
-    <div class="">
-      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Contract Information
-          </h3>
-          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
-            Contract details and interaction.
-          </p>
-        </div>
-        <div>
-          <dl>
-            <div
-              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+    <div class="w-2/3 bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Merchant dashboard
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+          Manage your trustless-freelancer smart contract.
+        </p>
+      </div>
+      <div>
+        <dl>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Contract address
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Contract address
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                {{ activeContract }}
-              </dd>
-            </div>
-            <div
-              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              {{ activeContract }}
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Contract balance
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Contract balance
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                {{ contractValues.balance }} tokens
-              </dd>
-            </div>
-            <div
-              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              {{ contractValues.balance }} tokens
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Owner address
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Owner address
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                {{ contractValues.owner }}
-              </dd>
-            </div>
-            <div
-              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              {{ contractValues.owner }}
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Clients
+            </dt>
+            <dd class="mt-1  leading-5  sm:mt-0 sm:col-span-2">
+              <select-client :clients="this.clients" />
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Escrow balance
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Clients
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                <select-client :clients="this.clients" />
-              </dd>
-            </div>
-            <div
-              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              {{ escrowValues.balance }}
+            </dd>
+          </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Shipped?
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 \"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Escrow balance
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                {{ escrowValues.balance }}
-              </dd>
-            </div>
-            <div
-              class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              <checkbox
+                :isTrue="escrowValues.isShipped"
+                :sendTx="callMarkShipped"
+              />
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Received?
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Shipped?
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 \"
-              >
-                <checkbox
-                  :isTrue="escrowValues.isShipped"
-                  :sendTx="callMarkShipped"
-                />
-              </dd>
-            </div>
-            <div
-              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-            >
-              <dt class="text-sm leading-5 font-medium text-gray-500">
-                Received?
-              </dt>
-              <dd
-                class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-              >
-                <checkbox
-                  :isTrue="escrowValues.isReceived"
-                  :sendTx="callMarkReceived"
-                />
-              </dd>
-            </div>
-            <div class="bg-white px-4 py-3 ">
-              <controls class="w-1/2 " />
-            </div>
-          </dl>
-        </div>
+              <checkbox
+                :isTrue="escrowValues.isReceived"
+                :sendTx="callMarkReceived"
+              />
+            </dd>
+          </div>
+          <div class="bg-white px-4 py-3 ">
+            <controls class="w-1/2 " />
+          </div>
+        </dl>
       </div>
     </div>
   </div>

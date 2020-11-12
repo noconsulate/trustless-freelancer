@@ -3,12 +3,12 @@
     <div class="w-2/3 bg-white shadow overflow-hidden sm:rounded-lg">
       <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
         <h2 class="text-xl leading-6 font-medium text-gray-900">
-          Client interaction
+          Client dashboard
         </h2>
         <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
           {{ contractDescription1 }}
         </p>
-        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+        <p class="mt-1 max-w-2xl text-sm font-bold leading-5 text-gray-500">
           {{ contractDescription2 }}
         </p>
       </div>

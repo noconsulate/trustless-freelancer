@@ -4,7 +4,7 @@
 
 @layer components {
   .btn {
-    @apply bg-blue-400 rounded border border-black shadow-md  px-1 py-1;
+    @apply bg-blue-400 text-sm h-8 rounded border border-black shadow-md  px-1 py-1;
   }
   .btn:hover {
     @apply bg-gray-600 text-white;
