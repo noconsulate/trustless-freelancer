@@ -8,7 +8,9 @@
           >
         </div>
 
-        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+        <div
+          class="w-full block flex-grow lg:flex lg:items-center lg:w-auto z-40"
+        >
           <div class="text-sm lg:flex-grow">
             <router-link
               :disabled="noContract"
