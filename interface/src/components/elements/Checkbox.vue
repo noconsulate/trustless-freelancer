@@ -1,7 +1,9 @@
 <template>
-  <div @click="sendTx" class="cursor-pointer">
+  <div>
     <svg
       v-if="isTrue"
+      @click="sendTx"
+      class="cursor-pointer"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -14,6 +16,8 @@
 
     <svg
       v-if="isTrue == false"
+      @click="sendTx"
+      class="cursor-pointer"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"

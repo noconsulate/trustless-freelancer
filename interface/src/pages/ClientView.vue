@@ -27,9 +27,9 @@
                 <input
                   v-model="addressInput"
                   placeholder="enter address"
-                  class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  class="block appearance-none w-4/5 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
-                <button class="btn w-1/4" @click="manualSetContract">
+                <button class="btn w-1/5" @click="manualSetContract">
                   set
                 </button>
               </div>
@@ -183,9 +183,7 @@ export default {
       this.$store.dispatch("setTxHash", txHash);
 
       let receipt = await awaitTxMined(txHash);
-      console.log("confirmed");
-      this.$store.dispatch("fetchValues");
-      this.$store.dispatch("fetchClients");
+      this.callGetEscrowValues();
     },
     async callApproveAndTransferFrom() {
       // check client doesn't already have an escrow
@@ -242,18 +240,6 @@ export default {
       this.postCall(txHash);
     },
     async callMarkReceived() {
-      // console.log(
-      //   window.ethereum.selectedAddress,
-      //   this.$store.state.escrowValues.address
-      // );
-      // if (
-      //   window.ethereum.selectedAddress.toUpperCase() !=
-      //   this.$store.state.escrowValues.address.toUpperCase()
-      // ) {
-      //   alert("only the client can mark shipped");
-      //   return;
-      // }
-
       let txHash;
 
       try {

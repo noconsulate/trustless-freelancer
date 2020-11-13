@@ -10,7 +10,7 @@
         <thead>
           <tr>
             <th :class="headerClientClass">client</th>
-            <th :class="headerValueClass">ether</th>
+            <th :class="headerValueClass">amount</th>
             <th :class="headerBlockClass">block</th>
           </tr>
         </thead>
@@ -30,7 +30,7 @@
         <thead>
           <tr>
             <th :class="headerClientClass">client</th>
-            <th :class="headerValueClass">ether</th>
+            <th :class="headerValueClass">amount</th>
             <th :class="headerBlockClass">block</th>
           </tr>
         </thead>
@@ -50,7 +50,7 @@
         <thead>
           <tr>
             <th :class="headerClientClass">client</th>
-            <th :class="headerValueClass">ether</th>
+            <th :class="headerValueClass">amount</th>
             <th :class="headerBlockClass">block</th>
           </tr>
         </thead>
