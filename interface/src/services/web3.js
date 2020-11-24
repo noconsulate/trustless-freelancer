@@ -28,7 +28,6 @@ async function initWeb3() {
 }
 
 async function loadContract(obj, address) {
-  console.log("activeContract:" + address);
   const contract = await new obj.eth.Contract(Freelancer.abi, address);
   return contract;
 }

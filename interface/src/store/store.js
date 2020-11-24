@@ -87,11 +87,9 @@ export default new Vuex.Store({
         );
         values.address = client;
 
-        console.log(values);
         clientDetails.push(values);
       });
 
-      console.log(clientDetails);
       context.commit("UPDATE_CLIENT_DETAILS", clientDetails);
     },
     async fetchValues(context) {
@@ -124,7 +122,6 @@ export default new Vuex.Store({
       context.commit("UPDATE_ESCROW", ESCROW_VALUES_DEFAULT);
     },
     setSelectedClient(context, client) {
-      console.log(client);
       context.commit("UPDATE_SELECTED_CLIENT", client);
     },
   },

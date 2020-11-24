@@ -43,13 +43,6 @@ export default {
       activeContract: this.$store.state.activeContract,
     };
   },
-  computed: {},
-
-  mounted() {
-    // this.$store.state.escrowValues.address
-    //   ? (this.selectedClient = this.$store.state.escrowValues.address)
-    //   : null;
-  },
   watch: {
     selectedClient: function() {
       this.$store.dispatch("setSelectedClient", this.selectedClient);
