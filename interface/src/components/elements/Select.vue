@@ -12,7 +12,6 @@
           v-for="client in clients"
           v-bind:selectedClient="client"
           v-bind:key="client.id"
-          selected="currentSelection??"
         >
           {{ client.name }}
         </option>
@@ -50,12 +49,17 @@ export default {
   computed: {},
   methods: {
     async callGetEscrowValues() {
-      console.log("getvalues");
-      const argsObj = {
-        client: this.currentSelection,
-        contract: this.activeContract,
-      };
-      this.$store.dispatch("fetchEscrowValues", this.selectedClient);
+      let clientAddress;
+
+      this.clients.map((client) => {
+        client.name == this.selectedClient
+          ? (clientAddress = client.address)
+          : null;
+      });
+
+      console.log(clientAddress);
+
+      this.$store.dispatch("fetchEscrowValues", clientAddress);
     },
   },
   mounted() {
