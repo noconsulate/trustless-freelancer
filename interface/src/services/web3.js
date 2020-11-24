@@ -6,7 +6,7 @@ import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 import Deployer from "../../../contract/build/contracts/Instantiator.json";
 
-import { deployerAddress } from "../../../address";
+import { instantiatorAddress } from "../../../address";
 
 class RequestParameters {
   constructor(to, from, data) {
@@ -33,9 +33,12 @@ async function loadContract(obj, address) {
   return contract;
 }
 
-async function loadDeployer(obj) {
-  const deployer = await new obj.eth.Contract(Deployer.abi, deployerAddress);
-  return deployer;
+async function loadInstantiator(obj) {
+  const instantiator = await new obj.eth.Contract(
+    Instantiator.abi,
+    instantiatorAddress
+  );
+  return instantiator;
 }
 
 // returns when tx has confirmed
@@ -121,12 +124,12 @@ export async function getEscrowValues(client, contractAddress) {
 
 export async function getContract() {
   const web3 = await initWeb3();
-  const deployer = await loadDeployer(web3);
+  const instantiator = await loadInstantiator(web3);
 
   let freelancerAddress;
 
   try {
-    freelancerAddress = await deployer.methods.getContract().call({
+    freelancerAddress = await instantiator.methods.getContract().call({
       from: window.ethereum.selectedAddress,
     });
   } catch (e) {
@@ -203,14 +206,14 @@ export async function sendPayment(ether, contractAddress) {
   return txHash;
 }
 
-export async function deploy() {
+export async function deploy(name) {
   const web3 = await initWeb3();
-  const deployer = await loadDeployer(web3);
+  const instantiator = await loadInstantiator(web3);
 
-  const transaction = deployer.methods.deploy().encodeABI();
+  const transaction = instantiator.methods.deploy(name).encodeABI();
 
   const parameters = new RequestParameters(
-    deployerAddress,
+    instantiatorAddress,
     ethereum.selectedAddress,
     transaction
   );

@@ -2,7 +2,10 @@
   <div class="divide-y divide-gray-400">
     <div></div>
 
-    <div>
+    <div v-if="this.loading">
+      <p class="italic">loading</p>
+    </div>
+    <div v-else>
       <div :class="descriptionClass">
         Deposits
       </div>
@@ -73,6 +76,7 @@ export default {
   name: "LogsView",
   data() {
     return {
+      loading: true,
       deposits: [],
       refunds: [],
       dispersals: [],
@@ -89,6 +93,7 @@ export default {
   },
   created: async function() {
     const logs = await getLogs(this.$store.state.activeContract);
+    this.loading = false;
 
     this.deposits = logs.depositsReadable;
     this.refunds = logs.refundsReadable;

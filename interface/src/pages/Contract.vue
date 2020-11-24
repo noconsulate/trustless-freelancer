@@ -1,30 +1,64 @@
 <template>
-  <div class="flex flex-col space-y-2">
-    <div class="space-x-1">
-      <button @click="callGetContract" class="btn ">
-        get contract
-      </button>
-      <button @click="callSendDeploy" class="btn ">
-        deploy
-      </button>
-    </div>
-    <div class="description">
-      set contract manually
-    </div>
-    <div class="space-x-1">
-      <input class="border border-black" v-model="contractInput" />
-      <button class="btn" @click="manualSetContract">set</button>
-    </div>
-    <div>
-      <div class="description">
-        freelancer contract at
+  <div class="flex justify-center">
+    <div class="w-2/3 bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Freelancer contract at
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+          {{ activeContract }}
+        </p>
       </div>
-      <div class="content">
-        {{ activeContract }}
-      </div>
-    </div>
+      <dl>
+        <div
+          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dt class="text-sm leading-5 font-medium text-gray-500">
+            Get contract
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+          >
+            <button @click="callGetContract" class="btn ">
+              get contract
+            </button>
+          </dd>
+        </div>
+        <div
+          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dt class="text-sm leading-5 font-medium text-gray-500">
+            Deploy contract
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+          >
+            <input
+              class="border border-black"
+              v-model="contractNameInput"
+              placeholder="please name your contract"
+            />
 
-    <div v-if="activeContract == 0">why don't you make a contract</div>
+            <button @click="callGetContract" class="btn ">
+              deploy
+            </button>
+          </dd>
+        </div>
+        <div
+          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dt class="text-sm leading-5 font-medium text-gray-500">
+            Set contract manually
+          </dt>
+          <dd
+            class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+          >
+            <input class="border border-black" v-model="contractInput" />
+            <button class="btn" @click="manualSetContract">set</button>
+          </dd>
+        </div>
+      </dl>
+    </div>
   </div>
 </template>
 
@@ -36,6 +70,7 @@ export default {
     return {
       freelancerAddress: null,
       contractInput: "0x23096c54bC7672F5e41a79Fa3E8f8F9A34daC4dE",
+      contractNameInput: "",
     };
   },
   computed: {
@@ -54,7 +89,8 @@ export default {
         );
         return;
       }
-      deploy();
+      // needs validation to disallow empty name
+      deploy(contractNameInput);
     },
     // is this function/button necessary?
     async callGetContract() {
