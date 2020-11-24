@@ -100,9 +100,10 @@ export default {
     if (provider) {
       console.log("Ethereum detected", provider);
       this.$store.dispatch("setIsMetamask", true);
+      console.log("no metamask");
     } else {
       this.$store.dispatch("setIsMetamask", false);
-      // alert("please install metamask");
+      alert("please install metamask");
     }
 
     // enable metamask in browser(require user login to metamask)
