@@ -39,7 +39,7 @@ async function main() {
   });
   console.log(res.logs);
 
-  res = await token.approve(freelancerAddress, 10000, { from: accounts[2] });
+  res = await token.approve(freelancerAddress, 35000, { from: accounts[2] });
   console.log(res);
 
   res = await freelancer.sendToken(10000, "Peter Griffin", {

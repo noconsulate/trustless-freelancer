@@ -73,12 +73,24 @@
             class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
           >
             <dt class="text-sm leading-5 font-medium text-gray-500">
+              Client address
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+            >
+              {{ selectedClientDetails.address }}
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
               Escrow balance
             </dt>
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              {{ escrowValues.balance }}
+              {{ selectedClientDetails.balance }}
             </dd>
           </div>
           <div
@@ -91,7 +103,7 @@
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 \"
             >
               <checkbox
-                :isTrue="escrowValues.isShipped"
+                :isTrue="selectedClientDetails.isShipped"
                 :sendTx="callMarkShipped"
               />
             </dd>
@@ -106,7 +118,7 @@
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
               <checkbox
-                :isTrue="escrowValues.isReceived"
+                :isTrue="selectedClientDetails.isReceived"
                 :sendTx="callMarkReceived"
               />
             </dd>
@@ -153,6 +165,18 @@ export default {
     },
     clientDetails() {
       return this.$store.state.clientDetails;
+    },
+    selectedClient() {
+      return this.$store.state.selectedClient;
+    },
+    selectedClientDetails() {
+      let details;
+
+      this.clientDetails.map((client) => {
+        this.selectedClient == client.name ? (details = client) : null;
+      });
+
+      return details;
     },
   },
   data() {
