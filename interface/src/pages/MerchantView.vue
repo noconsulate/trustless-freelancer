@@ -154,9 +154,6 @@ export default {
     activeContract() {
       return this.$store.state.activeContract;
     },
-    escrowValues() {
-      return this.$store.state.escrowValues;
-    },
     contractValues() {
       return this.$store.state.contractValues;
     },

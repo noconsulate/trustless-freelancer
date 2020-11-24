@@ -13,13 +13,6 @@ const ethereum = window.ethereum;
 
 Vue.use(Vuex);
 
-const ESCROW_VALUES_DEFAULT = {
-  address: null,
-  balance: null,
-  isShipped: null,
-  isReceived: null,
-};
-
 export default new Vuex.Store({
   state: {
     isMetamask: null,
@@ -38,7 +31,6 @@ export default new Vuex.Store({
         isReceived: null,
       },
     ],
-    escrowValues: ESCROW_VALUES_DEFAULT,
     escrowFetched: false,
     activeContract: "0x6FC29547B6ae5A536fF01e46a313cA50D5FC0832",
     selectedClient: null,
@@ -61,10 +53,6 @@ export default new Vuex.Store({
     },
     UPDATE_CLIENT_DETAILS(state, payload) {
       state.clientDetails = payload;
-    },
-    UPDATE_ESCROW(state, payload) {
-      state.escrowValues = payload;
-      state.escrowFetched = true;
     },
     UPDATE_ACCOUNT(state, payload) {
       state.account = payload;
@@ -105,14 +93,6 @@ export default new Vuex.Store({
 
       console.log(clientDetails);
       context.commit("UPDATE_CLIENT_DETAILS", clientDetails);
-    },
-    async fetchEscrowValues(context, client) {
-      const values = await getEscrowValues(
-        client,
-        context.state.activeContract
-      );
-      values.address = client;
-      context.commit("UPDATE_ESCROW", values);
     },
     async fetchValues(context) {
       const values = await getValues(context.state.activeContract);
