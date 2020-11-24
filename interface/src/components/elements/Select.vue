@@ -30,9 +30,6 @@
         </svg>
       </div>
     </div>
-    <button @click="callGetEscrowValues" class="btn flex-1">
-      get escrow
-    </button>
   </div>
 </template>
 
@@ -47,21 +44,7 @@ export default {
     };
   },
   computed: {},
-  methods: {
-    async callGetEscrowValues() {
-      let clientAddress;
 
-      this.clients.map((client) => {
-        client.name == this.selectedClient
-          ? (clientAddress = client.address)
-          : null;
-      });
-
-      console.log(clientAddress);
-
-      this.$store.dispatch("fetchEscrowValues", clientAddress);
-    },
-  },
   mounted() {
     this.$store.state.escrowValues.address
       ? (this.selectedClient = this.$store.state.escrowValues.address)

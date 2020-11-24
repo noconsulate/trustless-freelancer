@@ -170,8 +170,17 @@ export default {
       return this.$store.state.selectedClient;
     },
     selectedClientDetails() {
-      let details;
+      let details = {
+        name: null,
+        balance: null,
+        address: null,
+        isReceived: null,
+        isShipped: null,
+      };
 
+      if (!this.selectedClient) {
+        return details;
+      }
       this.clientDetails.map((client) => {
         this.selectedClient == client.name ? (details = client) : null;
       });
@@ -205,7 +214,7 @@ export default {
       try {
         txHash = await methodSender(
           "markShipped",
-          this.escrowValues.address,
+          this.selectedClientDetails.address,
           this.activeContract
         );
       } catch (e) {
