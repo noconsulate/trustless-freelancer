@@ -66,7 +66,7 @@
               Clients
             </dt>
             <dd class="mt-1  leading-5  sm:mt-0 sm:col-span-2">
-              <select-client :clients="this.clients" />
+              <select-client :clients="this.clientDetails" />
             </dd>
           </div>
           <div
@@ -150,6 +150,9 @@ export default {
     },
     clients() {
       return this.$store.state.clients;
+    },
+    clientDetails() {
+      return this.$store.state.clientDetails;
     },
   },
   data() {

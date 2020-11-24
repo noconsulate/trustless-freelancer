@@ -10,11 +10,11 @@
         <option
           class="text-sm"
           v-for="client in clients"
-          v-bind:selectedClient="client.address"
+          v-bind:selectedClient="client"
           v-bind:key="client.id"
-          selected="currentSelection"
+          selected="currentSelection??"
         >
-          {{ client.address }}
+          {{ client.name }}
         </option>
       </select>
       <div
@@ -43,7 +43,7 @@ export default {
   props: ["clients"],
   data() {
     return {
-      selectedClient: null ? null : this.currentSelection,
+      selectedClient: null ? null : this.$store.state.selectedClient,
       activeContract: this.$store.state.activeContract,
     };
   },

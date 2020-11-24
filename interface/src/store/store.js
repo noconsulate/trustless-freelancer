@@ -144,6 +144,7 @@ export default new Vuex.Store({
       context.commit("UPDATE_ESCROW", ESCROW_VALUES_DEFAULT);
     },
     setSelectedClient(context, client) {
+      console.log(client);
       context.commit("UPDATE_SELECTED_CLIENT", client);
     },
   },
