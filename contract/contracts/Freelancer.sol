@@ -7,6 +7,7 @@ contract Freelancer is Ownable {
     struct Escrow {
         //   address payable merchant;
         uint256 balance;
+        string clientName;
         bool isShipped;
         bool isReceived;
     }
@@ -15,18 +16,27 @@ contract Freelancer is Ownable {
     // mapping(address => address) clientLookup;
     address[] public clients;
 
+    string contractName;
     IERC20 public token;
 
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
     event Disperse(address indexed _client, uint256 _value);
 
-    constructor(address _newOwner, address _tokenAddress) public {
+    constructor(
+        address _newOwner,
+        string memory _contractName,
+        address _tokenAddress
+    ) public {
         transferOwnership(_newOwner);
+        contractName = _contractName;
         token = IERC20(_tokenAddress);
     }
 
-    function sendToken(uint256 _value) external returns (bool) {
+    function sendToken(uint256 _value, string memory _clientName)
+        external
+        returns (bool)
+    {
         Escrow storage escrow = escrows[address(msg.sender)];
         // reject transfer from address already associated with escrow
         require(escrow.balance == 0, "this address already has an escrow");
@@ -35,6 +45,7 @@ contract Freelancer is Ownable {
         require(sent, "transfer failed");
 
         escrow.balance = _value;
+        escrow.clientName = _clientName;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
@@ -132,17 +143,27 @@ contract Freelancer is Ownable {
         public
         view
         returns (
-            uint256,
-            bool,
-            bool
+            string memory name,
+            uint256 balance,
+            bool isShipped,
+            bool isReceived
         )
     {
         Escrow memory escrow = escrows[_escrow];
-        return (escrow.balance, escrow.isShipped, escrow.isReceived);
+        return (
+            escrow.clientName,
+            escrow.balance,
+            escrow.isShipped,
+            escrow.isReceived
+        );
     }
 
     function getClients() public view returns (address[] memory) {
         return clients;
+    }
+
+    function getName() public view returns (string memory) {
+        return contractName;
     }
 
     // mark for deletion, already in Ownable.sol

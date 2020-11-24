@@ -95,16 +95,17 @@ export async function getEscrowValues(client, contractAddress) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, contractAddress);
 
-  let balance, isShipped, isReceived;
+  let name, balance, isShipped, isReceived;
 
   try {
     let values = await contract.methods
       .getEscrowValues(client)
       .call({ from: null });
 
-    balance = values[0];
-    isShipped = values[1];
-    isReceived = values[2];
+    name = values[0];
+    balance = values[1];
+    isShipped = values[2];
+    isReceived = values[3];
   } catch (e) {
     console.log(e.message);
     throw e;
@@ -113,7 +114,7 @@ export async function getEscrowValues(client, contractAddress) {
   // convert crazy token values (should depend on token)
   balance = web3.utils.fromWei(balance, "ether");
 
-  const valuesObj = { balance, isShipped, isReceived };
+  const valuesObj = { name, balance, isShipped, isReceived };
 
   return valuesObj;
 }
@@ -140,10 +141,17 @@ export async function getValues(address) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, address);
 
-  let owner, balance;
+  let owner, balance, name;
 
   try {
     owner = await contract.methods.owner().call({ from: null });
+  } catch (e) {
+    console.log("error in values fetch", e.message);
+    throw e.code;
+  }
+
+  try {
+    name = await contract.methods.getName().call({ from: null });
   } catch (e) {
     console.log("error in values fetch", e.message);
     throw e.code;
@@ -159,7 +167,7 @@ export async function getValues(address) {
   balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
-    address,
+    name,
     owner,
     balance,
   };

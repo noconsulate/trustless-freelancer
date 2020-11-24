@@ -24,13 +24,23 @@ export default new Vuex.Store({
   state: {
     isMetamask: null,
     account: null,
-    contractValues: { owner: null, balance: null },
+    contractValues: { name: null, owner: null, balance: null },
     errorMessage: "",
     txHash: "",
     clients: [{ id: null, address: null }],
+    clientDetails: [
+      {
+        id: null,
+        name: null,
+        address: null,
+        balance: null,
+        isShipped: null,
+        isReceived: null,
+      },
+    ],
     escrowValues: ESCROW_VALUES_DEFAULT,
     escrowFetched: false,
-    activeContract: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
+    activeContract: "0x6FC29547B6ae5A536fF01e46a313cA50D5FC0832",
     selectedClient: null,
   },
   mutations: {
@@ -48,6 +58,9 @@ export default new Vuex.Store({
       });
 
       state.clients = clients;
+    },
+    UPDATE_CLIENT_DETAILS(state, payload) {
+      state.clientDetails = payload;
     },
     UPDATE_ESCROW(state, payload) {
       state.escrowValues = payload;
@@ -76,6 +89,22 @@ export default new Vuex.Store({
     async fetchClients(context) {
       const clientsArray = await getClients(context.state.activeContract);
       context.commit("UPDATE_CLIENTS", clientsArray);
+
+      let clientDetails = [];
+
+      clientsArray.map(async function(client) {
+        const values = await getEscrowValues(
+          client,
+          context.state.activeContract
+        );
+        values.address = client;
+
+        console.log(values);
+        clientDetails.push(values);
+      });
+
+      console.log(clientDetails);
+      context.commit("UPDATE_CLIENT_DETAILS", clientDetails);
     },
     async fetchEscrowValues(context, client) {
       const values = await getEscrowValues(
