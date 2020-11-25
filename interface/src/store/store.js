@@ -20,7 +20,7 @@ export default new Vuex.Store({
     contractValues: { name: null, owner: null, balance: null },
     errorMessage: "",
     txHash: "",
-    clients: [{ id: null, address: null }],
+    clients: [],
     clientDetails: [
       {
         id: null,

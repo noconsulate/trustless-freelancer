@@ -6,10 +6,16 @@
           Client dashboard
         </h2>
         <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
-          {{ contractDescription1 }}
-        </p>
-        <p class="mt-1 max-w-2xl text-sm font-bold leading-5 text-gray-500">
-          {{ contractDescription2 }}
+          <template v-if="activeContract">
+            Client interaction for contract <br />
+            <div class="font-bold">{{ contractName }}</div>
+
+            at<br />
+            <div class="font-bold">{{ activeContract }}</div>
+          </template>
+          <template v-else>
+            Enter the address for a trustless-freelancer smart contract
+          </template>
         </p>
       </div>
       <div>
@@ -67,15 +73,29 @@
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
             >
-              <div class="w-full ``` flex">
-                <input
-                  v-model="tokenAmount"
-                  placeholder="enter amount to send"
-                  class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
-                />
-                <button class="btn w-1/4" @click="callApproveAndTransferFrom">
-                  set
-                </button>
+              <div class="flex flex-col">
+                Enter your name
+                <div class="w-full ``` flex">
+                  <input
+                    v-model="clientName"
+                    placeholder="enter your name"
+                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  />
+                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
+                    set
+                  </button>
+                </div>
+                Enter an amount to send
+                <div class="w-full ``` flex">
+                  <input
+                    v-model="tokenAmount"
+                    placeholder="enter amount to send"
+                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  />
+                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
+                    set
+                  </button>
+                </div>
               </div>
             </dd>
           </div>
@@ -116,7 +136,8 @@ export default {
   data() {
     return {
       addressInput: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
-      tokenAmount: null,
+      clientName: "sam sammnings",
+      tokenAmount: 0.1,
       clientBalance: null,
       isReceived: null,
     };
@@ -127,6 +148,9 @@ export default {
     },
     activeContract() {
       return this.$store.state.activeContract;
+    },
+    contractName() {
+      return this.$store.state.contractValues.name;
     },
     clients() {
       return this.$store.state.clients;
@@ -147,14 +171,6 @@ export default {
     // clientBalance() {
     //   return this.$store.state.escrowValues.balance;
     // },
-    contractDescription1() {
-      return this.activeContract
-        ? `Client interaction for contract at:`
-        : "Enter a merchant's contract address";
-    },
-    contractDescription2() {
-      return this.activeContract ? `${this.activeContract}` : null;
-    },
   },
   methods: {
     async manualSetContract() {
@@ -188,12 +204,16 @@ export default {
     async callApproveAndTransferFrom() {
       // check client doesn't already have an escrow
       let clientExists = false;
-      this.clients.map((item) => {
-        item.address.toUpperCase() ==
-        window.ethereum.selectedAddress.toUpperCase()
-          ? (clientExists = true)
-          : null;
-      });
+      console.log(this.clients.length);
+      if (this.clients.length > 0) {
+        this.clients.map((item) => {
+          item.address.toUpperCase() ==
+          window.ethereum.selectedAddress.toUpperCase()
+            ? (clientExists = true)
+            : null;
+        });
+      }
+
       if (clientExists) {
         alert("client exists");
         return;
@@ -226,12 +246,13 @@ export default {
         return;
       }
 
+      const arg = {
+        tokenAmount: this.tokenAmount,
+        clientName: this.clientName,
+      };
+
       try {
-        txHash = await methodSender(
-          "transferFrom",
-          this.tokenAmount,
-          this.activeContract
-        );
+        txHash = await methodSender("transferFrom", arg, this.activeContract);
       } catch (e) {
         console.log(e);
         this.$store.dispatch("setError", e.code);
