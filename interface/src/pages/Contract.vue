@@ -7,6 +7,10 @@
         </h3>
         <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
           {{ activeContract }}
+          <template v-if="activeContract == 0"
+            ><br />
+            There is no trustless-freelancer contract for this address.
+          </template>
         </p>
       </div>
       <dl>
@@ -14,13 +18,13 @@
           class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
         >
           <dt class="text-sm leading-5 font-medium text-gray-500">
-            Get contract
+            Load existing contract**
           </dt>
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
           >
             <button @click="callGetContract" class="btn ">
-              get contract
+              Load
             </button>
           </dd>
         </div>
@@ -28,7 +32,7 @@
           class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
         >
           <dt class="text-sm leading-5 font-medium text-gray-500">
-            Deploy contract
+            Create new contract*
           </dt>
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
@@ -40,7 +44,7 @@
             />
 
             <button @click="callGetContract" class="btn ">
-              deploy
+              Create
             </button>
           </dd>
         </div>
@@ -48,13 +52,26 @@
           class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
         >
           <dt class="text-sm leading-5 font-medium text-gray-500">
-            Set contract manually
+            Set contract manually***
           </dt>
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
           >
             <input class="border border-black" v-model="contractInput" />
             <button class="btn" @click="manualSetContract">set</button>
+          </dd>
+        </div>
+        <div
+          class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dd
+            class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-3"
+          >
+            * Load a trustless-freelancer contract associated with your
+            currently selected Metamask account. <br />
+            ** Create a new contract associated to your currently selected
+            Metamask account. <br />
+            *** Load a trustless-freelancer contract with the contract address.
           </dd>
         </div>
       </dl>
