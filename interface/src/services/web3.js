@@ -84,7 +84,7 @@ async function sendTx(parameters) {
       method: "eth_sendTransaction",
       params: [parameters],
     });
-    console.log(txHash);
+    console.log("tx sent", txHash);
   } catch (e) {
     console.log(e.message);
     throw e;

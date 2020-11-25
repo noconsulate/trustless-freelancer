@@ -43,7 +43,7 @@
               placeholder="please name your contract"
             />
 
-            <button @click="callGetContract" class="btn ">
+            <button @click="callSendDeploy" class="btn ">
               Create
             </button>
           </dd>
@@ -107,7 +107,7 @@ export default {
         return;
       }
       // needs validation to disallow empty name
-      deploy(contractNameInput);
+      deploy(this.contractNameInput);
     },
     // is this function/button necessary?
     async callGetContract() {
