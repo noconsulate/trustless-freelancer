@@ -18,7 +18,34 @@
           class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
         >
           <dt class="text-sm leading-5 font-medium text-gray-500">
-            Load existing contract**
+            <div class="flex flex-wrap">
+              <div class="w-full ">
+                <div
+                  ref="btnRef"
+                  v-on:mouseenter="toggleTooltip()"
+                  v-on:mouseleave="toggleTooltip()"
+                >
+                  Load contract
+                </div>
+                <div
+                  ref="tooltipRef"
+                  v-bind:class="{ hidden: !tooltipShow, block: tooltipShow }"
+                  class="bg-gray-50 border-0 ml-3 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg"
+                >
+                  <div>
+                    <div
+                      class="bg-black text-white opacity-75 font-semibold p-3 mb-0 border-b border-solid border-gray-200 uppercase rounded-t-lg"
+                    >
+                      Tip
+                    </div>
+                    <div class="text-black p-3">
+                      Load a trustless-freelancer contract associated with your
+                      currently selected Metamask account.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </dt>
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
@@ -81,6 +108,7 @@
 
 <script>
 import { awaitTxMined, deploy, getContract } from "../services/web3";
+import Popper from "popper.js";
 
 export default {
   data() {
@@ -89,6 +117,7 @@ export default {
       // "0x23096c54bC7672F5e41a79Fa3E8f8F9A34daC4dE"
       contractInput: null,
       contractNameInput: "",
+      tooltipShow: false,
     };
   },
   computed: {
@@ -97,6 +126,16 @@ export default {
     },
   },
   methods: {
+    toggleTooltip: function() {
+      if (this.tooltipShow) {
+        this.tooltipShow = false;
+      } else {
+        this.tooltipShow = true;
+        new Popper(this.$refs.btnRef, this.$refs.tooltipRef, {
+          placement: "bottom",
+        });
+      }
+    },
     // should fetchActiveContract after confirmation
     async callSendDeploy() {
       // this line is sluggy
