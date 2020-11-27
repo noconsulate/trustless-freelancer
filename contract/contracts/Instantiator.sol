@@ -1,3 +1,10 @@
+/*
+TOKEN ADDRESSES: (use in deployment)
+
+my local token: 0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266 
+DAIropsten: 0xaD6D458402F60fD3Bd25163575031ACDce07538D
+*/
+
 pragma solidity ^0.6.12;
 
 import "./Freelancer.sol";
@@ -5,7 +12,12 @@ import "./Freelancer.sol";
 contract Instantiator {
     mapping(address => address) contractByOwner;
 
+    address token;
     address[] owners;
+
+    constructor(address _token) public {
+        token = _token;
+    }
 
     function getContract() public view returns (address) {
         return contractByOwner[msg.sender];
@@ -20,7 +32,7 @@ contract Instantiator {
             msg.sender,
             _contractName,
             // address of token
-            address(0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266)
+            address(token)
         );
         contractByOwner[msg.sender] = address(freelancer);
         owners.push(msg.sender);

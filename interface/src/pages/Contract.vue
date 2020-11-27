@@ -80,13 +80,14 @@
 </template>
 
 <script>
-import { deploy, getContract } from "../services/web3";
+import { awaitTxMined, deploy, getContract } from "../services/web3";
 
 export default {
   data() {
     return {
       freelancerAddress: null,
-      contractInput: "0x23096c54bC7672F5e41a79Fa3E8f8F9A34daC4dE",
+      // "0x23096c54bC7672F5e41a79Fa3E8f8F9A34daC4dE"
+      contractInput: null,
       contractNameInput: "",
     };
   },
@@ -107,7 +108,18 @@ export default {
         return;
       }
       // needs validation to disallow empty name
-      deploy(this.contractNameInput);
+      let txHash;
+      try {
+        txHash = await deploy(this.contractNameInput);
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
+
+      this.callGetContract();
     },
     // is this function/button necessary?
     async callGetContract() {

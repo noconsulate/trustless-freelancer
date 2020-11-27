@@ -117,16 +117,16 @@ export default {
     }
 
     // make sure we're on the right chain
-    if (window.ethereum.chainId !== "0x539") {
-      alert("please switch Metamask to the correct chain");
-    }
+    // if (window.ethereum.chainId !== "0x539") {
+    //   alert("please switch Metamask to the correct chain");
+    // }
 
-    window.ethereum.on("chainChanged", (chainId) => {
-      if (chainId !== "0x539") {
-        alert("please switch Metamask to the correct chain");
-      }
-      window.location.reload();
-    });
+    // window.ethereum.on("chainChanged", (chainId) => {
+    //   if (chainId !== "0x539") {
+    //     alert("please switch Metamask to the correct chain");
+    //   }
+    //   window.location.reload();
+    // });
   },
 };
 </script>

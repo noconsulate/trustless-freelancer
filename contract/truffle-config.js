@@ -24,6 +24,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const { MNEMONIC, ROPSTEN_URL } = require("../secrets.json");
+
+console.log(MNEMONIC);
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -45,6 +49,12 @@ module.exports = {
       host: "127.0.0.1",
       port: 7545,
       network_id: "*",
+    },
+    ropsten: {
+      provider: function () {
+        return new HDWalletProvider(MNEMONIC, ROPSTEN_URL);
+      },
+      network_id: 3,
     },
   },
 

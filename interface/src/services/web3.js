@@ -1,4 +1,4 @@
-const ENV_FLAG = "local";
+const ENV_FLAG = "ropsten";
 const DEBUG_FLAG = false;
 
 import Web3 from "web3";
@@ -6,7 +6,14 @@ import awaitTransactionMined from "await-transaction-mined";
 import Freelancer from "../../../contract/build/contracts/Freelancer.json";
 import Instantiator from "../../../contract/build/contracts/Instantiator.json";
 
-import { instantiatorAddress } from "../../../address";
+let instantiatorAddress;
+switch (ENV_FLAG) {
+  case "local":
+    instantiatorAddress = "0xe693f04e4CEf40b4a3995D81D91b6094aC2E7aCB";
+    break;
+  case "ropsten":
+    instantiatorAddress = "0x508bAB70E082A1820c5e84909fA99719Be8d9F24";
+}
 
 class RequestParameters {
   constructor(to, from, data) {

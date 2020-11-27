@@ -135,9 +135,9 @@ export default {
   },
   data() {
     return {
-      addressInput: "0x23096c54bc7672f5e41a79fa3e8f8f9a34dac4de",
-      clientName: "sam sammnings",
-      tokenAmount: 0.1,
+      addressInput: null,
+      clientName: null,
+      tokenAmount: null,
       clientBalance: null,
       isReceived: null,
     };
