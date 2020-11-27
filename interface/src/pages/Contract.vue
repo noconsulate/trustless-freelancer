@@ -30,15 +30,13 @@
                 <div
                   ref="tooltipRef"
                   v-bind:class="{ hidden: !tooltipShow, block: tooltipShow }"
-                  class="bg-gray-50 border-0 ml-3 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg"
+                  class="tooltip"
                 >
                   <div>
-                    <div
-                      class="bg-black text-white opacity-75 font-semibold p-3 mb-0 border-b border-solid border-gray-200 uppercase rounded-t-lg"
-                    >
+                    <div class="tooltipHeader">
                       Tip
                     </div>
-                    <div class="text-black p-3">
+                    <div class="tooltipBody">
                       Load a trustless-freelancer contract associated with your
                       currently selected Metamask account.
                     </div>

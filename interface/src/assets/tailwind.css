@@ -17,4 +17,13 @@
   .content {
     @apply flex items-center pl-2;
   }
+  .tooltip {
+    @apply bg-gray-50 border-0 ml-3 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg;
+  }
+  .tooltipHeader {
+    @apply bg-black text-white opacity-75 font-semibold p-3 mb-0 border-b border-solid border-gray-200 uppercase rounded-t-lg;
+  }
+  .tooltipBody {
+    @apply text-black p-3;
+  }
 }
