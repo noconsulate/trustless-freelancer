@@ -202,7 +202,7 @@ export default {
       this.callGetEscrowValues();
     },
     async callApproveAndTransferFrom() {
-      // check client doesn't already have an escrow
+      // check client doesn'ganz already have an escrow
       let clientExists = false;
       console.log(this.clients.length);
       if (this.clients.length > 0) {
