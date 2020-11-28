@@ -21,15 +21,18 @@
             <div class="flex flex-wrap">
               <div class="w-full ">
                 <div
-                  ref="btnRef"
-                  v-on:mouseenter="toggleTooltip()"
-                  v-on:mouseleave="toggleTooltip()"
+                  ref="refA"
+                  v-on:mouseenter="toggleTooltip(0)"
+                  v-on:mouseleave="toggleTooltip(0)"
                 >
                   Load contract
                 </div>
                 <div
-                  ref="tooltipRef"
-                  v-bind:class="{ hidden: !tooltipShow, block: tooltipShow }"
+                  ref="popA"
+                  v-bind:class="{
+                    hidden: !tooltipShow[0],
+                    block: tooltipShow[0],
+                  }"
                   class="tooltip"
                 >
                   <div>
@@ -57,7 +60,35 @@
           class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
         >
           <dt class="text-sm leading-5 font-medium text-gray-500">
-            Create new contract*
+            <div class="flex flex-wrap">
+              <div class="w-full ">
+                <div
+                  ref="refB"
+                  v-on:mouseenter="toggleTooltip(1)"
+                  v-on:mouseleave="toggleTooltip(1)"
+                >
+                  Create new Contract
+                </div>
+                <div
+                  ref="popB"
+                  v-bind:class="{
+                    hidden: !tooltipShow[1],
+                    block: tooltipShow[1],
+                  }"
+                  class="tooltip"
+                >
+                  <div>
+                    <div class="tooltipHeader">
+                      Tip
+                    </div>
+                    <div class="tooltipBody">
+                      Create a new contract associated to your currently
+                      selected Metamask account.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </dt>
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
@@ -115,7 +146,7 @@ export default {
       // "0x23096c54bC7672F5e41a79Fa3E8f8F9A34daC4dE"
       contractInput: null,
       contractNameInput: "",
-      tooltipShow: false,
+      tooltipShow: [false, false],
     };
   },
   computed: {
@@ -124,12 +155,24 @@ export default {
     },
   },
   methods: {
-    toggleTooltip: function() {
-      if (this.tooltipShow) {
-        this.tooltipShow = false;
+    toggleTooltip: function(elem) {
+      console.log(this.tooltipShow);
+      let refVar, popperVar;
+      switch (elem) {
+        case 0:
+          refVar = this.$refs.refA;
+          popperVar = this.$refs.popA;
+          break;
+        case 1:
+          refVar = this.$refs.refB;
+          popperVar = this.$refs.popB;
+          break;
+      }
+      if (this.tooltipShow[elem]) {
+        this.$set(this.tooltipShow, elem, false);
       } else {
-        this.tooltipShow = true;
-        new Popper(this.$refs.btnRef, this.$refs.tooltipRef, {
+        this.$set(this.tooltipShow, elem, true);
+        new Popper(refVar, popperVar, {
           placement: "bottom",
         });
       }
