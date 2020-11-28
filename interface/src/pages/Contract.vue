@@ -108,7 +108,35 @@
           class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
         >
           <dt class="text-sm leading-5 font-medium text-gray-500">
-            Set contract manually***
+            <div class="flex flex-wrap">
+              <div class="w-full ">
+                <div
+                  ref="refC"
+                  v-on:mouseenter="toggleTooltip(2)"
+                  v-on:mouseleave="toggleTooltip(2)"
+                >
+                  Set contract manually
+                </div>
+                <div
+                  ref="popC"
+                  v-bind:class="{
+                    hidden: !tooltipShow[2],
+                    block: tooltipShow[2],
+                  }"
+                  class="tooltip"
+                >
+                  <div>
+                    <div class="tooltipHeader">
+                      Tip
+                    </div>
+                    <div class="tooltipBody">
+                      Load a trustless-freelancer contract with the contract
+                      address.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </dt>
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
@@ -123,11 +151,7 @@
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-3"
           >
-            * Load a trustless-freelancer contract associated with your
-            currently selected Metamask account. <br />
-            ** Create a new contract associated to your currently selected
-            Metamask account. <br />
-            *** Load a trustless-freelancer contract with the contract address.
+            The lord is my shepherd I shall not want
           </dd>
         </div>
       </dl>
@@ -156,7 +180,6 @@ export default {
   },
   methods: {
     toggleTooltip: function(elem) {
-      console.log(this.tooltipShow);
       let refVar, popperVar;
       switch (elem) {
         case 0:
@@ -167,6 +190,9 @@ export default {
           refVar = this.$refs.refB;
           popperVar = this.$refs.popB;
           break;
+        case 2:
+          refVar = this.$refs.refC;
+          popperVar = this.$refs.popC;
       }
       if (this.tooltipShow[elem]) {
         this.$set(this.tooltipShow, elem, false);
