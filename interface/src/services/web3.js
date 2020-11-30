@@ -1,4 +1,4 @@
-const ENV_FLAG = "ropsten";
+const ENV_FLAG = "local";
 const DEBUG_FLAG = false;
 
 import Web3 from "web3";
