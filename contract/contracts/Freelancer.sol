@@ -4,12 +4,18 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
+    function getNow() public returns (uint256) {
+        return now;
+    }
+
     struct Escrow {
         //   address payable merchant;
         uint256 balance;
         string clientName;
         bool isShipped;
         bool isReceived;
+        uint256 startTime;
+        uint256 endTime;
     }
 
     mapping(address => Escrow) escrows;
@@ -33,10 +39,11 @@ contract Freelancer is Ownable {
         token = IERC20(_tokenAddress);
     }
 
-    function sendToken(uint256 _value, string memory _clientName)
-        external
-        returns (bool)
-    {
+    function sendToken(
+        uint256 _value,
+        string memory _clientName,
+        uint256 _termTime
+    ) external returns (bool) {
         Escrow storage escrow = escrows[address(msg.sender)];
         // reject transfer from address already associated with escrow
         require(escrow.balance == 0, "this address already has an escrow");
@@ -46,6 +53,8 @@ contract Freelancer is Ownable {
 
         escrow.balance = _value;
         escrow.clientName = _clientName;
+        escrow.startTime = now;
+        escrow.endTime = escrow.startTime + _termTime * 1 days;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
@@ -146,7 +155,9 @@ contract Freelancer is Ownable {
             string memory name,
             uint256 balance,
             bool isShipped,
-            bool isReceived
+            bool isReceived,
+            uint256 startTime,
+            uint256 endTime
         )
     {
         Escrow memory escrow = escrows[_escrow];
@@ -154,7 +165,9 @@ contract Freelancer is Ownable {
             escrow.clientName,
             escrow.balance,
             escrow.isShipped,
-            escrow.isReceived
+            escrow.isReceived,
+            escrow.startTime,
+            escrow.endTime
         );
     }
 
