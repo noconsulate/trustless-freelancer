@@ -129,6 +129,43 @@
               />
             </dd>
           </div>
+          <div
+            class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              Start date
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+            >
+              <div
+                v-if="clientValues.balance > 0"
+                class="flex w-full space-x-1"
+              >
+                <div class="w-3/4">
+                  {{ clientValues.startTime }}
+                </div>
+              </div>
+              <div v-else class="flex w-full space-x-1 italic">
+                <div class="w-3/4">
+                  There is no escrow between this contract and your current
+                  Ethereum address.
+                </div>
+              </div>
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm leading-5 font-medium text-gray-500">
+              End date?
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
+            >
+              {{ clientValues.endTime }}
+            </dd>
+          </div>
         </dl>
       </div>
     </div>
@@ -156,9 +193,7 @@ export default {
       clientName: "frodo saggins",
       tokenAmount: 0.1,
       termLength: 5,
-      clientBalance: null,
-      isReceived: null,
-      clientValues: null,
+      clientValues: { balance: 0 },
     };
   },
   computed: {
@@ -212,8 +247,9 @@ export default {
         this.activeContract
       );
 
-      this.clientBalance = clientValues.balance;
-      this.isReceived = clientValues.isReceived;
+      clientValues.startTime = new Date(Number(clientValues.startTime));
+      clientValues.endTime = new Date(Number(clientValues.endTime));
+
       this.clientValues = clientValues;
     },
     async postCall(txHash) {

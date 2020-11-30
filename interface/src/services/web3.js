@@ -67,7 +67,6 @@ export async function awaitTxMined(txHash) {
 
 export async function getClients(address) {
   const web3 = await initWeb3();
-  console.log(address);
   const contract = await loadContract(web3, address);
 
   let clients;
@@ -105,7 +104,6 @@ export async function getEscrowValues(client, contractAddress) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, contractAddress);
 
-  console.log(client, contractAddress);
   let name, balance, isShipped, isReceived, startTime, endTime;
 
   try {
