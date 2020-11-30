@@ -166,6 +166,7 @@
               {{ clientValues.endTime }}
             </dd>
           </div>
+          difference {{ difference }}
         </dl>
       </div>
     </div>
@@ -222,7 +223,14 @@ export default {
       });
       return exists;
     },
-
+    difference() {
+      const diff =
+        this.clientValues.endTime.getTime() -
+        this.clientValues.startTime.getTime();
+      console.log(diff);
+      const days = diff / (1000 * 60 * 60 * 24);
+      return days;
+    },
     // clientBalance() {
     //   return this.$store.state.escrowValues.balance;
     // },
