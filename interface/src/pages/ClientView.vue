@@ -50,9 +50,12 @@
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <div v-if="clientBalance > 0" class="flex w-full space-x-1">
+              <div
+                v-if="clientValues.balance > 0"
+                class="flex w-full space-x-1"
+              >
                 <div class="w-3/4">
-                  {{ clientBalance }}
+                  {{ clientValues.balance }}
                 </div>
               </div>
               <div v-else class="flex w-full space-x-1 italic">
@@ -64,7 +67,7 @@
             </dd>
           </div>
           <div
-            v-if="this.clientBalance == 0"
+            v-if="this.clientValues.balance == 0"
             class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
           >
             <dt class="text-sm leading-5 font-medium text-gray-500">
@@ -120,7 +123,10 @@
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              <checkbox :isTrue="isReceived" :sendTx="callMarkReceived" />
+              <checkbox
+                :isTrue="clientValues.isReceived"
+                :sendTx="callMarkReceived"
+              />
             </dd>
           </div>
         </dl>
@@ -181,10 +187,7 @@ export default {
       });
       return exists;
     },
-    startDateTime() {
-      let startDateTime = new Date(this.clientvalues.startTime);
-      return startDateTime;
-    },
+
     // clientBalance() {
     //   return this.$store.state.escrowValues.balance;
     // },

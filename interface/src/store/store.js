@@ -88,6 +88,9 @@ export default new Vuex.Store({
         );
         values.address = client;
 
+        values.startTime = new Date(Number(values.startTime));
+        values.endTime = new Date(Number(values.endTime));
+
         clientDetails.push(values);
       });
 
