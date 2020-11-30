@@ -96,6 +96,17 @@
                     set
                   </button>
                 </div>
+                Length in days
+                <div class="w-full ``` flex">
+                  <input
+                    v-model="termLength"
+                    placeholder="enter number of days"
+                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  />
+                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
+                    set
+                  </button>
+                </div>
               </div>
             </dd>
           </div>
@@ -136,10 +147,12 @@ export default {
   data() {
     return {
       addressInput: null,
-      clientName: null,
-      tokenAmount: null,
+      clientName: "frodo saggins",
+      tokenAmount: 0.1,
+      termLength: 5,
       clientBalance: null,
       isReceived: null,
+      clientValues: null,
     };
   },
   computed: {
@@ -168,6 +181,10 @@ export default {
       });
       return exists;
     },
+    startDateTime() {
+      let startDateTime = new Date(this.clientvalues.startTime);
+      return startDateTime;
+    },
     // clientBalance() {
     //   return this.$store.state.escrowValues.balance;
     // },
@@ -194,6 +211,7 @@ export default {
 
       this.clientBalance = clientValues.balance;
       this.isReceived = clientValues.isReceived;
+      this.clientValues = clientValues;
     },
     async postCall(txHash) {
       this.$store.dispatch("setTxHash", txHash);
@@ -249,6 +267,7 @@ export default {
       const arg = {
         tokenAmount: this.tokenAmount,
         clientName: this.clientName,
+        termLength: this.termLength,
       };
 
       try {

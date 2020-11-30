@@ -254,11 +254,11 @@ export async function methodSender(method, arg, contractAddress) {
   switch (method) {
     // need "preTrnsferFrom"
     case "transferFrom":
-      const { tokenAmount, clientName } = arg;
+      const { tokenAmount, clientName, termLength } = arg;
       const weiAmount = web3.utils.toWei(String(tokenAmount), "ether");
       console.log("sendToken: " + weiAmount, clientName);
       transaction = contract.methods
-        .sendToken(weiAmount, clientName)
+        .sendToken(weiAmount, clientName, termLength)
         .encodeABI();
       address = contractAddress;
       break;

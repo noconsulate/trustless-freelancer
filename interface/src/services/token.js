@@ -2,9 +2,9 @@ import Web3 from "web3";
 
 import FreelancerToken from "./FreelancerTOKEN.json";
 
-// import { tokenAddress } from "../../../address";
-const DAIRopsten = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";
-const tokenAddress = DAIRopsten;
+import { tokenAddress } from "../../../address";
+// const DAIRopsten = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";
+// const tokenAddress = DAIRopsten;
 
 const ethereum = window.ethereum;
 
