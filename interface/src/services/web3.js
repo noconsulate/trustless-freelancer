@@ -9,7 +9,7 @@ import Instantiator from "../../../contract/build/contracts/Instantiator.json";
 let instantiatorAddress;
 switch (ENV_FLAG) {
   case "local":
-    instantiatorAddress = "0xe693f04e4CEf40b4a3995D81D91b6094aC2E7aCB";
+    instantiatorAddress = "0xdd9C41343f85F4f5C1Bee8595d8D24DEBEAd34bA";
     break;
   case "ropsten":
     instantiatorAddress = "0x508bAB70E082A1820c5e84909fA99719Be8d9F24";
@@ -67,6 +67,7 @@ export async function awaitTxMined(txHash) {
 
 export async function getClients(address) {
   const web3 = await initWeb3();
+  console.log(address);
   const contract = await loadContract(web3, address);
 
   let clients;
@@ -104,7 +105,8 @@ export async function getEscrowValues(client, contractAddress) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, contractAddress);
 
-  let name, balance, isShipped, isReceived;
+  console.log(client, contractAddress);
+  let name, balance, isShipped, isReceived, startTime, endTime;
 
   try {
     let values = await contract.methods
@@ -115,6 +117,8 @@ export async function getEscrowValues(client, contractAddress) {
     balance = values[1];
     isShipped = values[2];
     isReceived = values[3];
+    startTime = values[4];
+    endTime = values[5];
   } catch (e) {
     console.log(e.message);
     throw e;
@@ -123,7 +127,14 @@ export async function getEscrowValues(client, contractAddress) {
   // convert crazy token values (should depend on token)
   balance = web3.utils.fromWei(balance, "ether");
 
-  const valuesObj = { name, balance, isShipped, isReceived };
+  const valuesObj = {
+    name,
+    balance,
+    isShipped,
+    isReceived,
+    startTime,
+    endTime,
+  };
 
   return valuesObj;
 }
