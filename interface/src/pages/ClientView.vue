@@ -76,7 +76,14 @@
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 "
             >
-              <div class="flex flex-col">
+              <div class="flex flex-col space-y-1">
+                <div>
+                  Approve max
+                  <button class="btn" @click="approveMax">
+                    Submit
+                  </button>
+                </div>
+
                 Enter your name
                 <div class="w-full ``` flex">
                   <input
@@ -173,6 +180,7 @@ import {
   methodSender,
   getEscrowValues,
 } from "../services/web3";
+import BigNumber from "bignumber.js";
 import { sendApprove, checkBalance, checkAllowance } from "../services/token";
 
 import Checkbox from "../components/elements/Checkbox";
@@ -265,6 +273,38 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       this.callGetEscrowValues();
+    },
+    async approveMax() {
+      // check client doesn't already have an escrow
+      let clientExists = false;
+      console.log(this.clients.length);
+      if (this.clients.length > 0) {
+        this.clients.map((item) => {
+          item.address.toUpperCase() ==
+          window.ethereum.selectedAddress.toUpperCase()
+            ? (clientExists = true)
+            : null;
+        });
+      }
+
+      if (clientExists) {
+        alert("client exists");
+        return;
+      }
+
+      let txHash;
+      const maxToken = new BigNumber((2 ** 256 - 1) / 10 ** 18);
+      console.log(maxToken);
+
+      try {
+        txHash = await sendApprove(this.activeContract, maxToken);
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.dispatch("setTxHash", txHash);
+
+      let receipt = await awaitTxMined(txHash);
+      console.log("confirmed");
     },
     async callApproveAndTransferFrom() {
       // check client doesn'ganz already have an escrow

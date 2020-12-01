@@ -112,13 +112,13 @@ export async function sendApprove(freelancerAddress, value) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
 
-  const weiAmount = web3.utils.toWei(String(value), "ether");
-  const hexAmount = web3.utils.toHex(weiAmount);
-  console.log(weiAmount);
+  // const weiAmount = web3.utils.toWei(String(value), "ether");
+  // const hexAmount = web3.utils.toHex(weiAmount);
+  // console.log(weiAmount);
 
-  const stringNum = "1000000000";
+  // const stringNum = "1000000000";
   const transaction = contract.methods
-    .approve(freelancerAddress, weiAmount)
+    .approve(freelancerAddress, value)
     .encodeABI();
 
   const parameters = new RequestParameters(
