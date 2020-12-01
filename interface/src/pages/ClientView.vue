@@ -81,6 +81,9 @@
                   <button class="btn" @click="approveMax">
                     Approve max
                   </button>
+                  <button class="btn" @click="approveZero">
+                    Approve zero
+                  </button>
                 </div>
                 <div>allowance: {{ allowance }}</div>
 
@@ -282,29 +285,24 @@ export default {
       this.allowance = allowance;
     },
     async approveMax() {
-      // check client doesn't already have an escrow
-      let clientExists = false;
-      console.log(this.clients.length);
-      if (this.clients.length > 0) {
-        this.clients.map((item) => {
-          item.address.toUpperCase() ==
-          window.ethereum.selectedAddress.toUpperCase()
-            ? (clientExists = true)
-            : null;
-        });
-      }
-
-      if (clientExists) {
-        alert("client exists");
-        return;
-      }
+      const maxToken = new BigNumber((2 ** 256 - 1) / 10 ** 18);
 
       let txHash;
-      const maxToken = new BigNumber((2 ** 256 - 1) / 10 ** 18);
-      console.log(maxToken);
 
       try {
         txHash = await sendApprove(this.activeContract, maxToken);
+      } catch (e) {
+        console.log(e);
+      }
+
+      this.$store.dispatch("setTxHash", txHash);
+      this.postCall(txHash);
+    },
+    async approveZero() {
+      let txHash;
+
+      try {
+        txHash = await sendApprove(this.activeContract, 0);
       } catch (e) {
         console.log(e);
       }
