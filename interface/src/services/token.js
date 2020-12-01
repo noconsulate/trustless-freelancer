@@ -82,6 +82,7 @@ export async function checkAllowance(spender) {
   return allowance;
 }
 
+// what's this doing here??
 export async function getClients(address) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, address);

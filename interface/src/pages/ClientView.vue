@@ -78,11 +78,11 @@
             >
               <div class="flex flex-col space-y-1">
                 <div>
-                  Approve max
                   <button class="btn" @click="approveMax">
-                    Submit
+                    Approve max
                   </button>
                 </div>
+                <div>allowance: {{ allowance }}</div>
 
                 Enter your name
                 <div class="w-full ``` flex">
@@ -196,6 +196,7 @@ export default {
       tokenAmount: 0.1,
       termLength: 5,
       clientValues: { balance: 0 },
+      allowance: null,
     };
   },
   computed: {
@@ -273,6 +274,12 @@ export default {
 
       let receipt = await awaitTxMined(txHash);
       this.callGetEscrowValues();
+      this.getAllowance();
+    },
+    async getAllowance() {
+      const allowance = await checkAllowance(this.activeContract);
+
+      this.allowance = allowance;
     },
     async approveMax() {
       // check client doesn't already have an escrow
@@ -301,10 +308,9 @@ export default {
       } catch (e) {
         console.log(e);
       }
-      this.$store.dispatch("setTxHash", txHash);
 
-      let receipt = await awaitTxMined(txHash);
-      console.log("confirmed");
+      this.$store.dispatch("setTxHash", txHash);
+      this.postCall(txHash);
     },
     async callApproveAndTransferFrom() {
       // check client doesn'ganz already have an escrow
@@ -380,6 +386,7 @@ export default {
   },
   created() {
     this.callGetEscrowValues();
+    this.getAllowance();
   },
   watch: {
     activeAccount: function() {
