@@ -28,6 +28,7 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
 const { MNEMONIC, ROPSTEN_URL } = require("../secrets.json");
 
 console.log(MNEMONIC);
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -55,6 +56,7 @@ module.exports = {
         return new HDWalletProvider(MNEMONIC, ROPSTEN_URL);
       },
       network_id: 3,
+      gasPrice: 100000000000,
     },
   },
 

@@ -9,7 +9,7 @@ import Instantiator from "../../../contract/build/contracts/Instantiator.json";
 let instantiatorAddress;
 switch (ENV_FLAG) {
   case "local":
-    instantiatorAddress = "0xdd9C41343f85F4f5C1Bee8595d8D24DEBEAd34bA";
+    instantiatorAddress = "0xa5df3993F2c9DE63F85EDA3a7d382CbF803f07cD";
     break;
   case "ropsten":
     instantiatorAddress = "0x508bAB70E082A1820c5e84909fA99719Be8d9F24";

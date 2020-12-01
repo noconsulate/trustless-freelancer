@@ -4,10 +4,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
-    function getNow() public returns (uint256) {
-        return now;
-    }
-
     struct Escrow {
         //   address payable merchant;
         uint256 balance;
@@ -54,7 +50,7 @@ contract Freelancer is Ownable {
         escrow.balance = _value;
         escrow.clientName = _clientName;
         escrow.startTime = now;
-        escrow.endTime = escrow.startTime + _termTime * 1 days;
+        escrow.endTime = escrow.startTime + _termTime * 1 days * 1000;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
