@@ -50,7 +50,7 @@ contract Freelancer is Ownable {
         escrow.balance = _value;
         escrow.clientName = _clientName;
         escrow.startTime = now;
-        escrow.endTime = escrow.startTime + _termTime * 1 days * 1000;
+        escrow.endTime = escrow.startTime + _termTime * 1 days;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
@@ -162,8 +162,8 @@ contract Freelancer is Ownable {
             escrow.balance,
             escrow.isShipped,
             escrow.isReceived,
-            escrow.startTime,
-            escrow.endTime
+            escrow.startTime * 1000,
+            escrow.endTime * 1000
         );
     }
 
