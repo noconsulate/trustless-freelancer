@@ -94,9 +94,6 @@
                     placeholder="enter your name"
                     class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
                   />
-                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
-                    set
-                  </button>
                 </div>
                 Enter an amount to send
                 <div class="w-full ``` flex">
@@ -105,9 +102,6 @@
                     placeholder="enter amount to send"
                     class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
                   />
-                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
-                    set
-                  </button>
                 </div>
                 Length in days
                 <div class="w-full ``` flex">
@@ -116,7 +110,7 @@
                     placeholder="enter number of days"
                     class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
                   />
-                  <button class="btn w-1/4" @click="callApproveAndTransferFrom">
+                  <button class="btn w-1/4" @click="callTransferFrom">
                     set
                   </button>
                 </div>
@@ -310,7 +304,7 @@ export default {
       this.$store.dispatch("setTxHash", txHash);
       this.postCall(txHash);
     },
-    async callApproveAndTransferFrom() {
+    async callTransferFrom() {
       // check client doesn'ganz already have an escrow
       let clientExists = false;
       console.log(this.clients.length);
@@ -336,30 +330,13 @@ export default {
         return;
       }
 
-      let txHash;
-
-      try {
-        txHash = await sendApprove(this.activeContract, this.tokenAmount);
-      } catch (e) {
-        console.log(e);
-      }
-      this.$store.dispatch("setTxHash", txHash);
-
-      let receipt = await awaitTxMined(txHash);
-      console.log("confirmed");
-
-      // check that sender=>spender has allwoance
-      const allowance = await checkAllowance(this.activeContract);
-      if (allowance < this.tokenAmount) {
-        alert("something went wrong and there isn't enough token alowance");
-        return;
-      }
-
       const arg = {
         tokenAmount: this.tokenAmount,
         clientName: this.clientName,
         termLength: this.termLength,
       };
+
+      let txHash;
 
       try {
         txHash = await methodSender("transferFrom", arg, this.activeContract);
