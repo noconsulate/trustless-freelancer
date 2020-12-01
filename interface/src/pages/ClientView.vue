@@ -362,6 +362,10 @@ export default {
   created() {
     this.callGetEscrowValues();
     this.getAllowance();
+
+    window.ethereum.on("accountsChanged", function(accounts) {
+      this.callGetAllowance();
+    });
   },
   watch: {
     activeAccount: function() {

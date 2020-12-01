@@ -72,7 +72,6 @@ export async function checkAllowance(spender) {
   let allowance;
   try {
     allowance = await contract.methods.allowance(owner, spender).call();
-    console.log(allowance);
   } catch (e) {
     console.log(e);
     throw e;
