@@ -145,7 +145,7 @@
             >
               <div class="flex w-full space-x-1">
                 <div class="w-3/4">
-                  {{ clientValues.startTime }}
+                  {{ startTime }}
                 </div>
               </div>
             </dd>
@@ -160,7 +160,7 @@
             <dd
               class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
             >
-              {{ clientValues.endTime }}
+              {{ endTime }}
             </dd>
           </div>
           difference {{ difference }}
@@ -178,7 +178,11 @@ import {
   getEscrowValues,
 } from "../services/web3";
 import BigNumber from "bignumber.js";
+import { DateTime } from "luxon";
 import { sendApprove, checkBalance, checkAllowance } from "../services/token";
+
+// for experiemnt
+window.date = DateTime;
 
 import Checkbox from "../components/elements/Checkbox";
 export default {
@@ -222,20 +226,24 @@ export default {
       });
       return exists;
     },
-    difference() {
-      if (this.clientValues.endTime == 0) {
-        return null;
-      }
-      const diff =
-        this.clientValues.endTime.getTime() -
-        this.clientValues.startTime.getTime();
-      console.log(diff);
-      const days = diff / (1000 * 60 * 60 * 24);
-      return days;
+    startTime() {
+      const dt = DateTime.fromMillis(Number(this.clientValues.startTime));
+
+      return dt.toLocaleString();
     },
-    // clientBalance() {
-    //   return this.$store.state.escrowValues.balance;
-    // },
+    endTime() {
+      const dt = DateTime.fromMillis(Number(this.clientValues.endTime));
+
+      return dt.toLocaleString();
+    },
+    difference() {
+      const start = DateTime.fromMillis(Number(this.clientValues.startTime));
+      const end = DateTime.fromMillis(Number(this.clientValues.endTime));
+
+      const diff = end.diff(start, "days");
+
+      return diff.toObject().days;
+    },
   },
   methods: {
     async manualSetContract() {
@@ -259,10 +267,10 @@ export default {
 
       console.log(clientValues);
 
-      if (clientValues.startTime != 0) {
-        clientValues.startTime = new Date(Number(clientValues.startTime));
-        clientValues.endTime = new Date(Number(clientValues.endTime));
-      }
+      // if (clientValues.startTime != 0) {
+      //   clientValues.startTime = new DateTime(Number(clientValues.startTime));
+      //   clientValues.endTime = new DateTime(Number(clientValues.endTime));
+      // }
 
       this.clientValues = clientValues;
     },
