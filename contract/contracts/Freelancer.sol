@@ -8,7 +8,7 @@ contract Freelancer is Ownable {
     function setEndTime(uint256 _time) public {
         Escrow storage escrow = escrows[address(msg.sender)];
 
-        escrow.endTime = _time;
+        escrow.endTime = now;
     }
 
     struct Escrow {
@@ -26,7 +26,7 @@ contract Freelancer is Ownable {
     address[] public clients;
 
     string contractName;
-    IERC20 public token;
+    ERC20 public token;
 
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
@@ -39,7 +39,7 @@ contract Freelancer is Ownable {
     ) public {
         transferOwnership(_newOwner);
         contractName = _contractName;
-        token = IERC20(_tokenAddress);
+        token = ERC20(_tokenAddress);
     }
 
     function sendToken(
@@ -183,10 +183,10 @@ contract Freelancer is Ownable {
     }
 
     // mark for deletion, already in Ownable.sol
-    function getOwner() public view returns (address) {
-        address owner = owner();
-        return owner;
-    }
+    // function getOwner() public view returns (address) {
+    //     address owner = owner();
+    //     return owner;
+    // }
 
     function total() public view returns (uint256) {
         uint256 balance = token.balanceOf(address(this));

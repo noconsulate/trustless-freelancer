@@ -6,7 +6,7 @@ const contract = require("@truffle/contract");
 const FreelancerABI = require("./build/contracts/Freelancer.json");
 const TokenABI = require("./build/contracts/ERC20.json");
 
-const freelancerAddress = "0x93f74a892552D86d46D0Ef7A126dEc5BCa956617";
+const freelancerAddress = "0xf221C87203F45D196F43A42b5Bb14b2C9ed4bD7A";
 const tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
 
 const web3 = new Web3("http://localhost:8545");
@@ -27,14 +27,14 @@ async function main() {
   freelancer = await Freelancer.at(freelancerAddress);
   token = await Token.at(tokenAddress);
 
-  const accounts = await web3.eth.getAccounts();
+  accounts = await web3.eth.getAccounts();
 
   res = await freelancer.reset({ from: accounts[0] });
 
   res = await token.approve(freelancerAddress, 10000, { from: accounts[1] });
   console.log(res);
 
-  res = await freelancer.sendToken(10000, "Jim Jennings", {
+  res = await freelancer.sendToken(10000, "Jim Jennings", 2, {
     from: accounts[1],
   });
   console.log(res.logs);
@@ -42,7 +42,7 @@ async function main() {
   res = await token.approve(freelancerAddress, 35000, { from: accounts[2] });
   console.log(res);
 
-  res = await freelancer.sendToken(10000, "Peter Griffin", {
+  res = await freelancer.sendToken(10000, "Peter Griffin", 3, {
     from: accounts[2],
   });
   console.log(res.logs);
