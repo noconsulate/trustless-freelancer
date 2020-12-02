@@ -106,7 +106,7 @@ contract Freelancer is Ownable {
     function disperse(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
 
-        require(now > escrow.endTime);
+        require(now > escrow.endTime, "end time not yet attained");
         address owner = owner();
         bool sent = token.transfer(address(owner), escrow.balance);
 
