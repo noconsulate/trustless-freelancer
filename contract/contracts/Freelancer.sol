@@ -4,6 +4,13 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
+    // for test/dev purposes, don't forget to delete
+    function setEndTime(uint256 _time) public {
+        Escrow storage escrow = escrows[address(msg.sender)];
+
+        escrow.endTime = _time;
+    }
+
     struct Escrow {
         //   address payable merchant;
         uint256 balance;
