@@ -103,6 +103,19 @@ contract Freelancer is Ownable {
         }
     }
 
+    function disperse(address _client) public onlyOwner {
+        Escrow storage escrow = escrows[_client];
+
+        require(now > escrow.endTime);
+        address owner = owner();
+        bool sent = token.transfer(address(owner), escrow.balance);
+
+        require(sent, "transfer failed");
+        emit Disperse(msg.sender, escrow.balance);
+        delete escrows[_client];
+        _cleanup(_client);
+    }
+
     function refund(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
         require(escrow.balance > 0, "this escrow is empty!");
