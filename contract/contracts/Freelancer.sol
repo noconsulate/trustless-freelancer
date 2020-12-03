@@ -70,6 +70,21 @@ contract Freelancer is Ownable {
         require(sent, "didn't send");
     }
 
+    function _disperse(address _client, address _receiver)
+        internal
+        returns (bool sent)
+    {
+        Escrow storage escrow = escrows[_client];
+        address owner = owner();
+
+        bool sent = token.transfer(address(owner), escrow.balance);
+
+        require(sent, "token transfer failed");
+        emit Disperse(_receiver, escrow.balance);
+        delete escrows[_client];
+        _cleanup(_client);
+    }
+
     //interface should check onlyOwner?
     function markShipped(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
@@ -77,13 +92,14 @@ contract Freelancer is Ownable {
         escrow.isShipped = true;
 
         if (escrow.isReceived) {
-            address owner = owner();
-            bool sent = token.transfer(address(owner), escrow.balance);
+            _disperse(_client, _client);
+            // address owner = owner();
+            // bool sent = token.transfer(address(owner), escrow.balance);
 
-            require(sent, "transfer went wrong");
-            emit Disperse(msg.sender, escrow.balance);
-            delete escrows[_client];
-            _cleanup(_client);
+            // require(sent, "transfer went wrong");
+            // emit Disperse(msg.sender, escrow.balance);
+            // delete escrows[_client];
+            // _cleanup(_client);
         }
     }
 
