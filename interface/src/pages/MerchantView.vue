@@ -123,6 +123,15 @@
               />
             </dd>
           </div>
+          <div v-if="difference < 0">
+            <button class="btn" @click="callDisperse">
+              disperse
+            </button>
+          </div>
+          <div>now {{ nowTime }}</div>
+          <div>start time {{ startTime }}</div>
+          <div>end time {{ endTime }}</div>
+          <div>difference {{ difference }} days</div>
           <div class="bg-white px-4 py-3 ">
             <controls class="w-1/2 " />
           </div>
@@ -133,6 +142,7 @@
 </template>
 
 <script>
+import { DateTime } from "luxon";
 import { getAccount, awaitTxMined, methodSender } from "../services/web3.js";
 import InfoView from "../components/InfoView";
 import Controls from "../components/Controls";
@@ -183,6 +193,34 @@ export default {
       });
 
       return details;
+    },
+    startTime() {
+      const dt = DateTime.fromMillis(
+        Number(this.selectedClientDetails.startTime)
+      );
+
+      console.log(dt.second);
+      return dt.toLocaleString();
+    },
+    endTime() {
+      const dt = DateTime.fromMillis(
+        Number(this.selectedClientDetails.endTime)
+      );
+
+      return dt.toLocaleString();
+    },
+    nowTime() {
+      const dt = DateTime.local();
+
+      return dt.toLocaleString();
+    },
+    difference() {
+      const end = DateTime.fromMillis(
+        Number(this.selectedClientDetails.endTime)
+      );
+      const diff = end.diffNow("days");
+
+      return diff.toObject().days;
     },
   },
   data() {
@@ -237,6 +275,21 @@ export default {
 
       try {
         txHash = await methodSender("markReceived", null, this.activeContract);
+      } catch (e) {
+        this.$store.dispatch("setError", e.code);
+      }
+
+      this.postCall(txHash);
+    },
+    async callDisperse() {
+      let txHash;
+
+      try {
+        txHash = await methodSender(
+          "disperse",
+          this.selectedClientDetails.address,
+          this.activeContract
+        );
       } catch (e) {
         this.$store.dispatch("setError", e.code);
       }

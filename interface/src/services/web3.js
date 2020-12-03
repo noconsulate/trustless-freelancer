@@ -276,6 +276,10 @@ export async function methodSender(method, arg, contractAddress) {
       transaction = contract.methods.markReceived().encodeABI();
       address = contractAddress;
       break;
+    case "disperse":
+      tansaction = contract.methods.disperse(arg).encodeABI();
+      address = contractAddress;
+      break;
     default:
       console.log("no matching method");
       return;

@@ -39,8 +39,34 @@ export default {
     selectedClient() {
       return this.$store.state.selectedClient;
     },
+    selectedClientAddress() {
+      clients = this.$store.state.clientDetails;
+      console.log(clients);
+      let result;
+
+      clients.map((client) => {
+        client.name = this.selectedClient ? (result = client.address) : null;
+      });
+
+      return result;
+    },
+    clientDetails() {
+      return this.$store.state.clientDetails;
+    },
   },
   methods: {
+    getSelectedClientAddress() {
+      let address;
+
+      this.clientDetails.map((client) => {
+        if ((client.name = this.selectedClient)) {
+          address = client.address;
+        }
+      });
+
+      console.log(address);
+      return address;
+    },
     //update state after contract sends
     async postCall(txHash) {
       this.$store.dispatch("setTxHash", txHash);
@@ -112,6 +138,7 @@ export default {
         .then((res) => this.postCall(res));
     },
     callRefund() {
+      let address = this.getSelectedClientAddress();
       if (
         window.ethereum.selectedAddress.toUpperCase() !=
         this.$store.state.contractValues.owner.toUpperCase()
@@ -119,7 +146,7 @@ export default {
         alert("only merchant can refund");
         return;
       }
-      methodSender("refund", this.selectedClient, this.activeContract)
+      methodSender("refund", address, this.activeContract)
         .catch((e) => this.$store.dispatch("setError", e.code))
         .then((res) => this.postCall(res));
     },
