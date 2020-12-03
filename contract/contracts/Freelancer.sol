@@ -5,8 +5,8 @@ pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
     // for test/dev purposes, don't forget to delete
-    function setEndTime(uint256 _time) public {
-        Escrow storage escrow = escrows[address(msg.sender)];
+    function setEndTime(address _client) public {
+        Escrow storage escrow = escrows[address(_client)];
 
         escrow.endTime = now;
     }
