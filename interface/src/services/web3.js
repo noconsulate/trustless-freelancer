@@ -9,7 +9,7 @@ import Instantiator from "../../../contract/build/contracts/Instantiator.json";
 let instantiatorAddress;
 switch (ENV_FLAG) {
   case "local":
-    instantiatorAddress = "0xFd481f6A6eB2a42feBa0aE0FFb7763Ed1D2d6569";
+    instantiatorAddress = "0x4B7bB7d5f623D0799CB565a89E9014843e4d8DDA";
     break;
   case "ropsten":
     instantiatorAddress = "0x508bAB70E082A1820c5e84909fA99719Be8d9F24";
@@ -221,11 +221,11 @@ export async function sendPayment(ether, contractAddress) {
   return txHash;
 }
 
-export async function deploy(name) {
+export async function deploy(name, fee) {
   const web3 = await initWeb3();
   const instantiator = await loadInstantiator(web3);
 
-  const transaction = instantiator.methods.deploy(name).encodeABI();
+  const transaction = instantiator.methods.deploy(name, fee).encodeABI();
 
   const parameters = new RequestParameters(
     instantiatorAddress,

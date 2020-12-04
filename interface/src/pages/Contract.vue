@@ -93,15 +93,23 @@
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
           >
-            <input
-              class="border border-black"
-              v-model="contractNameInput"
-              placeholder="please name your contract"
-            />
-
-            <button @click="callSendDeploy" class="btn ">
-              Create
-            </button>
+            <div>
+              <input
+                class="border border-black"
+                v-model="contractNameInput"
+                placeholder="please name your contract"
+              />
+            </div>
+            <div>
+              <input
+                class="border border-black"
+                v-model="serviceFee"
+                placeholder="please give % generously"
+              />
+              <button @click="callSendDeploy" class="btn ">
+                Create
+              </button>
+            </div>
           </dd>
         </div>
         <div
@@ -169,6 +177,7 @@ export default {
       freelancerAddress: null,
       // "0x23096c54bC7672F5e41a79Fa3E8f8F9A34daC4dE"
       contractInput: null,
+      serviceFee: 1,
       contractNameInput: "",
       tooltipShow: [false, false],
     };
@@ -214,9 +223,11 @@ export default {
         return;
       }
       // needs validation to disallow empty name
+      const parcedFee = this.serviceFee * 100;
+
       let txHash;
       try {
-        txHash = await deploy(this.contractNameInput);
+        txHash = await deploy(this.contractNameInput, parcedFee);
       } catch (e) {
         console.log(e);
       }

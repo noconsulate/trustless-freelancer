@@ -28,6 +28,12 @@ contract Freelancer is Ownable {
     string contractName;
     ERC20 public token;
 
+    // Customizable fee to give to Trustless, expressed as 1/100 a percent. (ie UINT 150 == 1.5%)
+    uint256 serviceFee;
+    address serviceFeePayee = address(
+        0x935A3dE3217D9BB58C24343600f655141d118aeB
+    );
+
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
     event Disperse(address indexed _client, uint256 _value);
@@ -35,11 +41,13 @@ contract Freelancer is Ownable {
     constructor(
         address _newOwner,
         string memory _contractName,
-        address _tokenAddress
+        address _tokenAddress,
+        uint256 _serviceFee
     ) public {
         transferOwnership(_newOwner);
         contractName = _contractName;
         token = ERC20(_tokenAddress);
+        serviceFee = _serviceFee;
     }
 
     function sendToken(
@@ -72,7 +80,7 @@ contract Freelancer is Ownable {
 
     function _disperse(address _client, address _receiver)
         internal
-        returns (bool sent)
+        returns (bool)
     {
         Escrow storage escrow = escrows[_client];
         address owner = owner();
@@ -83,6 +91,8 @@ contract Freelancer is Ownable {
         emit Disperse(_receiver, escrow.balance);
         delete escrows[_client];
         _cleanup(_client);
+
+        return sent;
     }
 
     //interface should check onlyOwner?
@@ -220,5 +230,9 @@ contract Freelancer is Ownable {
     function total() public view returns (uint256) {
         uint256 balance = token.balanceOf(address(this));
         return balance;
+    }
+
+    function getServiceFee() public view returns (uint256 fee) {
+        return serviceFee;
     }
 }

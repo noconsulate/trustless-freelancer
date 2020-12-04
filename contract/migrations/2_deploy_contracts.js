@@ -10,7 +10,8 @@ module.exports = function (deployer) {
     Freelancer,
     "0x935A3dE3217D9BB58C24343600f655141d118aeB",
     "Webshits r us",
-    "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266"
+    "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266",
+    100
   );
   deployer.deploy(Instantiator, "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266");
 };
