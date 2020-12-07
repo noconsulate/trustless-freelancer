@@ -93,6 +93,7 @@
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
           >
+            contract name
             <div>
               <input
                 class="border border-black"
@@ -100,6 +101,7 @@
                 placeholder="please name your contract"
               />
             </div>
+            service fee
             <div>
               <input
                 class="border border-black"
