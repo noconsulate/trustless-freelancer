@@ -107,36 +107,26 @@ contract Freelancer is Ownable {
     }
 
     //interface should check onlyOwner?
-    function markShipped(address _client) public onlyOwner {
+    function markShipped(address _client) public onlyOwner returns (bool sent) {
         Escrow storage escrow = escrows[_client];
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isShipped = true;
 
         if (escrow.isReceived) {
-            _disperse(_client, _client);
-            // address owner = owner();
-            // bool sent = token.transfer(address(owner), escrow.balance);
-
-            // require(sent, "transfer went wrong");
-            // emit Disperse(msg.sender, escrow.balance);
-            // delete escrows[_client];
-            // _cleanup(_client);
+            bool sent = _disperse(_client, _client);
+            return sent;
         }
     }
 
-    function markReceived() public {
+    function markReceived() public returns (bool sent) {
         Escrow storage escrow = escrows[msg.sender];
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isReceived = true;
 
         if (escrow.isShipped == true) {
             address owner = owner();
-            bool sent = token.transfer(address(owner), escrow.balance);
-
-            require(sent, "transfer failed");
-            emit Disperse(msg.sender, escrow.balance);
-            delete escrows[msg.sender];
-            _cleanup(msg.sender);
+            bool sent = _disperse(msg.sender, owner);
+            return sent;
         }
     }
 

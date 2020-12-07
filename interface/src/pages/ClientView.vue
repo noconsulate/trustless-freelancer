@@ -389,7 +389,7 @@ export default {
     this.getAllowance();
 
     window.ethereum.on("accountsChanged", function(accounts) {
-      this.callGetAllowance();
+      this.getAllowance();
     });
   },
   watch: {
