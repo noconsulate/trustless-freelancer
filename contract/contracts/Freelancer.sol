@@ -131,7 +131,7 @@ contract Freelancer is Ownable {
     }
 
     // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
-    function autoDisperse(address _client) public returns (bool sent) {
+    function triggerDisperse(address _client) public returns (bool sent) {
         Escrow storage escrow = escrows[_client];
 
         require(now > escrow.endTime, "end time not yet attained");

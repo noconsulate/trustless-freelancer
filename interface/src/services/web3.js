@@ -277,7 +277,7 @@ export async function methodSender(method, arg, contractAddress) {
       address = contractAddress;
       break;
     case "disperse":
-      tansaction = contract.methods.autoDisperse(arg).encodeABI();
+      tansaction = contract.methods.triggerDisperse(arg).encodeABI();
       address = contractAddress;
       break;
     default:
