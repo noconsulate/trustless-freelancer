@@ -114,6 +114,14 @@
                     set
                   </button>
                 </div>
+                Recurring days (0 for non recurring)
+                <div class="w-full flex">
+                  <input
+                    v-model="daysRecurring"
+                    placeholder="enter number of days"
+                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  />
+                </div>
               </div>
             </dd>
           </div>
@@ -209,6 +217,7 @@ export default {
       clientName: "frodo saggins",
       tokenAmount: 0.1,
       termLength: 5,
+      daysRecurring: 30,
       clientValues: { balance: 0 },
       allowance: null,
     };
@@ -359,6 +368,7 @@ export default {
         tokenAmount: this.tokenAmount,
         clientName: this.clientName,
         termLength: this.termLength,
+        daysRecurring: this.daysRecurring,
       };
 
       let txHash;
