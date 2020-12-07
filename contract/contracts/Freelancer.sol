@@ -22,6 +22,7 @@ contract Freelancer is Ownable {
         bool isReceived;
         uint256 startTime;
         uint256 endTime;
+        uint256 daysRecurring; // to be multiplied by days
     }
 
     mapping(address => Escrow) escrows;
@@ -57,7 +58,8 @@ contract Freelancer is Ownable {
     function sendToken(
         uint256 _value,
         string memory _clientName,
-        uint256 _termTime
+        uint256 _termTime,
+        uint256 _daysRecurring
     ) external returns (bool) {
         Escrow storage escrow = escrows[address(msg.sender)];
         // reject transfer from address already associated with escrow
@@ -70,6 +72,7 @@ contract Freelancer is Ownable {
         escrow.clientName = _clientName;
         escrow.startTime = now;
         escrow.endTime = escrow.startTime + _termTime * 1 days;
+        escrow.daysRecurring = _daysRecurring;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
