@@ -6,7 +6,7 @@ const contract = require("@truffle/contract");
 const FreelancerABI = require("./build/contracts/Freelancer.json");
 const TokenABI = require("./build/contracts/ERC20.json");
 
-const freelancerAddress = "0xb00A9cc12c9bFD030dCe46F5050e7D1347Cf7E9e";
+const freelancerAddress = "0x0857D9f38A6eFe02fb43a502FE7d4d27380bf1E4";
 const tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
 
 const web3 = new Web3("http://localhost:8545");

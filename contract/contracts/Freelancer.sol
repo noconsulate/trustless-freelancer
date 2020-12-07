@@ -1,9 +1,12 @@
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 pragma solidity ^0.6.12;
 
 contract Freelancer is Ownable {
+    using SafeMath for uint256;
+
     // for test/dev purposes, don't forget to delete
     function setEndTime(address _client) public {
         Escrow storage escrow = escrows[address(_client)];
@@ -33,6 +36,7 @@ contract Freelancer is Ownable {
     address serviceFeePayee = address(
         0x935A3dE3217D9BB58C24343600f655141d118aeB
     );
+    uint256 providerBalance;
 
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
@@ -85,12 +89,19 @@ contract Freelancer is Ownable {
         Escrow storage escrow = escrows[_client];
         address owner = owner();
 
-        bool sent = token.transfer(address(owner), escrow.balance);
+        //assign proper values to owner and serviceFeePayee
+        uint256 payeeValue = escrow.balance.div(serviceFee);
+        uint256 ownerValue = escrow.balance.sub(payeeValue);
 
+        /// transfer to owner/merchant
+        bool sent = token.transfer(address(owner), ownerValue);
         require(sent, "token transfer failed");
         emit Disperse(_receiver, escrow.balance);
         delete escrows[_client];
         _cleanup(_client);
+
+        // credit service provider
+        providerBalance += payeeValue;
 
         return sent;
     }
@@ -232,7 +243,11 @@ contract Freelancer is Ownable {
         return balance;
     }
 
-    function getServiceFee() public view returns (uint256 fee) {
-        return serviceFee;
+    function getServiceFee()
+        public
+        view
+        returns (uint256 fee, uint256 balance)
+    {
+        return (serviceFee, providerBalance);
     }
 }
