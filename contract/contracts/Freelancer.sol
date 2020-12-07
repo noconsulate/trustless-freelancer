@@ -130,17 +130,20 @@ contract Freelancer is Ownable {
         }
     }
 
-    function disperse(address _client) public onlyOwner {
+    // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
+    function autoDisperse(address _client) public returns (bool sent) {
         Escrow storage escrow = escrows[_client];
 
         require(now > escrow.endTime, "end time not yet attained");
         address owner = owner();
-        bool sent = token.transfer(address(owner), escrow.balance);
+        bool sent = _disperse(_client, owner);
 
         require(sent, "transfer failed");
         emit Disperse(msg.sender, escrow.balance);
         delete escrows[_client];
         _cleanup(_client);
+
+        return sent;
     }
 
     function refund(address _client) public onlyOwner {
