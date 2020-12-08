@@ -99,22 +99,52 @@ contract Freelancer is Ownable {
         require(sent, "token transfer failed");
         emit Disperse(_receiver, escrow.balance);
 
-        // if recurring then recur!
-        if (escrow.recurring == false) {
+        return sent;
+    }
+
+    function termElapsed(address _client) public {
+        Escrow storage escrow = escrows[_client];
+        address owner = owner();
+        bool sent = false;
+
+        // term must be reached
+        require(now >= escrow.endTime, "term not reached");
+
+        // if not recurring, escrow dispersed and removed
+        if (!escrow.recurring) {
+            sent = _disperse(_client, owner);
+            require(sent, "dispersal of non-recurring escrow failed");
+
             delete escrows[_client];
             _cleanup(_client);
+            return;
         }
+
+        // if not marked shipped then disperse
+        if (!escrow.isShipped) {
+            sent = _disperse(_client, owner);
+            require(sent, "dispersal of recurring escrow failed");
+        }
+
+        // pull new payment from client
+        bool transferred = token.transferFrom(
+            _client,
+            address(this),
+            escrow.balance
+        );
+        require(transferred, "transfer from client failed!");
+
         // reset timestamps
-        if (escrow.recurring = true) {
-            require(sent, "re-upping the balance failed");
-            escrow.startTime = escrow.endTime;
-            escrow.endTime = escrow.startTime + escrow.term;
-        }
-        return sent;
+        escrow.startTime = escrow.endTime;
+        escrow.endTime = escrow.startTime + escrow.term;
+
+        escrow.isShipped = false;
     }
 
     function renewEscrow(address _client) public {
         Escrow storage escrow = escrows[_client];
+
+        require(escrow.recurring, "this escrow doesn't recur");
 
         // check we are in the new term
         require(now >= escrow.startTime, "new term hasn't arrived yet");
@@ -123,6 +153,7 @@ contract Freelancer is Ownable {
         if (!escrow.isShipped) {
             address owner = owner();
             bool dispersed = _disperse(_client, owner);
+            require(dispersed, "dispersal failed, dangit");
         }
 
         bool transferred = token.transferFrom(
@@ -130,8 +161,12 @@ contract Freelancer is Ownable {
             address(this),
             escrow.balance
         );
-
         require(transferred, "transfer from client failed!");
+
+        // reset timestamps
+        escrow.startTime = escrow.endTime;
+        escrow.endTime = escrow.startTime + escrow.term;
+
         escrow.isShipped = false;
     }
 
@@ -142,11 +177,12 @@ contract Freelancer is Ownable {
             escrow.balance > 0 || !escrow.isShipped,
             "this escrow is empty or has already been mark shipped!"
         );
-        escrow.isShipped = true;
 
         address owner = owner();
         bool success = _disperse(_client, owner);
+
         require(success, "dispersal failed");
+        escrow.isShipped = true;
     }
 
     // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
