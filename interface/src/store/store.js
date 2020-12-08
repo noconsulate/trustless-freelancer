@@ -28,7 +28,6 @@ export default new Vuex.Store({
         address: null,
         balance: null,
         isShipped: null,
-        isReceived: null,
       },
     ],
     escrowFetched: false,

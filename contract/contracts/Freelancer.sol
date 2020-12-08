@@ -19,7 +19,6 @@ contract Freelancer is Ownable {
         uint256 balance;
         string clientName;
         bool isShipped;
-        bool isReceived;
         uint256 startTime;
         uint256 endTime;
         uint256 term;
@@ -124,24 +123,6 @@ contract Freelancer is Ownable {
         Escrow storage escrow = escrows[_client];
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isShipped = true;
-
-        if (escrow.isReceived) {
-            address owner = owner();
-            bool sent = _disperse(_client, owner);
-            require(sent, "_disperse failed");
-        }
-    }
-
-    function markReceived() public {
-        Escrow storage escrow = escrows[msg.sender];
-        require(escrow.balance > 0, "this escrow is empty!");
-        escrow.isReceived = true;
-
-        if (escrow.isShipped == true) {
-            address owner = owner();
-            bool sent = _disperse(msg.sender, owner);
-            require(sent, "_disperse failed");
-        }
     }
 
     // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
@@ -149,6 +130,7 @@ contract Freelancer is Ownable {
         Escrow storage escrow = escrows[_client];
 
         require(now > escrow.endTime, "end time not yet attained");
+        require(escrow.isShipped, "product not shipped"),
         address owner = owner();
         bool sent = _disperse(_client, owner);
 

@@ -108,21 +108,7 @@
               />
             </dd>
           </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-sm leading-5 font-medium text-gray-500">
-              Received?
-            </dt>
-            <dd
-              class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2"
-            >
-              <checkbox
-                :isTrue="selectedClientDetails.isReceived"
-                :sendTx="callMarkReceived"
-              />
-            </dd>
-          </div>
+
           <div v-if="difference < 0">
             <button class="btn" @click="callDisperse">
               disperse
@@ -181,7 +167,6 @@ export default {
         name: null,
         balance: null,
         address: null,
-        isReceived: null,
         isShipped: null,
       };
 
@@ -252,29 +237,6 @@ export default {
           this.selectedClientDetails.address,
           this.activeContract
         );
-      } catch (e) {
-        this.$store.dispatch("setError", e.code);
-      }
-
-      this.postCall(txHash);
-    },
-    async callMarkReceived() {
-      console.log(
-        window.ethereum.selectedAddress,
-        this.$store.state.escrowValues.address
-      );
-      if (
-        window.ethereum.selectedAddress.toUpperCase() !=
-        this.$store.state.escrowValues.address.toUpperCase()
-      ) {
-        alert("only the client can mark shipped");
-        return;
-      }
-
-      let txHash;
-
-      try {
-        txHash = await methodSender("markReceived", null, this.activeContract);
       } catch (e) {
         this.$store.dispatch("setError", e.code);
       }
