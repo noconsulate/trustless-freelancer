@@ -22,7 +22,8 @@ contract Freelancer is Ownable {
         bool isReceived;
         uint256 startTime;
         uint256 endTime;
-        uint256 daysRecurring; // to be multiplied by days
+        uint256 term;
+        bool recurring; // to be multiplied by days
     }
 
     mapping(address => Escrow) escrows;
@@ -58,8 +59,7 @@ contract Freelancer is Ownable {
     function sendToken(
         uint256 _value,
         string memory _clientName,
-        uint256 _termTime,
-        uint256 _daysRecurring
+        uint256 _termTime
     ) external returns (bool) {
         Escrow storage escrow = escrows[address(msg.sender)];
         // reject transfer from address already associated with escrow
@@ -71,18 +71,13 @@ contract Freelancer is Ownable {
         escrow.balance = _value;
         escrow.clientName = _clientName;
         escrow.startTime = now;
+        // should endTime be stored or calculated when needed?
         escrow.endTime = escrow.startTime + _termTime * 1 days;
-        escrow.daysRecurring = _daysRecurring;
+        escrow.term = _termTime * 1 days;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
         return sent;
-    }
-
-    function _transfer(address receiver, uint256 value) internal {
-        bool sent = token.transfer(receiver, value);
-
-        require(sent, "didn't send");
     }
 
     function _disperse(address _client, address _receiver)
@@ -96,10 +91,25 @@ contract Freelancer is Ownable {
         uint256 payeeValue = escrow.balance.div(serviceFee);
         uint256 ownerValue = escrow.balance.sub(payeeValue);
 
-        /// transfer to owner/merchant
+        // transfer to owner/merchant
         bool sent = token.transfer(address(owner), ownerValue);
         require(sent, "token transfer failed");
         emit Disperse(_receiver, escrow.balance);
+
+        // if recurring then recur!
+        if (escrow.recurring == false) {
+            delete escrows[_client];
+            _cleanup(_client);
+        }
+        // re-up the balance and reset endTime
+        if (escrow.recurring = true) {
+            sent = token.transferFrom(_client, address(this), escrow.balance);
+
+            require(sent, "re-upping the balance failed");
+            escrow.startTime = now;
+            escrow.endTime = escrow.startTime + escrow.term;
+        }
+
         delete escrows[_client];
         _cleanup(_client);
 
@@ -110,18 +120,19 @@ contract Freelancer is Ownable {
     }
 
     //interface should check onlyOwner?
-    function markShipped(address _client) public onlyOwner returns (bool sent) {
+    function markShipped(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isShipped = true;
 
         if (escrow.isReceived) {
-            bool sent = _disperse(_client, _client);
-            return sent;
+            address owner = owner();
+            bool sent = _disperse(_client, owner);
+            require(sent, "_disperse failed");
         }
     }
 
-    function markReceived() public returns (bool sent) {
+    function markReceived() public {
         Escrow storage escrow = escrows[msg.sender];
         require(escrow.balance > 0, "this escrow is empty!");
         escrow.isReceived = true;
@@ -129,12 +140,12 @@ contract Freelancer is Ownable {
         if (escrow.isShipped == true) {
             address owner = owner();
             bool sent = _disperse(msg.sender, owner);
-            return sent;
+            require(sent, "_disperse failed");
         }
     }
 
     // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
-    function triggerDisperse(address _client) public returns (bool sent) {
+    function triggerDisperse(address _client) public {
         Escrow storage escrow = escrows[_client];
 
         require(now > escrow.endTime, "end time not yet attained");
@@ -142,11 +153,6 @@ contract Freelancer is Ownable {
         bool sent = _disperse(_client, owner);
 
         require(sent, "transfer failed");
-        emit Disperse(msg.sender, escrow.balance);
-        delete escrows[_client];
-        _cleanup(_client);
-
-        return sent;
     }
 
     function refund(address _client) public onlyOwner {
@@ -166,15 +172,20 @@ contract Freelancer is Ownable {
         uint256 length = clients.length;
 
         for (uint256 i = length; i > 0; i--) {
-            // payable(owner).transfer(escrows[clients[i - 1]].balance);
-            // _transfer(owner, escrows[clients[i - 1]].balance);
-            // token.transfer(address(owner), escrows[clients[i-1]].balance);
+            bool sent = token.transfer(
+                address(owner),
+                escrows[clients[i - 1]].balance
+            );
+
+            require(sent, "failed to transfer tokens");
             delete escrows[clients[i - 1]];
             delete clients[i - 1];
         }
 
         uint256 balance = token.balanceOf(address(this));
-        token.transfer(address(owner), balance);
+        uint256 resetPayout = balance.sub(providerBalance);
+
+        token.transfer(address(owner), resetPayout);
         delete clients;
     }
 
@@ -183,6 +194,7 @@ contract Freelancer is Ownable {
         uint256 length = clients.length;
         uint256 indexToDelete;
 
+        // remove client from clients[]
         for (uint256 i = 0; i < length; i++) {
             if (clients[i] == _client) {
                 indexToDelete = i;
