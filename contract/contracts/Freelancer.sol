@@ -115,6 +115,8 @@ contract Freelancer is Ownable {
 
         // if not recurring, escrow dispersed and removed
         if (!escrow.recurring) {
+            //don't do anything if already shipped/dispersed
+            require(!escrow.isShipped, "escrow already marked shipped");
             sent = _disperse(_client, owner);
             require(sent, "dispersal of non-recurring escrow failed");
 
