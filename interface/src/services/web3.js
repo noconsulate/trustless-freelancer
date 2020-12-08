@@ -157,7 +157,7 @@ export async function getValues(address) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, address);
 
-  let owner, balance, name;
+  let owner, balance, name, serviceFee;
 
   try {
     owner = await contract.methods.owner().call({ from: null });
@@ -179,8 +179,6 @@ export async function getValues(address) {
     console.log(e);
     throw e.code;
   }
-
-  // balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
     name,
@@ -271,7 +269,8 @@ export async function methodSender(method, arg, contractAddress) {
       address = contractAddress;
       break;
     case "disperse":
-      tansaction = contract.methods.triggerDisperse(arg).encodeABI();
+      console.log("got it");
+      transaction = contract.methods.termElapsed(arg).encodeABI();
       address = contractAddress;
       break;
     default:

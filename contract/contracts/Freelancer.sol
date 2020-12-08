@@ -72,6 +72,8 @@ contract Freelancer is Ownable {
         escrow.clientName = _clientName;
         escrow.startTime = now;
         // should endTime be stored or calculated when needed?
+        // is startTime actually used for anything?
+
         escrow.endTime = escrow.startTime + _termTime * 1 days;
         escrow.term = _termTime * 1 days;
         escrow.recurring = _recurring;
@@ -102,6 +104,7 @@ contract Freelancer is Ownable {
         return sent;
     }
 
+    // this function has to be called by someone for Freelancer to be true magic. If Trustless calls it with a deamon (which is preferred) we have to pay the gas. So that gas cost needs to be recoupped here and transferred back to us. Otherwise users have to manually call this function.
     function termElapsed(address _client) public {
         Escrow storage escrow = escrows[_client];
         address owner = owner();
@@ -252,7 +255,7 @@ contract Freelancer is Ownable {
 
     function total() public view returns (uint256) {
         uint256 balance = token.balanceOf(address(this));
-        return balance;
+        return balance - providerBalance;
     }
 
     function getServiceFee()

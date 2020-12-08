@@ -8,7 +8,7 @@ const BigNumber = require("bignumber.js");
 const FreelancerABI = require("./build/contracts/Freelancer.json");
 const TokenABI = require("./build/contracts/ERC20.json");
 
-const freelancerAddress = "0x1770136cA9a45e2631aF195843eA2Ed1FFB9f9A9";
+const freelancerAddress = "0x2B0FEaEd800cCEdB32b3aE8198Da5E80f8b03aae";
 const tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
 
 const web3 = new Web3("http://localhost:8545");
