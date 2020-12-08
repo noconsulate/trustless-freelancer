@@ -58,7 +58,8 @@ contract Freelancer is Ownable {
     function sendToken(
         uint256 _value,
         string memory _clientName,
-        uint256 _termTime
+        uint256 _termTime,
+        bool _recurring
     ) external returns (bool) {
         Escrow storage escrow = escrows[address(msg.sender)];
         // reject transfer from address already associated with escrow
@@ -73,6 +74,7 @@ contract Freelancer is Ownable {
         // should endTime be stored or calculated when needed?
         escrow.endTime = escrow.startTime + _termTime * 1 days;
         escrow.term = _termTime * 1 days;
+        escrow.recurring = _recurring;
         clients.push(msg.sender);
 
         emit Deposit(msg.sender, _value);
@@ -89,6 +91,8 @@ contract Freelancer is Ownable {
         //assign proper values to owner and serviceFeePayee
         uint256 payeeValue = escrow.balance.div(serviceFee);
         uint256 ownerValue = escrow.balance.sub(payeeValue);
+        // credit service provider
+        providerBalance += payeeValue;
 
         // transfer to owner/merchant
         bool sent = token.transfer(address(owner), ownerValue);
@@ -100,29 +104,43 @@ contract Freelancer is Ownable {
             delete escrows[_client];
             _cleanup(_client);
         }
-        // re-up the balance and reset endTime
+        // reset timestamps
         if (escrow.recurring = true) {
-            sent = token.transferFrom(_client, address(this), escrow.balance);
-
             require(sent, "re-upping the balance failed");
-            escrow.startTime = now;
+            escrow.startTime = escrow.endTime;
             escrow.endTime = escrow.startTime + escrow.term;
         }
-
-        delete escrows[_client];
-        _cleanup(_client);
-
-        // credit service provider
-        providerBalance += payeeValue;
-
         return sent;
+    }
+
+    function renewEscrow(address _client) public {
+        Escrow storage escrow = escrows[_client];
+
+        // check we are in the new term
+        require(now >= escrow.startTime, "new term hasn't arrived yet");
+
+        bool transferred = token.transferFrom(
+            _client,
+            address(this),
+            escrow.balance
+        );
+
+        require(transferred, "transfer from client failed!");
+        escrow.isShipped = false;
     }
 
     //interface should check onlyOwner?
     function markShipped(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
-        require(escrow.balance > 0, "this escrow is empty!");
+        require(
+            escrow.balance > 0 || !escrow.isShipped,
+            "this escrow is empty or has already been mark shipped!"
+        );
         escrow.isShipped = true;
+
+        address owner = owner();
+        bool success = _disperse(_client, owner);
+        require(success, "dispersal failed");
     }
 
     // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
@@ -130,7 +148,10 @@ contract Freelancer is Ownable {
         Escrow storage escrow = escrows[_client];
 
         require(now > escrow.endTime, "end time not yet attained");
-        require(escrow.isShipped, "product not shipped"),
+        require(
+            !escrow.isShipped,
+            "product already shipped, thus payment already dispersed"
+        );
         address owner = owner();
         bool sent = _disperse(_client, owner);
 
@@ -198,9 +219,10 @@ contract Freelancer is Ownable {
             string memory name,
             uint256 balance,
             bool isShipped,
-            bool isReceived,
             uint256 startTime,
-            uint256 endTime
+            uint256 endTime,
+            uint256 term,
+            bool recurring
         )
     {
         Escrow memory escrow = escrows[_escrow];
@@ -208,9 +230,11 @@ contract Freelancer is Ownable {
             escrow.clientName,
             escrow.balance,
             escrow.isShipped,
-            escrow.isReceived,
+            // these three calculations should be made by the client not in the expensive EVM. or does it matter? this is view. if pure it matters. what's the advantage of view vs pure anyway?
             escrow.startTime * 1000,
-            escrow.endTime * 1000
+            escrow.endTime * 1000,
+            escrow.term * 1000,
+            escrow.recurring
         );
     }
 

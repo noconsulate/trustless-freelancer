@@ -3,10 +3,12 @@
 const Web3 = require("web3");
 const contract = require("@truffle/contract");
 
+const BigNumber = require("bignumber.js");
+
 const FreelancerABI = require("./build/contracts/Freelancer.json");
 const TokenABI = require("./build/contracts/ERC20.json");
 
-const freelancerAddress = "0x75952c42A347Efff979a6A7aA2C6eA3cDfbbEdFE";
+const freelancerAddress = "0x86Dc7a3Fcf40414B8b0Ec59D0be191F541B65187";
 const tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
 
 const web3 = new Web3("http://localhost:8545");
@@ -29,20 +31,22 @@ async function main() {
 
   accounts = await web3.eth.getAccounts();
 
+  const maxValue = new BigNumber((2 ** 256 - 1) / 10 ** 18);
+
   res = await freelancer.reset({ from: accounts[0] });
 
-  res = await token.approve(freelancerAddress, 10000, { from: accounts[1] });
+  res = await token.approve(freelancerAddress, maxValue, { from: accounts[1] });
   console.log(res);
 
-  res = await freelancer.sendToken(10000, "Jim Jennings", 2, {
+  res = await freelancer.sendToken(10000, "Jim Jennings", 30, true, {
     from: accounts[1],
   });
   console.log(res.logs);
 
-  res = await token.approve(freelancerAddress, 35000, { from: accounts[2] });
+  res = await token.approve(freelancerAddress, maxValue, { from: accounts[2] });
   console.log(res);
 
-  res = await freelancer.sendToken(35000, "Peter Griffin", 3, {
+  res = await freelancer.sendToken(35000, "Peter Griffin", 30, false, {
     from: accounts[2],
   });
   console.log(res.logs);
@@ -53,9 +57,7 @@ async function main() {
   // res = await freelancer.markReceived({ from: accounts[1] });
   // console.log(res);
 
-  return;
+  return 1;
 }
 
 main();
-
-return;
