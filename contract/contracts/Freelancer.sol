@@ -141,35 +141,6 @@ contract Freelancer is Ownable {
         escrow.isShipped = false;
     }
 
-    function renewEscrow(address _client) public {
-        Escrow storage escrow = escrows[_client];
-
-        require(escrow.recurring, "this escrow doesn't recur");
-
-        // check we are in the new term
-        require(now >= escrow.startTime, "new term hasn't arrived yet");
-
-        // if escrow wasn't marked shipped thus hasn't dispersed, disperse now
-        if (!escrow.isShipped) {
-            address owner = owner();
-            bool dispersed = _disperse(_client, owner);
-            require(dispersed, "dispersal failed, dangit");
-        }
-
-        bool transferred = token.transferFrom(
-            _client,
-            address(this),
-            escrow.balance
-        );
-        require(transferred, "transfer from client failed!");
-
-        // reset timestamps
-        escrow.startTime = escrow.endTime;
-        escrow.endTime = escrow.startTime + escrow.term;
-
-        escrow.isShipped = false;
-    }
-
     //interface should check onlyOwner?
     function markShipped(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
@@ -183,21 +154,6 @@ contract Freelancer is Ownable {
 
         require(success, "dispersal failed");
         escrow.isShipped = true;
-    }
-
-    // ignores shipped/received status and only checks timestamps. this allows dispersal without user interaction perse.
-    function triggerDisperse(address _client) public {
-        Escrow storage escrow = escrows[_client];
-
-        require(now > escrow.endTime, "end time not yet attained");
-        require(
-            !escrow.isShipped,
-            "product already shipped, thus payment already dispersed"
-        );
-        address owner = owner();
-        bool sent = _disperse(_client, owner);
-
-        require(sent, "transfer failed");
     }
 
     function refund(address _client) public onlyOwner {
