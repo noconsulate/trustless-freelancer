@@ -215,7 +215,7 @@ export default {
     return {
       addressInput: null,
       clientName: "frodo saggins",
-      tokenAmount: 0.1,
+      tokenAmount: 10000,
       termLength: 5,
       recurring: true,
       clientValues: { balance: 0 },
