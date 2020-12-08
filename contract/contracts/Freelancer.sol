@@ -119,6 +119,12 @@ contract Freelancer is Ownable {
         // check we are in the new term
         require(now >= escrow.startTime, "new term hasn't arrived yet");
 
+        // if escrow wasn't marked shipped thus hasn't dispersed, disperse now
+        if (!escrow.isShipped) {
+            address owner = owner();
+            bool dispersed = _disperse(_client, owner);
+        }
+
         bool transferred = token.transferFrom(
             _client,
             address(this),
