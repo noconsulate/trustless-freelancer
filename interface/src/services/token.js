@@ -58,7 +58,7 @@ export async function checkBalance(client, value) {
     throw e;
   }
 
-  balance = web3.utils.fromWei(balance, "ether");
+  // balance = web3.utils.fromWei(balance, "ether");
 
   return balance;
 }
@@ -77,7 +77,7 @@ export async function checkAllowance(spender) {
     throw e;
   }
 
-  allowance = web3.utils.fromWei(allowance.toString(), "ether");
+  // allowance = web3.utils.fromWei(allowance.toString(), "ether");
   return allowance;
 }
 

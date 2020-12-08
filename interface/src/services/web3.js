@@ -123,7 +123,7 @@ export async function getEscrowValues(client, contractAddress) {
   }
 
   // convert crazy token values (should depend on token)
-  balance = web3.utils.fromWei(balance, "ether");
+  // balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
     name,
@@ -182,7 +182,7 @@ export async function getValues(address) {
     throw e.code;
   }
 
-  balance = web3.utils.fromWei(balance, "ether");
+  // balance = web3.utils.fromWei(balance, "ether");
 
   const valuesObj = {
     name,
@@ -253,10 +253,10 @@ export async function methodSender(method, arg, contractAddress) {
     // need "preTrnsferFrom"
     case "transferFrom":
       const { tokenAmount, clientName, termLength, daysRecurring } = arg;
-      const weiAmount = web3.utils.toWei(String(tokenAmount), "ether");
+      // const weiAmount = web3.utils.toWei(String(tokenAmount), "ether");
       console.log("sendToken: " + weiAmount, clientName);
       transaction = contract.methods
-        .sendToken(weiAmount, clientName, termLength, daysRecurring)
+        .sendToken(tokenAmount, clientName, termLength, daysRecurring)
         .encodeABI();
       address = contractAddress;
       break;
