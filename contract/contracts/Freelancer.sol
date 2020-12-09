@@ -154,6 +154,18 @@ contract Freelancer is Ownable {
         escrow.isShipped = true;
     }
 
+    function cancelRecurring(address _client) public {
+        // accessible by owner or client only
+        address owner = owner();
+        require(
+            msg.sender == _client || msg.sender == owner,
+            "only the owner or client can do this"
+        );
+
+        Escrow storage escrow = escrows[_client];
+        escrow.recurring = false;
+    }
+
     function refund(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
         require(escrow.balance > 0, "this escrow is empty!");
