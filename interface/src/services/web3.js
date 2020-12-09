@@ -104,7 +104,7 @@ export async function getEscrowValues(client, contractAddress) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3, contractAddress);
 
-  let name, balance, isShipped, startTime, endTime;
+  let name, balance, isShipped, endTime, term, recurring;
 
   try {
     let values = await contract.methods
@@ -114,8 +114,9 @@ export async function getEscrowValues(client, contractAddress) {
     name = values[0];
     balance = values[1];
     isShipped = values[2];
-    startTime = values[3];
-    endTime = values[4];
+    endTime = values[3];
+    term = values[4];
+    recurring = values[5];
   } catch (e) {
     console.log(e.message);
     throw e;
@@ -128,8 +129,9 @@ export async function getEscrowValues(client, contractAddress) {
     name,
     balance,
     isShipped,
-    startTime,
     endTime,
+    term,
+    recurring,
   };
 
   return valuesObj;

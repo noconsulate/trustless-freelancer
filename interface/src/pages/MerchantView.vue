@@ -169,7 +169,7 @@ export default {
         address: null,
         isShipped: null,
       };
-
+      6;
       if (!this.selectedClient) {
         return details;
       }
@@ -180,11 +180,12 @@ export default {
       return details;
     },
     startTime() {
-      const dt = DateTime.fromMillis(
-        Number(this.selectedClientDetails.startTime)
-      );
+      const startMillis =
+        Number(this.selectedClientDetails.endTime) -
+        this.selectedClientDetails.term;
 
-      console.log(dt.second);
+      const dt = DateTime.fromMillis(startMillis);
+
       return dt.toLocaleString();
     },
     endTime() {
