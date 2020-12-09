@@ -1,5 +1,4 @@
 const ENV_FLAG = "local";
-const DEBUG_FLAG = false;
 
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
@@ -9,10 +8,10 @@ import Instantiator from "../../../contract/build/contracts/Instantiator.json";
 let instantiatorAddress;
 switch (ENV_FLAG) {
   case "local":
-    instantiatorAddress = "0x4B7bB7d5f623D0799CB565a89E9014843e4d8DDA";
+    instantiatorAddress = "0xbd4EDDf5e509Fa5450D1bb7664E8Ebfcf9E205E2";
     break;
   case "ropsten":
-    instantiatorAddress = "0x508bAB70E082A1820c5e84909fA99719Be8d9F24";
+    instantiatorAddress = "0x21bC0cfeD363Fd8ce47cd30FE27a36b3D9AbF214";
 }
 
 class RequestParameters {
@@ -250,11 +249,11 @@ export async function methodSender(method, arg, contractAddress) {
   switch (method) {
     // need "preTrnsferFrom"
     case "transferFrom":
-      const { tokenAmount, clientName, termLength, daysRecurring } = arg;
+      const { tokenAmount, clientName, termLength, recurring } = arg;
       // const weiAmount = web3.utils.toWei(String(tokenAmount), "ether");
-      console.log("sendToken: " + weiAmount, clientName);
+      console.log("sendToken: " + tokenAmount, clientName);
       transaction = contract.methods
-        .sendToken(tokenAmount, clientName, termLength, daysRecurring)
+        .sendToken(tokenAmount, clientName, termLength, recurring)
         .encodeABI();
       address = contractAddress;
       break;

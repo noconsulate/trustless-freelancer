@@ -1,10 +1,16 @@
+const ENV = "local";
+
 import Web3 from "web3";
 
 import FreelancerToken from "./FreelancerTOKEN.json";
 
-import { tokenAddress } from "../../../address";
-// const DAIRopsten = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";
-// const tokenAddress = DAIRopsten;
+let tokenAddress;
+if (ENV == "local") {
+  tokenAddress = "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266";
+}
+if (ENV == "ropsten") {
+  tokenAddress = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";
+}
 
 const ethereum = window.ethereum;
 

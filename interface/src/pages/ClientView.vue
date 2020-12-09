@@ -116,11 +116,7 @@
                 </div>
                 Recurring?
                 <div class="w-full flex">
-                  <input
-                    v-model="recurring"
-                    placeholder="enter number of days"
-                    class="block appearance-none w-3/4 bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
-                  />
+                  true (sorry u can't change this i'm lazy)
                 </div>
               </div>
             </dd>
@@ -356,7 +352,7 @@ export default {
         tokenAmount: this.tokenAmount,
         clientName: this.clientName,
         termLength: this.termLength,
-        recurring: this.recurring,
+        recurring: true,
       };
 
       let txHash;
