@@ -2,7 +2,7 @@
   <div class="space-y-1 ">
     <div :class="rowClass" class="justify-center">
       <button @click="callRefund" class="btn flex-1">refund</button>
-
+      <button @click="callCancel" class="btn flex-1">cancel recurring</button>
       <button @click="callReset" class="btn flex-1">reset</button>
 
       <button class="btn flex-1" @click="refresh">refresh</button>
@@ -126,6 +126,16 @@ export default {
       } else {
         this.$store.dispatch("resetEscrow");
       }
+    },
+
+    async callCancel() {
+      const address = this.getSelectedClientAddress();
+      try {
+        txHash = await methodSender("cancel", address, this.activeContract);
+      } catch (e) {
+        this.$store.dispatch("setError", e.clode);
+      }
+      this.postCall(txHash);
     },
   },
 };

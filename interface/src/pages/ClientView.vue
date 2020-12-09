@@ -170,6 +170,7 @@
             </dd>
           </div>
           difference {{ difference }}
+          <button @click="callCancel" class="btn">cancel recurring</button>
         </dl>
       </div>
     </div>
@@ -234,9 +235,11 @@ export default {
       return exists;
     },
     startTime() {
-      const dt = DateTime.fromMillis(Number(this.clientValues.startTime));
+      const startMillis =
+        Number(this.clientValues.endTime) - this.clientValues.term;
 
-      console.log(dt.second);
+      const dt = DateTime.fromMillis(startMillis);
+
       return dt.toLocaleString();
     },
     endTime() {
@@ -362,6 +365,21 @@ export default {
         txHash = await methodSender("transferFrom", arg, this.activeContract);
       } catch (e) {
         console.log(e);
+        this.$store.dispatch("setError", e.code);
+      }
+
+      this.postCall(txHash);
+    },
+    async callCancel() {
+      let txHash;
+
+      try {
+        txHash = await methodSender(
+          "cancel",
+          this.activeAccount,
+          this.activeContract
+        );
+      } catch (e) {
         this.$store.dispatch("setError", e.code);
       }
 

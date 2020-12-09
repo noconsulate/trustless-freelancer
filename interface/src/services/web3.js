@@ -262,6 +262,10 @@ export async function methodSender(method, arg, contractAddress) {
       transaction = contract.methods.refund(arg).encodeABI();
       address = contractAddress;
       break;
+    case "cancel":
+      transaction = contract.methods.cancelRecurring(arg).encodeABI();
+      address = contractAddress;
+      break;
     case "reset":
       transaction = contract.methods.reset().encodeABI();
       address = contractAddress;
