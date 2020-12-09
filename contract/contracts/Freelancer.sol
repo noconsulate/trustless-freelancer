@@ -19,7 +19,6 @@ contract Freelancer is Ownable {
         uint256 balance;
         string clientName;
         bool isShipped;
-        uint256 startTime;
         uint256 endTime;
         uint256 term;
         bool recurring; // to be multiplied by days
@@ -70,11 +69,7 @@ contract Freelancer is Ownable {
 
         escrow.balance = _value;
         escrow.clientName = _clientName;
-        escrow.startTime = now;
-        // should endTime be stored or calculated when needed?
-        // is startTime actually used for anything?
-
-        escrow.endTime = escrow.startTime + _termTime * 1 days;
+        escrow.endTime = now + (_termTime * 1 days);
         escrow.term = _termTime * 1 days;
         escrow.recurring = _recurring;
         clients.push(msg.sender);
@@ -141,13 +136,10 @@ contract Freelancer is Ownable {
         require(transferred, "transfer from client failed!");
 
         // reset timestamps
-        escrow.startTime = escrow.endTime;
-        escrow.endTime = escrow.startTime + escrow.term;
-
+        escrow.endTime = now + escrow.term;
         escrow.isShipped = false;
     }
 
-    //interface should check onlyOwner?
     function markShipped(address _client) public onlyOwner {
         Escrow storage escrow = escrows[_client];
         require(
@@ -223,7 +215,6 @@ contract Freelancer is Ownable {
             string memory name,
             uint256 balance,
             bool isShipped,
-            uint256 startTime,
             uint256 endTime,
             uint256 term,
             bool recurring
@@ -234,8 +225,6 @@ contract Freelancer is Ownable {
             escrow.clientName,
             escrow.balance,
             escrow.isShipped,
-            // these three calculations should be made by the client not in the expensive EVM. or does it matter? this is view. if pure it matters. what's the advantage of view vs pure anyway?
-            escrow.startTime * 1000,
             escrow.endTime * 1000,
             escrow.term * 1000,
             escrow.recurring
