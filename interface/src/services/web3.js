@@ -1,4 +1,4 @@
-const ENV_FLAG = "ropsten";
+const ENV_FLAG = "local";
 
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
