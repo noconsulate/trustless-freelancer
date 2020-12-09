@@ -1,4 +1,4 @@
-const ENV_FLAG = "local";
+const ENV_FLAG = "ropsten";
 
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
@@ -11,7 +11,7 @@ switch (ENV_FLAG) {
     instantiatorAddress = "0xbd4EDDf5e509Fa5450D1bb7664E8Ebfcf9E205E2";
     break;
   case "ropsten":
-    instantiatorAddress = "0x21bC0cfeD363Fd8ce47cd30FE27a36b3D9AbF214";
+    instantiatorAddress = "0x69aDBC0F6ad999100D57747DF8A1A2319Fa514Ba";
 }
 
 class RequestParameters {
