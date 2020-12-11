@@ -297,12 +297,14 @@ export default {
       this.allowance = allowance;
     },
     async approveMax() {
-      const maxToken = new BigNumber((2 ** 256 - 1) / 10 ** 18);
+      // const maxToken = new BigNumber((2 ** 256 - 1) / 10 ** 18);
+      // danger danger this isn't real
+      const maxToken = 100;
 
       let txHash;
 
       try {
-        txHash = await sendApprove(this.activeContract, maxToken);
+        txHash = await sendApprove(this.activeContract, 100000);
       } catch (e) {
         console.log(e);
       }
