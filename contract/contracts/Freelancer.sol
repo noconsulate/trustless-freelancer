@@ -86,15 +86,16 @@ contract Freelancer is Ownable {
         address owner = owner();
 
         //assign proper values to owner and serviceFeePayee
-        uint256 payeeValue = escrow.balance.div(serviceFee);
+        uint256 payeeValue = serviceFee.div(10000).mul(escrow.balance);
         uint256 ownerValue = escrow.balance.sub(payeeValue);
-        // credit service provider
-        providerBalance += payeeValue;
 
         // transfer to owner/merchant
         bool sent = token.transfer(address(owner), ownerValue);
         require(sent, "token transfer failed");
         emit Disperse(_receiver, escrow.balance);
+
+        // credit service provider
+        providerBalance += payeeValue;
 
         return sent;
     }
@@ -178,6 +179,36 @@ contract Freelancer is Ownable {
         _cleanup(_client);
     }
 
+    function _calculateFee(uint256 _fee, uint256 _amount)
+        internal
+        returns (uint256)
+    {
+        return _fee.mul(_amount).div(10000);
+    }
+
+    function testmath() public view returns (uint256) {
+        uint256 fee = 500;
+        uint256 value = fee.mul(15000).div(10000);
+
+        return (value);
+    }
+
+    function clientCancel() public {
+        Escrow storage escrow = escrows[msg.sender];
+
+        uint256 fee = 500;
+        uint256 feeAmount = fee.div(10000).mul(escrow.balance);
+        uint256 clientAmount = escrow.balance.sub(feeAmount);
+
+        bool sent = token.transfer(address(msg.sender), clientAmount);
+        require(sent, "transfer to client failed");
+        emit Refund(msg.sender, clientAmount);
+        delete escrows[msg.sender];
+        _cleanup(msg.sender);
+
+        providerBalance += feeAmount;
+    }
+
     function reset() public onlyOwner {
         address owner = owner();
         uint256 length = clients.length;
@@ -200,23 +231,19 @@ contract Freelancer is Ownable {
         delete clients;
     }
 
-    // is this effecient?
     function _cleanup(address _client) private {
         uint256 length = clients.length;
         uint256 indexToDelete;
 
-        // remove client from clients[]
         for (uint256 i = 0; i < length; i++) {
             if (clients[i] == _client) {
                 indexToDelete = i;
             }
         }
 
-        // if indexToDelete is not last in array, swap position
         if (indexToDelete < length - 1) {
             clients[indexToDelete] = clients[length - 1];
         }
-        // remove last element
         delete clients[length - 1];
     }
 
@@ -250,12 +277,6 @@ contract Freelancer is Ownable {
     function getName() public view returns (string memory) {
         return contractName;
     }
-
-    // mark for deletion, already in Ownable.sol
-    // function getOwner() public view returns (address) {
-    //     address owner = owner();
-    //     return owner;
-    // }
 
     function total() public view returns (uint256) {
         uint256 balance = token.balanceOf(address(this));

@@ -225,7 +225,7 @@ export default {
         return;
       }
       // needs validation to disallow empty name
-      const parcedFee = this.serviceFee * 100;
+      const parcedFee = this.serviceFee;
 
       let txHash;
       try {

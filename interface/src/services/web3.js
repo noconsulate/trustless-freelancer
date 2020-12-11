@@ -1,4 +1,4 @@
-const ENV_FLAG = "ropsten";
+const ENV_FLAG = "local";
 
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
@@ -221,6 +221,8 @@ export async function sendPayment(ether, contractAddress) {
 export async function deploy(name, fee) {
   const web3 = await initWeb3();
   const instantiator = await loadInstantiator(web3);
+
+  fee = fee * 100;
 
   const transaction = instantiator.methods.deploy(name, fee).encodeABI();
 

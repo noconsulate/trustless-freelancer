@@ -261,6 +261,13 @@ export default {
     },
   },
   created: async function() {
+    const contractURL = this.$route.query.contract;
+    console.log(contractURL);
+
+    if (contractURL) {
+      this.$store.dispatch("manualSetContract", contractURL);
+    }
+
     if (this.activeContract == 0 || this.activeContract == null) {
       alert("please deploy a new contract or load an existing one");
       return;

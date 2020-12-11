@@ -115,8 +115,8 @@
                   </button>
                 </div>
                 Recurring?
-                <div class="w-full flex">
-                  true (sorry u can't change this i'm lazy)
+                <div class="w-full flex font-bold">
+                  THERE SHOULD BE A YES/NO OPTION HERE
                 </div>
               </div>
             </dd>
@@ -297,14 +297,16 @@ export default {
       this.allowance = allowance;
     },
     async approveMax() {
-      // const maxToken = new BigNumber((2 ** 256 - 1) / 10 ** 18);
+      const maxToken = await new BigNumber((2 ** 256 - 1) / 10 ** 18);
+      console.log(maxToken);
+
       // danger danger this isn't real
-      const maxToken = 100;
+      // const maxToken = 100;
 
       let txHash;
 
       try {
-        txHash = await sendApprove(this.activeContract, 100000);
+        txHash = await sendApprove(this.activeContract, 1000000);
       } catch (e) {
         console.log(e);
       }
@@ -385,6 +387,13 @@ export default {
     },
   },
   created() {
+    const contractURL = this.$route.query.contract;
+    console.log(contractURL);
+
+    if (contractURL) {
+      this.$store.dispatch("manualSetContract", contractURL);
+    }
+
     this.callGetEscrowValues();
     this.getAllowance();
 

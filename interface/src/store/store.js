@@ -32,7 +32,7 @@ export default new Vuex.Store({
     ],
     escrowFetched: false,
     //"0x6FC29547B6ae5A536fF01e46a313cA50D5FC0832"
-    activeContract: null,
+    activeContract: "0x9Df175036bFe528C4da7AA9A0674A0F17AC17939",
     selectedClient: null,
   },
   mutations: {
