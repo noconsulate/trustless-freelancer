@@ -197,11 +197,12 @@ contract Freelancer is Ownable {
         Escrow storage escrow = escrows[msg.sender];
 
         uint256 fee = 500;
-        uint256 feeAmount = fee.div(10000).mul(escrow.balance);
+        uint256 feeAmount = _calculateFee(fee, escrow.balance);
         uint256 clientAmount = escrow.balance.sub(feeAmount);
 
         bool sent = token.transfer(address(msg.sender), clientAmount);
         require(sent, "transfer to client failed");
+
         emit Refund(msg.sender, clientAmount);
         delete escrows[msg.sender];
         _cleanup(msg.sender);
