@@ -38,6 +38,8 @@ contract Freelancer is Ownable {
     );
     uint256 providerBalance;
 
+    address referrer;
+
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
     event Disperse(address indexed _client, uint256 _value);
@@ -46,12 +48,14 @@ contract Freelancer is Ownable {
         address _newOwner,
         string memory _contractName,
         address _tokenAddress,
-        uint256 _serviceFee
+        uint256 _serviceFee,
+        address _referrer
     ) public {
         transferOwnership(_newOwner);
         contractName = _contractName;
         token = ERC20(_tokenAddress);
         serviceFee = _serviceFee;
+        referrer = _referrer;
     }
 
     function sendToken(
@@ -86,7 +90,7 @@ contract Freelancer is Ownable {
         address owner = owner();
 
         //assign proper values to owner and serviceFeePayee
-        uint256 payeeValue = serviceFee.div(10000).mul(escrow.balance);
+        uint256 payeeValue = _calculateFee(serviceFee, escrow.balance);
         uint256 ownerValue = escrow.balance.sub(payeeValue);
 
         // transfer to owner/merchant
@@ -181,16 +185,10 @@ contract Freelancer is Ownable {
 
     function _calculateFee(uint256 _fee, uint256 _amount)
         internal
+        pure
         returns (uint256)
     {
         return _fee.mul(_amount).div(10000);
-    }
-
-    function testmath() public view returns (uint256) {
-        uint256 fee = 500;
-        uint256 value = fee.mul(15000).div(10000);
-
-        return (value);
     }
 
     function clientCancel() public {
@@ -225,11 +223,35 @@ contract Freelancer is Ownable {
             delete clients[i - 1];
         }
 
-        uint256 balance = token.balanceOf(address(this));
-        uint256 resetPayout = balance.sub(providerBalance);
+        // transfer 0 tokens? that's dumb.
 
-        token.transfer(address(owner), resetPayout);
+        // uint256 balance = token.balanceOf(address(this));
+        // uint256 resetPayout = balance.sub(providerBalance);
+
+        // token.transfer(address(owner), resetPayout);
         delete clients;
+    }
+
+    function claimFees() public {
+        if (referrer != address(0)) {
+            // 10% cut for referrer
+            uint256 referrerCut = 1000;
+
+            uint256 referrerValue = _calculateFee(referrerCut, providerBalance);
+
+            uint256 providerValue = providerBalance - referrerValue;
+
+            bool sent = token.transfer(address(referrer), referrerValue);
+            require(sent, "transfer to referrer failed");
+            sent = token.transfer(address(serviceFeePayee), providerValue);
+            require(sent, "transfer to provider failed");
+        } else {
+            bool sent = token.transfer(
+                address(serviceFeePayee),
+                providerBalance
+            );
+            require(sent, "transfer to provider failed");
+        }
     }
 
     function _cleanup(address _client) private {

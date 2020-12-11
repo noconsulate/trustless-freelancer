@@ -23,7 +23,11 @@ contract Instantiator {
         return contractByOwner[msg.sender];
     }
 
-    function deploy(string memory _contractName, uint256 _serviceFee) public {
+    function deploy(
+        string memory _contractName,
+        uint256 _serviceFee,
+        address referrer
+    ) public {
         require(
             contractByOwner[msg.sender] == address(0),
             "this address already has a contract!"
@@ -33,7 +37,8 @@ contract Instantiator {
             _contractName,
             // address of token
             address(token),
-            _serviceFee
+            _serviceFee,
+            referrer
         );
         contractByOwner[msg.sender] = address(freelancer);
         owners.push(msg.sender);

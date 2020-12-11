@@ -161,7 +161,7 @@
           <dd
             class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-3"
           >
-            The lord is my shepherd I shall not want
+            the Lord takes butter and makes it appear
           </dd>
         </div>
       </dl>
