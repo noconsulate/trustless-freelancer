@@ -7,6 +7,7 @@ import Logs from "./pages/Logs.vue";
 import MerchantView from "./pages/MerchantView.vue";
 import ClientView from "./pages/ClientView.vue";
 import Contract from "./pages/Contract.vue";
+import CreateInvoice from "./pages/CreateInvoice";
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,7 @@ const routes = [
   { path: "/client", component: ClientView, name: "client" },
   { path: "/logs", component: Logs, name: "logs" },
   { path: "/contract", component: Contract, name: "contract" },
+  { path: "/create_invoice", component: CreateInvoice, name: "createInvoice" },
 ];
 
 export default new VueRouter({

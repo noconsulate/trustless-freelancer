@@ -32,6 +32,9 @@
             >
               Contract
             </router-link>
+            <router-link to="/create_invoice" :class="navButton">
+              Create Invoice
+            </router-link>
           </div>
           <div>
             <a
