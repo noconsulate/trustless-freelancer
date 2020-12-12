@@ -25,7 +25,7 @@
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const { MNEMONIC, ROPSTEN_URL } = require("../secrets.json");
+const { MNEMONIC, ROPSTEN_URL, RINKEBY_URL } = require("../secrets.json");
 
 console.log(MNEMONIC);
 
@@ -56,7 +56,13 @@ module.exports = {
         return new HDWalletProvider(MNEMONIC, ROPSTEN_URL);
       },
       network_id: 3,
-      gasPrice: 100000000000,
+      // gasPrice: 100000000000,
+    },
+    rinkeby: {
+      provider: function () {
+        return new HDWalletProvider(MNEMONIC, RINKEBY_URL);
+      },
+      network_id: 4,
     },
   },
 
