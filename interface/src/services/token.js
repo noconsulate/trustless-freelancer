@@ -1,8 +1,10 @@
-const ENV = "local";
+const ENV = "ropsten";
 
 import Web3 from "web3";
 
 import FreelancerToken from "./FreelancerTOKEN.json";
+
+import ERC20 from "../../../contract/build/contracts/ERC20.json";
 
 let tokenAddress;
 if (ENV == "local") {
@@ -20,10 +22,7 @@ async function initWeb3() {
 }
 
 async function loadContract(obj) {
-  const contract = await new obj.eth.Contract(
-    FreelancerToken.abi,
-    tokenAddress
-  );
+  const contract = await new obj.eth.Contract(ERC20.abi, tokenAddress);
   return contract;
 }
 
@@ -52,10 +51,10 @@ async function sendTx(parameters) {
   return txHash;
 }
 
-export async function checkBalance(client, value) {
+export async function checkBalance(client) {
   const web3 = await initWeb3();
   const contract = await loadContract(web3);
-
+  console.log(client, tokenAddress);
   let balance;
   try {
     balance = await contract.methods.balanceOf(client).call({ from: null });

@@ -1,11 +1,15 @@
 <template>
   <div class="flex justify-center">
     <div class="w-2/3">
-      <div>
-        <div>Create an invoice</div>
-        <div class="font-bold">{{ contractValues.name }}</div>
-        <div>at</div>
-        <div class="font-bold">{{ activeContract }}</div>
+      <div class="whitespace-pre">
+        <p>Create an invoice</p>
+        <p class="font-bold">{{ contractValues.name }}</p>
+        <p>at</p>
+        <p class="font-bold">{{ activeContract }}</p>
+        Create an invoice
+        {{ contractValues.name }}
+        at
+        {{ activeContract }}
       </div>
       <div>
         <input

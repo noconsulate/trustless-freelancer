@@ -1,4 +1,4 @@
-const ENV_FLAG = "local";
+const ENV_FLAG = "ropsten";
 
 import Web3 from "web3";
 import awaitTransactionMined from "await-transaction-mined";
@@ -11,7 +11,7 @@ switch (ENV_FLAG) {
     instantiatorAddress = "0x9CDEA9868F208F97E632Eb57bA4A45F22ecF211d";
     break;
   case "ropsten":
-    instantiatorAddress = "0x69aDBC0F6ad999100D57747DF8A1A2319Fa514Ba";
+    instantiatorAddress = "0x11A2AD3a6ae68d01fEB9d2aaBC3B50D1Af0fE49A";
 }
 
 class RequestParameters {
@@ -43,6 +43,8 @@ async function loadInstantiator(obj) {
     Instantiator.abi,
     instantiatorAddress
   );
+  console.log("instantiator loaded at" + instantiatorAddress);
+
   return instantiator;
 }
 
