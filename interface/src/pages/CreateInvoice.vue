@@ -2,10 +2,10 @@
   <div class="flex justify-center">
     <div class="w-2/3">
       <div>
-        <h2>Create an invoice</h2>
-        <h3 class="font-bold">{{ contractValues.name }}</h3>
-        <h3>at</h3>
-        <h3 class="font-bold">{{ activeContract }}</h3>
+        <div>Create an invoice</div>
+        <div class="font-bold">{{ contractValues.name }}</div>
+        <div>at</div>
+        <div class="font-bold">{{ activeContract }}</div>
       </div>
       <div>
         <input

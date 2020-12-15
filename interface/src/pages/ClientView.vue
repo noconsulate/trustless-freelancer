@@ -301,7 +301,7 @@ export default {
       console.log(maxToken);
 
       // danger danger this isn't real
-      // const maxToken = 100;
+      // need to figure out why BN isn't working on server
 
       let txHash;
 
