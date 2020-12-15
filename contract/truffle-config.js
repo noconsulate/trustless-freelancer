@@ -56,7 +56,7 @@ module.exports = {
         return new HDWalletProvider(MNEMONIC, ROPSTEN_URL);
       },
       network_id: 3,
-      // gasPrice: 100000000000,
+      gasPrice: 100000000000,
     },
     rinkeby: {
       provider: function () {

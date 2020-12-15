@@ -38,7 +38,7 @@ contract Freelancer is Ownable {
     );
     uint256 providerBalance;
 
-    address referrer = address(0);
+    address referrer;
 
     event Deposit(address indexed _client, uint256 _value);
     event Refund(address indexed _client, uint256 _value);
@@ -49,11 +49,13 @@ contract Freelancer is Ownable {
         string memory _contractName,
         address _tokenAddress,
         uint256 _serviceFee,
+        address _referrer
     ) public {
         transferOwnership(_newOwner);
         contractName = _contractName;
         token = ERC20(_tokenAddress);
         serviceFee = _serviceFee;
+        referrer = _referrer;
     }
 
     function sendToken(

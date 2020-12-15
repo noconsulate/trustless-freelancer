@@ -8,7 +8,7 @@ import Instantiator from "../../../contract/build/contracts/Instantiator.json";
 let instantiatorAddress;
 switch (ENV_FLAG) {
   case "local":
-    instantiatorAddress = "0xbd4EDDf5e509Fa5450D1bb7664E8Ebfcf9E205E2";
+    instantiatorAddress = "0x9CDEA9868F208F97E632Eb57bA4A45F22ecF211d";
     break;
   case "ropsten":
     instantiatorAddress = "0x69aDBC0F6ad999100D57747DF8A1A2319Fa514Ba";
@@ -224,7 +224,12 @@ export async function deploy(name, fee) {
 
   fee = fee * 100;
 
-  const transaction = instantiator.methods.deploy(name, fee).encodeABI();
+  // referrer to be implemented into interface
+  const referrer = window.ethereum.selectedAddress;
+
+  const transaction = instantiator.methods
+    .deploy(name, fee, referrer)
+    .encodeABI();
 
   const parameters = new RequestParameters(
     instantiatorAddress,

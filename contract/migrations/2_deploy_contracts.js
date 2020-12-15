@@ -14,5 +14,5 @@ module.exports = function (deployer) {
   //   3,
   //   "0x935A3dE3217D9BB58C24343600f655141d118aeB"
   // );
-  deployer.deploy(Instantiator, "0xaD6D458402F60fD3Bd25163575031ACDce07538D");
+  deployer.deploy(Instantiator, "0xDdbfd4Bb2CFFfe0BEe18C5F11eDc22eFe6237266");
 };
