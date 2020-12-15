@@ -196,11 +196,11 @@ export default {
   data() {
     return {
       addressInput: null,
-      clientName: "frodo saggins",
-      tokenAmount: 10000,
-      termLength: 5,
-      recurring: true,
-      clientValues: { balance: 0 },
+      clientName: null,
+      tokenAmount: null,
+      termLength: null,
+      recurring: null,
+      clientValues: { balance: null },
       allowance: null,
     };
   },

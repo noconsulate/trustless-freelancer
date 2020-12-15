@@ -22,7 +22,11 @@
         />
       </div>
       <div>
-        <input v-model="term" placeholder="number of days" />
+        <input
+          v-model="term"
+          placeholder="number of days"
+          class="border border-black"
+        />
       </div>
       <div>
         <input type="checkbox" id="recurring" v-model="recurring" />
@@ -46,10 +50,10 @@ export default {
   name: "CreateInvoice",
   data() {
     return {
-      clientName: "Paul goodman",
-      tokenAmount: 1000,
-      term: 30,
-      recurring: true,
+      clientName: null,
+      tokenAmount: null,
+      term: null,
+      recurring: false,
       queryString: null,
     };
   },
@@ -61,7 +65,8 @@ export default {
       return this.$store.state.contractValues;
     },
     invoiceLink() {
-      const url = "localhost:8080/";
+      // const url = "localhost:8080/";
+      const url = "https://trustless-freelancer.web.app/";
       const path = "invoice";
       return url + path + this.queryString;
     },
