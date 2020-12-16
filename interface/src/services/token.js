@@ -1,4 +1,4 @@
-const ENV = "ropsten";
+const ENV = "local";
 
 import Web3 from "web3";
 
