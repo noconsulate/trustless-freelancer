@@ -4,7 +4,7 @@ import Web3 from "web3";
 
 import FreelancerToken from "./FreelancerTOKEN.json";
 
-import ERC20 from "../../../contract/build/contracts/ERC20.json";
+import ERC20 from "../assets/ERC20.json";
 
 let tokenAddress;
 if (ENV == "local") {

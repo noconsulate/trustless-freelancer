@@ -2,7 +2,7 @@
   <div class="flex justify-center">
     <div class="w-2/3">
       <div class="whitespace-pre">
-        <p>Create an invoice</p>
+        <p>new invoice</p>
         <p class="font-bold">{{ contractValues.name }}</p>
         <p>at</p>
         <p class="font-bold">{{ activeContract }}</p>
