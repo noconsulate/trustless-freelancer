@@ -7,7 +7,7 @@ import Logs from "./pages/Logs.vue";
 import MerchantView from "./pages/MerchantView.vue";
 import ClientView from "./pages/ClientView.vue";
 import Contract from "./pages/Contract.vue";
-import CreateInvoice from "./pages/CreateInvoice";
+import CreateInvoice from "./pages/CreateInvoice/CreateInvoice";
 import Invoice from "./pages/Invoice";
 
 Vue.use(VueRouter);
