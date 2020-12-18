@@ -26,4 +26,19 @@
   .tooltipBody {
     @apply text-black p-3;
   }
+
+  .accordianForm {
+    @apply;
+  }
+
+  .accordianFormInput {
+    @apply w-full;
+  }
+  .accordianFormButton {
+    @apply w-full justify-items-center;
+  }
+
+  .formInput {
+    @apply;
+  }
 }

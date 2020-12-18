@@ -10,7 +10,7 @@
             ADD SERVICES
           </p>
           <svg
-            v-if="showServices"
+            v-if="!showServices"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -35,6 +35,9 @@
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
+        </div>
+        <div v-if="showServices" :class="form">
+          <services-form />
         </div>
       </div>
       <div id="customer">
@@ -43,7 +46,7 @@
             ADD CUSTOMER
           </p>
           <svg
-            v-if="showCustomer"
+            v-if="!showCustomer"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -68,6 +71,9 @@
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
+        </div>
+        <div v-if="showCustomer" :class="form">
+          <customer-form />
         </div>
       </div>
       <div id="deadline">
@@ -76,7 +82,7 @@
             ADD DUE DATE
           </p>
           <svg
-            v-if="showDeadline"
+            v-if="!showDeadline"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -102,20 +108,33 @@
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </div>
+        <div v-if="showDeadline" :class="form">
+          <deadline-form />
+        </div>
       </div>
+      <button class="w-1/2 border border-black">Submit Invoice</button>
     </div>
   </div>
 </template>
 
 <script>
+import ServicesForm from "./components/ServicesForm";
 import Checkbox from "../../components/elements/Checkbox.vue";
+import CustomerForm from "./components/CustomerForm.vue";
+import DeadlineForm from "./components/DeadlineForm.vue";
 
 export default {
   name: "CreateInvoice",
+  components: {
+    "services-form": ServicesForm,
+    "customer-form": CustomerForm,
+    "deadline-form": DeadlineForm,
+  },
   data() {
     return {
       // classes and ui
       accordian: "w-2/3 flex flex-row h-6 px-2 shadow cursor-pointer",
+      form: "px-2 border border-gray-300",
       showServices: false,
       showCustomer: false,
       showDeadline: false,
