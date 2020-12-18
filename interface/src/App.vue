@@ -37,6 +37,10 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import TransactionView from "./components/TransactionView";
 import ErrorView from "./components/ErrorView";
 
+// do this elsewhere, please
+import firebase from "firebase/app";
+import { database } from "./services/firebase";
+
 export default {
   name: "App",
   components: {
@@ -91,17 +95,15 @@ export default {
       console.log("problem enabling ethereum");
     }
 
-    // make sure we're on the right chain
-    // if (window.ethereum.chainId !== "0x539") {
-    //   alert("please switch Metamask to the correct chain");
-    // }
+    // this is all for working out firebase auth, put somewhere else later. obvsously!
 
-    // window.ethereum.on("chainChanged", (chainId) => {
-    //   if (chainId !== "0x539") {
-    //     alert("please switch Metamask to the correct chain");
-    //   }
-    //   window.location.reload();
-    // });
+    let snapshot;
+    snapshot = await database()
+      .ref("/login_nonces/" + window.ethereum.selectedAddress)
+      .once("value");
+
+    const nonce = snapshot.val();
+    console.log(nonce);
   },
 };
 </script>

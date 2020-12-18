@@ -268,10 +268,10 @@ export default {
       this.$store.dispatch("manualSetContract", contractURL);
     }
 
-    if (this.activeContract == 0 || this.activeContract == null) {
-      alert("please deploy a new contract or load an existing one");
-      return;
-    }
+    // if (this.activeContract == 0 || this.activeContract == null) {
+    //   alert("please deploy a new contract or load an existing one");
+    //   return;
+    // }
 
     this.$store.dispatch("fetchClients", this.$store.state.activeContract);
     this.$store.dispatch("fetchValues", this.$store.state.activeContract);
