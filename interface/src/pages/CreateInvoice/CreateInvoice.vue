@@ -9,32 +9,8 @@
           <p class="flex-grow">
             ADD SERVICES
           </p>
-          <svg
-            v-if="!showServices"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-chevron-right w-4"
-          >
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-          <svg
-            v-else
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-chevron-down w-4"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          <right-arrow v-if="!showServices" />
+          <down-arrow v-else />
         </div>
         <div v-if="showServices" :class="form">
           <services-form />
@@ -45,32 +21,8 @@
           <p class="flex-grow">
             ADD CUSTOMER
           </p>
-          <svg
-            v-if="!showCustomer"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-chevron-right w-4"
-          >
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-          <svg
-            v-else
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-chevron-down w-4"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          <right-arrow v-if="!showCustomer" />
+          <down-arrow v-else />
         </div>
         <div v-if="showCustomer" :class="form">
           <customer-form />
@@ -81,32 +33,8 @@
           <p class="flex-grow">
             ADD DUE DATE
           </p>
-          <svg
-            v-if="!showDeadline"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-chevron-right w-4"
-          >
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-          <svg
-            v-else
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-chevron-down w-4"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          <right-arrow v-if="!showDeadline" />
+          <down-arrow v-else />
         </div>
         <div v-if="showDeadline" :class="form">
           <deadline-form />
@@ -122,6 +50,8 @@ import ServicesForm from "./components/ServicesForm";
 import Checkbox from "../../components/elements/Checkbox.vue";
 import CustomerForm from "./components/CustomerForm.vue";
 import DeadlineForm from "./components/DeadlineForm.vue";
+import RightArrow from "./components/RightArrow";
+import DownArrow from "./components/DownArrow";
 
 export default {
   name: "CreateInvoice",
@@ -129,6 +59,8 @@ export default {
     "services-form": ServicesForm,
     "customer-form": CustomerForm,
     "deadline-form": DeadlineForm,
+    "right-arrow": RightArrow,
+    "down-arrow": DownArrow,
   },
   data() {
     return {
