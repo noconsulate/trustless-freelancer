@@ -13,7 +13,38 @@
           <down-arrow v-else />
         </div>
         <div v-if="showServices" :class="form">
-          <services-form />
+          <h1>Add Services Section</h1>
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Line Item"
+            v-model="lineItem"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Cost Per Uinit"
+            v-model="costPerUnit"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Total Units"
+            v-model="totalUnits"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Additional Taxes or Fees"
+            v-model="additional"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Total Cost"
+            v-model="total"
+          />
+          <button class="accordianFormButton">CONFIRM LINE ITEM</button>
         </div>
       </div>
       <div id="customer">
@@ -25,7 +56,47 @@
           <down-arrow v-else />
         </div>
         <div v-if="showCustomer" :class="form">
-          <customer-form />
+          <h1>Add Customer Section</h1>
+          <select v-model="selected" class="accordianFormInput">
+            <option disabled value="">Existing customer?</option>
+            <option
+              v-for="customer in dummyCustomers"
+              :value="customer"
+              :key="customer"
+            >
+              {{ customer }}
+            </option>
+          </select>
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Customer Name"
+            v-model="name"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Customer Email"
+            v-model="email"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Company"
+            v-model="company"
+          />
+          <textarea
+            class="accordianFormInput"
+            placeholder="Notes"
+            v-model="customerNotes"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
+            placeholder="Contract Amount (in USD) wtf is this??"
+            v-model="contractAmount"
+          />
+          <button class="accordianFormButton">ADD CUSTOMER</button>
         </div>
       </div>
       <div id="deadline">
@@ -37,7 +108,20 @@
           <down-arrow v-else />
         </div>
         <div v-if="showDeadline" :class="form">
-          <deadline-form />
+          <h1>Add Due Date Section</h1>
+          <datepicker
+            v-model="deadline"
+            placeholder="Services Completion Date"
+          ></datepicker>
+          <textarea
+            class="accordianFormInput"
+            type="text"
+            placeholder="Scheduling Notes"
+            v-model="deadlineNotes"
+          />
+          <input type="checkbox" id="recurring" v-model="checked" />
+          <label for="recurring">Is this a recurring invoice?</label>
+          <button class="accordianFormButton">Confirm Date</button>
         </div>
       </div>
       <button class="w-1/2 border border-black">Submit Invoice</button>
@@ -46,36 +130,44 @@
 </template>
 
 <script>
-import ServicesForm from "./components/ServicesForm";
+import Datepicker from "vuejs-datepicker";
+
 import Checkbox from "../../components/elements/Checkbox.vue";
-import CustomerForm from "./components/CustomerForm.vue";
-import DeadlineForm from "./components/DeadlineForm.vue";
 import RightArrow from "./components/RightArrow";
 import DownArrow from "./components/DownArrow";
 
 export default {
   name: "CreateInvoice",
   components: {
-    "services-form": ServicesForm,
-    "customer-form": CustomerForm,
-    "deadline-form": DeadlineForm,
     "right-arrow": RightArrow,
     "down-arrow": DownArrow,
+    datepicker: Datepicker,
   },
   data() {
     return {
+      // data
+      dummyCustomers: ["sam", "frank", "bob"],
       // classes and ui
       accordian: "w-2/3 flex flex-row h-6 px-2 shadow cursor-pointer",
       form: "px-2 border border-gray-300",
       showServices: false,
       showCustomer: false,
       showDeadline: false,
-      // data and forms
-      clientName: null,
-      tokenAmount: null,
-      term: null,
-      recurring: false,
-      queryString: null,
+      // forms
+      lineItem: null,
+      costPerUnit: null,
+      totalUnits: null,
+      additional: null,
+      total: null,
+      selected: "",
+      name: "",
+      email: "",
+      company: "",
+      customerNotes: "",
+      contractAmount: "",
+      deadline: null,
+      deadlineNotes: "",
+      checked: false,
     };
   },
   computed: {
