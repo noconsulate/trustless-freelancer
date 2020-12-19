@@ -27,7 +27,6 @@ if (typeof window.ethereum !== "undefined") {
   ethereum = window.ethereum;
 }
 
-//not sure what to set this! oh well
 async function initWeb3() {
   const web3 = new Web3(window.ethereum);
   return web3;

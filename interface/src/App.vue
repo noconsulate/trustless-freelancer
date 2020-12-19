@@ -40,6 +40,7 @@ import ErrorView from "./components/ErrorView";
 // do this elsewhere, please
 import firebase from "firebase/app";
 import { database } from "./services/firebase";
+import Web3 from "web3";
 
 export default {
   name: "App",
@@ -97,6 +98,8 @@ export default {
 
     // this is all for working out firebase auth, put somewhere else later. obvsously!
 
+    window.firebase = firebase;
+
     let snapshot;
     snapshot = await database()
       .ref("/login_nonces/" + window.ethereum.selectedAddress)
@@ -104,6 +107,17 @@ export default {
 
     const nonce = snapshot.val();
     console.log(nonce);
+
+    const web3 = await new Web3(window.ethereum);
+
+    window.web3 = web3;
+
+    const signature = await web3.eth.personal.sign(
+      web3.utils.fromUtf8(`i am signing to login using my nonnce: ${nonce}`),
+      window.ethereum.selectedAddress
+    );
+
+    console.log(signature);
   },
 };
 </script>
