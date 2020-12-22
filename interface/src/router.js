@@ -9,6 +9,7 @@ import ClientView from "./pages/ClientView.vue";
 import Contract from "./pages/Contract.vue";
 import CreateInvoice from "./pages/CreateInvoice/CreateInvoice";
 import Invoice from "./pages/Invoice";
+import Login from "./pages/Login";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ const routes = [
   { path: "/contract", component: Contract, name: "contract" },
   { path: "/create_invoice", component: CreateInvoice, name: "createInvoice" },
   { path: "/invoice", component: Invoice, name: "invoice" },
+  { path: "/login", component: Login, name: "login" },
 ];
 
 export default new VueRouter({

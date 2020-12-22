@@ -112,12 +112,12 @@ export default {
 
     window.web3 = web3;
 
-    const signature = await web3.eth.personal.sign(
-      web3.utils.fromUtf8(`i am signing to login using my nonnce: ${nonce}`),
-      window.ethereum.selectedAddress
-    );
+    // const signature = await web3.eth.personal.sign(
+    //   web3.utils.fromUtf8(`i am signing to login using my nonnce: ${nonce}`),
+    //   window.ethereum.selectedAddress
+    // );
 
-    console.log(signature);
+    // console.log(signature);
   },
 };
 </script>
