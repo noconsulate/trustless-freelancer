@@ -30,11 +30,12 @@ export default {
   },
   computed: {
     selectedAddress() {
-      return window.ethereum.selectedAddress;
+      return this.$store.state.account;
     },
   },
   methods: {
     async getNonce() {
+      this.selectedAddress = window.ethereum.selectedAddress;
       let nonce;
       axios
         .get(URL + `getUser?user=${this.selectedAddress}`)
