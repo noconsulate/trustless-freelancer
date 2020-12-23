@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     async getNonce() {
-      this.selectedAddress = window.ethereum.selectedAddress;
       let nonce;
       axios
         .get(URL + `getUser?user=${this.selectedAddress}`)
@@ -57,8 +56,10 @@ export default {
     async sign() {
       const web3 = new Web3(window.ethereum);
 
+      const message = "words";
+
       const signature = await web3.eth.personal.sign(
-        web3.utils.fromUtf8(`message ${this.nonce}`),
+        web3.utils.fromUtf8(`words ${this.nonce}`),
         window.ethereum.selectedAddress
       );
 
@@ -66,10 +67,12 @@ export default {
       this.signature = signature;
     },
     async verify() {
-      axios.post(
-        URL +
-          `verify?address=${this.selectedAddress}&signature=${this.signature}`
-      );
+      axios
+        .post(
+          URL +
+            `verify?address=${this.selectedAddress}&signature=${this.signature}`
+        )
+        .then((res) => console.log(res.data));
     },
   },
 };
