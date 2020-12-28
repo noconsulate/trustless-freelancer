@@ -7,14 +7,20 @@
     </div>
     <div><button @click="newUser" class="btn">add user</button></div>
     <div class="break-words">
-      <button @click="sign" class="btn">sign</button>{{ signature }}
+      <button @click="sign" class="btn">sign</button>signature: {{ signature }}
     </div>
-    <div><button @click="verify" class="btn">verify</button></div>
+    <div class="break-words">
+      <button @click="verify" class="btn">verify</button>token: {{ token }}
+    </div>
+    <div>
+      <button @click="signIn" class="btn">sign in</button>
+    </div>
   </div>
 </template>
 
 <script>
 /* http stuff and whatnot to be moved later */
+import { fbAuth } from "../services/firebase";
 import Web3 from "web3";
 const axios = require("axios").default;
 const URL = "http://localhost:5001/trustless-freelancer/us-central1/";
@@ -23,9 +29,9 @@ export default {
   name: "login",
   data() {
     return {
-      nonce: " 7f38a8b9-8916-4161-95ff-6f8e9c33b28c ",
-      signature:
-        "0x5091378585e6449f68405fc3bf8d06c5513e43567e1c49dd2052467bf671756b57d92ea38339db690596c9913aba62ae7fc6bf55808572f520ee18d2ea4722871b",
+      nonce: "",
+      signature: "",
+      token: "",
     };
   },
   computed: {
@@ -72,7 +78,17 @@ export default {
           URL +
             `verify?address=${this.selectedAddress}&signature=${this.signature}`
         )
-        .then((res) => console.log(res.data));
+        .then((res) => {
+          console.log(res.data);
+          this.token = res.data.token;
+        });
+    },
+    signIn() {
+      fbAuth()
+        .signInWithCustomToken(this.token)
+        .then((user) => {
+          console.log("signed in");
+        });
     },
   },
 };

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 require("firebase/database");
+require("firebase/auth");
 
 var firebaseConfig = {
   apiKey: "AIzaSyBkFjxOXeMQnbbILEefVO9AzAJUrq9foL4",
@@ -22,3 +23,5 @@ firebase
   .then((snapshot) => {
     console.log(snapshot.val());
   });
+
+export const fbAuth = firebase.auth;
