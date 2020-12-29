@@ -23,7 +23,11 @@
 import { fbAuth } from "../services/firebase";
 import Web3 from "web3";
 const axios = require("axios").default;
-const URL = "http://localhost:5001/trustless-freelancer/us-central1/";
+
+// for local functions emulator
+// const URL = "http://localhost:5001/trustless-freelancer/us-central1/";
+
+const URL = "https://us-central1-freelancer-40250.cloudfunctions.net/";
 
 export default {
   name: "login",
