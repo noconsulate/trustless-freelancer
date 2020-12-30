@@ -60,11 +60,11 @@
           <select v-model="selected" class="accordianFormInput">
             <option disabled value="">Existing customer?</option>
             <option
-              v-for="customer in dummyCustomers"
-              :value="customer"
-              :key="customer"
+              v-for="client in clients"
+              :value="client"
+              :key="client.name"
             >
-              {{ customer }}
+              {{ client.name }}
             </option>
           </select>
           <input
@@ -211,9 +211,19 @@ export default {
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
     );
     ref.on("value", (snap) => {
-      const data = snap.val();
-      console.log(data);
-      this.clients = data;
+      let clients = [];
+      for (let key in snap.val()) {
+        let client = {
+          address: key,
+          name: data[key].name,
+          email: data[key].email,
+          phone: data[key].phone,
+          company: data[key].company,
+          notes: data[key].notes,
+        };
+        clients.push(client);
+      }
+      this.clients = clients;
     });
   },
 };
