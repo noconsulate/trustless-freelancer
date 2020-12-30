@@ -15,12 +15,4 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const database = firebase.database;
-firebase
-  .database()
-  .ref("/login_nonces/0x935A3dE3217D9BB58C24343600f655141d118aeB")
-  .once("value")
-  .then((snapshot) => {
-    console.log(snapshot.val());
-  });
-
 export const fbAuth = firebase.auth;

@@ -92,6 +92,7 @@ export default {
         .signInWithCustomToken(this.token)
         .then((user) => {
           console.log("signed in");
+          window.user = user;
         });
     },
   },
