@@ -17,6 +17,9 @@
         <router-link to="/create_invoice" :class="navButton">
           Create Invoice
         </router-link>
+        <router-link to="/login" :class="navButton">
+          Sign in
+        </router-link>
       </div>
 
       <div class="flex-grow overflow-y-auto">

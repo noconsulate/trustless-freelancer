@@ -20,7 +20,7 @@
 
 <script>
 /* http stuff and whatnot to be moved later */
-import { fbAuth } from "../services/firebase";
+import { auth } from "../services/firebase";
 import Web3 from "web3";
 const axios = require("axios").default;
 
@@ -88,7 +88,7 @@ export default {
         });
     },
     signIn() {
-      fbAuth()
+      auth()
         .signInWithCustomToken(this.token)
         .then((user) => {
           console.log("signed in");

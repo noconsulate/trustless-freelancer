@@ -132,6 +132,8 @@
 <script>
 import Datepicker from "vuejs-datepicker";
 
+import { auth, database } from "../../services/firebase";
+
 import Checkbox from "../../components/elements/Checkbox.vue";
 import RightArrow from "./components/RightArrow";
 import DownArrow from "./components/DownArrow";
@@ -147,6 +149,8 @@ export default {
     return {
       // data
       dummyCustomers: ["sam", "frank", "bob"],
+      currentUser: null,
+      clients: [],
       // classes and ui
       accordian: "w-2/3 flex flex-row h-6 px-2 shadow cursor-pointer",
       form: "px-2 border border-gray-300",
@@ -174,6 +178,9 @@ export default {
     activeContract() {
       return this.$store.state.activeContract;
     },
+    selectedAddress() {
+      return this.$store.state.account;
+    },
     contractValues() {
       return this.$store.state.contractValues;
     },
@@ -194,6 +201,20 @@ export default {
 
       this.queryString = queryString;
     },
+  },
+  async created() {
+    const user = await firebase.auth().currentUser;
+    const uid = user.uid;
+    console.log("uid == selectedAddress", uid == this.selectedAddress);
+
+    const ref = database().ref(
+      "users/" + this.selectedAddress + "/contracts/" + this.activeContract
+    );
+    ref.on("value", (snap) => {
+      const data = snap.val();
+      console.log(data);
+      this.clients = data;
+    });
   },
 };
 </script>
