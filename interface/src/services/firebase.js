@@ -3,14 +3,13 @@ require("firebase/database");
 require("firebase/auth");
 
 var firebaseConfig = {
-  apiKey: "AIzaSyBkFjxOXeMQnbbILEefVO9AzAJUrq9foL4",
-  authDomain: "trustless-freelancer.firebaseapp.com",
-  databaseURL: "https://trustless-freelancer.firebaseio.com",
-  projectId: "trustless-freelancer",
-  storageBucket: "trustless-freelancer.appspot.com",
-  messagingSenderId: "182918380299",
-  appId: "1:182918380299:web:3c14aef97693f9680e000e",
-  measurementId: "G-M8N6142TKP",
+  apiKey: "AIzaSyDoMp7MjiJh35SveFuI-064sQ1J2z4Ej3s",
+  authDomain: "freelancer-40250.firebaseapp.com",
+  databaseURL: "https://freelancer-40250-default-rtdb.firebaseio.com",
+  projectId: "freelancer-40250",
+  storageBucket: "freelancer-40250.appspot.com",
+  messagingSenderId: "15869209298",
+  appId: "1:15869209298:web:9904c5e8c9bd40db831b0b",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
