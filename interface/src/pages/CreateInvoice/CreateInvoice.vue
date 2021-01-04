@@ -203,7 +203,7 @@ export default {
     },
   },
   async created() {
-    const user = await firebase.auth().currentUser;
+    const user = await auth().currentUser;
     const uid = user.uid;
     console.log("uid == selectedAddress", uid == this.selectedAddress);
 

@@ -25,7 +25,7 @@ import Web3 from "web3";
 const axios = require("axios").default;
 
 // for local functions emulator
-// const URL = "http://localhost:5001/trustless-freelancer/us-central1/";
+// const URL = "http://localhost:5001/freelancer-40250/us-central1/";
 
 const URL = "https://us-central1-freelancer-40250.cloudfunctions.net/";
 

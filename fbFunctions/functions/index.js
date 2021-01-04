@@ -101,7 +101,7 @@ exports.verify = functions.https.onRequest(async (req, res) => {
 
       // assign a new nonce for security
       const newNonce = uuidv4();
-      ref.set({
+      ref.update({
         nonce: newNonce,
       });
     } else {
