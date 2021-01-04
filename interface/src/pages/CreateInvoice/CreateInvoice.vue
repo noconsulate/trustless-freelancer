@@ -66,6 +66,7 @@
             >
               {{ client.name }}
             </option>
+            <option value="newCustomer">New Customer</option>
           </select>
           <input
             class="accordianFormInput"
@@ -210,9 +211,12 @@ export default {
     const ref = database().ref(
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
     );
+    console.log(this.activeContract);
     ref.on("value", (snap) => {
+      const data = snap.val();
+      console.log(data);
       let clients = [];
-      for (let key in snap.val()) {
+      for (let key in data) {
         let client = {
           address: key,
           name: data[key].name,
@@ -225,6 +229,17 @@ export default {
       }
       this.clients = clients;
     });
+  },
+  watch: {
+    selected: function() {
+      if (this.selected != null) {
+        this.name = this.selected.name;
+        this.email = this.selected.email;
+        this.phone = this.selected.phone;
+        this.company = this.selected.company;
+        this.notes = this.selected.notes;
+      }
+    },
   },
 };
 </script>
