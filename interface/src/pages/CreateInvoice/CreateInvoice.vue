@@ -257,9 +257,13 @@ export default {
     //   }
     // });
 
-    window.ethereum.on("accountsChanged", (accounts) => {
+    window.ethereum.on("accountsChanged", async (accounts) => {
       console.log("account change");
+      let token = await signAndVerify(accounts[0]);
+      console.log(token);
     });
+
+    window.ethereum.request({ method: "eth_requestAccounts" });
 
     const ref = database().ref(
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
