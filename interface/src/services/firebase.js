@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 require("firebase/database");
 require("firebase/auth");
 
+const { fbApiKey } = require("../../../secrets.json");
+
 var firebaseConfig = {
   apiKey: "AIzaSyDoMp7MjiJh35SveFuI-064sQ1J2z4Ej3s",
   authDomain: "freelancer-40250.firebaseapp.com",
@@ -9,7 +11,7 @@ var firebaseConfig = {
   projectId: "freelancer-40250",
   storageBucket: "freelancer-40250.appspot.com",
   messagingSenderId: "15869209298",
-  appId: "1:15869209298:web:9904c5e8c9bd40db831b0b",
+  appId: fbApiKey,
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
