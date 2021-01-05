@@ -19,6 +19,7 @@
     "luxon": "^1.25.0",
     "popper.js": "1.15.0",
     "tailwindcss": "^1.9.6",
+    "uuid": "^8.3.2",
     "vue": "^2.6.11",
     "vue-router": "^3.4.7",
     "vuejs-datepicker": "^1.6.2",

@@ -141,7 +141,7 @@
 <script>
 import Datepicker from "vuejs-datepicker";
 
-import { auth, database } from "../../services/firebase";
+import { auth, database, signAndVerify } from "../../services/firebase";
 
 import Checkbox from "../../components/elements/Checkbox.vue";
 import RightArrow from "./components/RightArrow";
@@ -237,9 +237,36 @@ export default {
     },
   },
   async created() {
-    const user = await auth().currentUser;
-    const uid = user.uid;
-    console.log("uid == selectedAddress", uid == this.selectedAddress);
+    let user;
+    // check  for current firebase auth user
+    user = await auth().currentUser;
+    console.log(user);
+    // make sure auth user == metamask address
+    let usersMatch = false;
+    if (user) {
+      usersMatch = user.uid == this.selectedAddress;
+      console.log("usersMatch " + usersMatch);
+    }
+
+    // if not verify and sign in current metamask address
+    if (!usersMatch) {
+      let token = await signAndVerify();
+      console.log(token);
+      auth()
+        .signInWithCustomToken(token)
+        .then((user) => {
+          const uid = user.uid;
+          console.log(uid);
+        });
+    }
+
+    // // automatically sign in current metamask user to firebase auth
+    // let token = await signAndVerify();
+    // console.log(token);
+
+    // const user = await auth().currentUser;
+    // const uid = user.uid;
+    // console.log("uid == selectedAddress", uid == this.selectedAddress);
 
     const ref = database().ref(
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
