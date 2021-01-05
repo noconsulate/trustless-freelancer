@@ -237,41 +237,36 @@ export default {
     },
   },
   async created() {
-    let user;
-    // check  for current firebase auth user
-    user = await auth().currentUser;
-    // make sure auth user == metamask address
-    let usersMatch = false;
-    if (user) {
-      usersMatch = user.uid == this.selectedAddress;
-      console.log("usersMatch " + usersMatch);
-    }
+    // const metamaskAddress = window.ethereum.selectedAddress;
 
-    // if not verify and sign in current metamask address
-    if (!usersMatch) {
-      let token = await signAndVerify();
-      console.log(token);
-      auth()
-        .signInWithCustomToken(token)
-        .then((user) => {
-          const uid = user.uid;
-          console.log(user.user.uid);
-        });
-    }
+    // auth().onAuthStateChanged(async (user) => {
+    //   let uid = null;
+    //   if (user != null) {
+    //     uid = user.uid;
+    //   }
+    //   console.log(uid, metamaskAddress);
+    //   if (uid != metamaskAddress) {
+    //     let token = await signAndVerify();
+    //     console.log(token);
+    //     auth()
+    //       .signInWithCustomToken(token)
+    //       .then((user) => {
+    //         const uid = user.uid;
+    //         console.log(user.user.uid);
+    //       });
+    //   }
+    // });
 
-    // // automatically sign in current metamask user to firebase auth
-    // let token = await signAndVerify();
-    // console.log(token);
-
-    // const user = await auth().currentUser;
-    // const uid = user.uid;
-    // console.log("uid == selectedAddress", uid == this.selectedAddress);
+    window.ethereum.on("accountsChanged", (accounts) => {
+      console.log("account change");
+    });
 
     const ref = database().ref(
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
     );
     ref.on("value", (snap) => {
       const data = snap.val();
+      console.log(data);
       let clients = [];
       for (let key in data) {
         let client = {
