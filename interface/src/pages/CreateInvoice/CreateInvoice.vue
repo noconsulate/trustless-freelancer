@@ -225,12 +225,14 @@ export default {
         notes: this.notes,
       };
 
-      console.log(newCustomer);
-
       newRef.set(newCustomer, (error) => {
         if (error) {
           console.log(error);
+        } else {
+          console.log("Customer added");
         }
+
+        this.showCustomer = false;
       });
     },
   },
@@ -242,10 +244,8 @@ export default {
     const ref = database().ref(
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
     );
-    console.log(this.activeContract);
     ref.on("value", (snap) => {
       const data = snap.val();
-      console.log(data);
       let clients = [];
       for (let key in data) {
         let client = {
