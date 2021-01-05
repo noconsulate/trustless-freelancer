@@ -83,21 +83,21 @@ export default {
     if (provider) {
       console.log("Ethereum detected", provider);
       this.$store.dispatch("setIsMetamask", true);
-      console.log("no metamask");
+      console.log("yes metamask");
     } else {
       this.$store.dispatch("setIsMetamask", false);
       alert("please install metamask");
     }
 
-    // enable metamask in browser(require user login to metamask)
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      this.$store.dispatch("setAccount", accounts[0]);
-    } catch (e) {
-      console.log("problem enabling ethereum");
-    }
+    // // enable metamask in browser(require user login to metamask)
+    // try {
+    //   const accounts = await window.ethereum.request({
+    //     method: "eth_requestAccounts",
+    //   });
+    //   this.$store.dispatch("setAccount", accounts[0]);
+    // } catch (e) {
+    //   console.log("problem enabling ethereum");
+    // }
   },
 };
 </script>
