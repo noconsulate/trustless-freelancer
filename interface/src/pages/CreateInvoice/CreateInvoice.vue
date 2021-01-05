@@ -240,7 +240,6 @@ export default {
     let user;
     // check  for current firebase auth user
     user = await auth().currentUser;
-    console.log(user);
     // make sure auth user == metamask address
     let usersMatch = false;
     if (user) {
@@ -256,7 +255,7 @@ export default {
         .signInWithCustomToken(token)
         .then((user) => {
           const uid = user.uid;
-          console.log(uid);
+          console.log(user.user.uid);
         });
     }
 

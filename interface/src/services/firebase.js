@@ -47,25 +47,29 @@ export async function signAndVerify() {
   const web3 = new Web3(window.ethereum);
   const message = "words";
 
-  const signature = await web3.eth.personal.sign(
-    web3.utils.fromUtf8(`words ${nonce}`),
-    window.ethereum.selectedAddress
-  );
+  let signature;
+  try {
+    signature = await web3.eth.personal.sign(
+      web3.utils.fromUtf8(`words ${nonce}`),
+      window.ethereum.selectedAddress
+    );
+  } catch (e) {
+    return e;
+  }
 
   console.log(signature);
 
   // verify signature with database
   let token;
   console.log(user);
-  axios
-    .post(URL + `verify?address=${user}&signature=${signature}`)
-    .then((res) => {
-      token = res.data.token;
-      console.log(token);
-      return token;
-    })
-    .catch((error) => {
-      console.log(error);
-      return error;
-    });
+
+  try {
+    let res = await axios.post(
+      URL + `verify?address=${user}&signature=${signature}`
+    );
+    token = res.data.token;
+    return token;
+  } catch (e) {
+    return e;
+  }
 }

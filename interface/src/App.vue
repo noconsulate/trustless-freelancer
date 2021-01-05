@@ -98,29 +98,6 @@ export default {
     } catch (e) {
       console.log("problem enabling ethereum");
     }
-
-    // this is all for working out firebase auth, put somewhere else later. obvsously!
-
-    window.firebase = firebase;
-
-    let snapshot;
-    snapshot = await database()
-      .ref("/login_nonces/" + window.ethereum.selectedAddress)
-      .once("value");
-
-    const nonce = snapshot.val();
-    console.log(nonce);
-
-    const web3 = await new Web3(window.ethereum);
-
-    window.web3 = web3;
-
-    // const signature = await web3.eth.personal.sign(
-    //   web3.utils.fromUtf8(`i am signing to login using my nonnce: ${nonce}`),
-    //   window.ethereum.selectedAddress
-    // );
-
-    // console.log(signature);
   },
 };
 </script>
