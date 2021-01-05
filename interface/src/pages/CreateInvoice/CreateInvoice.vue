@@ -83,13 +83,19 @@
           <input
             class="accordianFormInput"
             type="text"
+            placeholder="Customer Phone Number"
+            v-model="phone"
+          />
+          <input
+            class="accordianFormInput"
+            type="text"
             placeholder="Company"
             v-model="company"
           />
           <textarea
             class="accordianFormInput"
             placeholder="Notes"
-            v-model="customerNotes"
+            v-model="notes"
           />
           <input
             class="accordianFormInput"
@@ -97,7 +103,9 @@
             placeholder="Contract Amount (in USD) wtf is this??"
             v-model="contractAmount"
           />
-          <button class="accordianFormButton">ADD CUSTOMER</button>
+          <button @click="addCustomer" class="accordianFormButton">
+            ADD CUSTOMER
+          </button>
         </div>
       </div>
       <div id="deadline">
@@ -167,8 +175,9 @@ export default {
       selected: "",
       name: "",
       email: "",
+      phone: "",
       company: "",
-      customerNotes: "",
+      notes: "",
       contractAmount: "",
       deadline: null,
       deadlineNotes: "",
@@ -201,6 +210,28 @@ export default {
       }`;
 
       this.queryString = queryString;
+    },
+    addCustomer() {
+      const ref = database().ref(
+        "users/" + this.selectedAddress + "/contracts/" + this.activeContract
+      );
+      const newRef = ref.push();
+
+      const newCustomer = {
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        company: this.company,
+        notes: this.notes,
+      };
+
+      console.log(newCustomer);
+
+      newRef.set(newCustomer, (error) => {
+        if (error) {
+          console.log(error);
+        }
+      });
     },
   },
   async created() {
