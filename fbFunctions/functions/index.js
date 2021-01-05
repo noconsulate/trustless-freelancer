@@ -19,7 +19,7 @@ exports.addUser = functions.https.onRequest(async (req, res) => {
   const db = admin.database();
   const ref = db.ref(`users/${user}`);
 
-  await ref.set({
+  await ref.update({
     nonce: nonce,
   });
 
