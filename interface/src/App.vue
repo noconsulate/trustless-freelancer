@@ -75,27 +75,27 @@ export default {
     },
   },
   created: async function() {
-    // // check browser for metamask
-    // const provider = await detectEthereumProvider({
-    //   mustBeMetaMask: true,
-    // });
-    // if (provider) {
-    //   console.log("Ethereum detected", provider);
-    //   this.$store.dispatch("setIsMetamask", true);
-    //   console.log("yes metamask");
-    // } else {
-    //   this.$store.dispatch("setIsMetamask", false);
-    //   alert("please install metamask");
-    // }
-    // // enable metamask in browser(require user login to metamask)
-    // try {
-    //   const accounts = await window.ethereum.request({
-    //     method: "eth_requestAccounts",
-    //   });
-    //   this.$store.dispatch("setAccount", accounts[0]);
-    // } catch (e) {
-    //   console.log("problem enabling ethereum");
-    // }
+    // check browser for metamask
+    const provider = await detectEthereumProvider({
+      mustBeMetaMask: true,
+    });
+    if (provider) {
+      console.log("Ethereum detected", provider);
+      this.$store.dispatch("setIsMetamask", true);
+      console.log("yes metamask");
+    } else {
+      this.$store.dispatch("setIsMetamask", false);
+      alert("please install metamask");
+    }
+    // enable metamask in browser(require user login to metamask)
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      this.$store.dispatch("setAccount", accounts[0]);
+    } catch (e) {
+      console.log("problem enabling ethereum");
+    }
   },
 };
 </script>

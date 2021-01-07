@@ -105,6 +105,7 @@ export default new Vuex.Store({
 
       ethereum.on("accountsChanged", function(accounts) {
         context.commit("UPDATE_ACCOUNT", accounts[0]);
+        console.log("acccounts changed, MAYBE HANDLE SOME AUTH STUFF?");
       });
     },
     setError(context, message) {

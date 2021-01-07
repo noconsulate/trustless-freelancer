@@ -1,26 +1,15 @@
 <template>
   <div>
+    <div>current auth() UID {{ userUid }}</div>
     <div>current address {{ selectedAddress }}</div>
-    <div>
-      <button @click="getNonce" class="btn">get nonce</button>
-      {{ nonce }}
-    </div>
+
     <div><button @click="newUser" class="btn">add user</button></div>
-    <div class="break-words">
-      <button @click="sign" class="btn">sign</button>signature: {{ signature }}
-    </div>
-    <div class="break-words">
-      <button @click="verify" class="btn">verify</button>token: {{ token }}
-    </div>
-    <div>
-      <button @click="signIn" class="btn">sign in</button>
-    </div>
   </div>
 </template>
 
 <script>
 /* http stuff and whatnot to be moved later */
-import { auth } from "../services/firebase";
+import { auth, signAndVerify } from "../services/firebase";
 import Web3 from "web3";
 const axios = require("axios").default;
 
@@ -33,9 +22,7 @@ export default {
   name: "login",
   data() {
     return {
-      nonce: "",
-      signature: "",
-      token: "",
+      userUid: "",
     };
   },
   computed: {
@@ -44,16 +31,6 @@ export default {
     },
   },
   methods: {
-    async getNonce() {
-      let nonce;
-      axios
-        .get(URL + `getUser?user=${this.selectedAddress}`)
-        .then((res) => {
-          console.log(res.data.nonce);
-          this.nonce = res.data.nonce;
-        })
-        .catch((e) => console.log(e));
-    },
     async newUser() {
       axios
         .post(URL + `addUser?user=${this.selectedAddress}`)
@@ -63,38 +40,23 @@ export default {
         })
         .catch((e) => console.log(e));
     },
-    async sign() {
-      const web3 = new Web3(window.ethereum);
-
-      const message = "words";
-
-      const signature = await web3.eth.personal.sign(
-        web3.utils.fromUtf8(`words ${this.nonce}`),
-        window.ethereum.selectedAddress
-      );
-
-      console.log(signature);
-      this.signature = signature;
-    },
-    async verify() {
-      axios
-        .post(
-          URL +
-            `verify?address=${this.selectedAddress}&signature=${this.signature}`
-        )
-        .then((res) => {
-          console.log(res.data);
-          this.token = res.data.token;
-        });
-    },
-    signIn() {
-      auth()
-        .signInWithCustomToken(this.token)
-        .then((user) => {
-          console.log("signed in");
-          window.user = user;
-        });
-    },
+  },
+  async created() {
+    // listen for firebase auth
+    auth().onAuthStateChanged(async (user) => {
+      console.log("auth() listener");
+      let uid = null;
+      if (user != null) {
+        uid = user.uid;
+        this.userUid = uid;
+      }
+    });
+    // wake up metamask
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    console.log(accounts);
+    const token = await signAndVerify(accounts[0]);
+    console.log(token);
+    auth().signInWithCustomToken(token);
   },
 };
 </script>

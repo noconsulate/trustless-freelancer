@@ -237,34 +237,6 @@ export default {
     },
   },
   async created() {
-    // const metamaskAddress = window.ethereum.selectedAddress;
-
-    // auth().onAuthStateChanged(async (user) => {
-    //   let uid = null;
-    //   if (user != null) {
-    //     uid = user.uid;
-    //   }
-    //   console.log(uid, metamaskAddress);
-    //   if (uid != metamaskAddress) {
-    //     let token = await signAndVerify();
-    //     console.log(token);
-    //     auth()
-    //       .signInWithCustomToken(token)
-    //       .then((user) => {
-    //         const uid = user.uid;
-    //         console.log(user.user.uid);
-    //       });
-    //   }
-    // });
-
-    window.ethereum.on("accountsChanged", async (accounts) => {
-      console.log("account change");
-      let token = await signAndVerify(accounts[0]);
-      console.log(token);
-    });
-
-    window.ethereum.request({ method: "eth_requestAccounts" });
-
     const ref = database().ref(
       "users/" + this.selectedAddress + "/contracts/" + this.activeContract
     );
