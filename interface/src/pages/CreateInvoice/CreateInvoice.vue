@@ -38,12 +38,7 @@
             placeholder="Additional Taxes or Fees"
             v-model="additional"
           />
-          <input
-            class="accordianFormInput"
-            type="text"
-            placeholder="Total Cost"
-            v-model="total"
-          />
+          TOTAL: {{ total }}
           <button class="accordianFormButton">CONFIRM LINE ITEM</button>
         </div>
       </div>
@@ -171,7 +166,7 @@ export default {
       costPerUnit: null,
       totalUnits: null,
       additional: null,
-      total: null,
+      // total: null,
       selected: "",
       name: "",
       email: "",
@@ -185,6 +180,17 @@ export default {
     };
   },
   computed: {
+    total() {
+      let fees = Number(this.additional);
+      if (isNaN(fees)) {
+        fees = 0;
+      }
+      let total;
+
+      total = Number(this.costPerUnit) * Number(this.totalUnits) + Number(fees);
+
+      return "$" + total;
+    },
     activeContract() {
       return this.$store.state.activeContract;
     },
@@ -202,6 +208,7 @@ export default {
     },
   },
   methods: {
+    calculateTotal() {},
     submitInvoice() {
       const queryString = `?contract=${this.activeContract}&client=${encodeURI(
         this.clientName
@@ -242,7 +249,6 @@ export default {
     );
     ref.on("value", (snap) => {
       const data = snap.val();
-      console.log(data);
       let clients = [];
       for (let key in data) {
         let client = {
