@@ -123,18 +123,21 @@
             placeholder="Scheduling Notes"
             v-model="deadlineNotes"
           />
-          <input type="checkbox" id="recurring" v-model="checked" />
+          <input type="checkbox" id="recurring" v-model="recurring" />
           <label for="recurring">Is this a recurring invoice?</label>
           <button class="accordianFormButton">Confirm Date</button>
         </div>
       </div>
-      <button class="w-1/2 border border-black">Submit Invoice</button>
+      <button class="w-1/2 border border-black" @click="addInvoice">
+        Submit Invoice
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import Datepicker from "vuejs-datepicker";
+import { DateTime } from "luxon";
 
 import { auth, database, signAndVerify } from "../../services/firebase";
 
@@ -173,10 +176,10 @@ export default {
       phone: "",
       company: "",
       notes: "",
-      contractAmount: "",
+      // contractAmount: "",
       deadline: null,
       deadlineNotes: "",
-      checked: false,
+      recurring: false,
     };
   },
   computed: {
@@ -241,6 +244,37 @@ export default {
 
         this.showCustomer = false;
       });
+    },
+    addInvoice() {
+      let term = 0;
+
+      const deadline = new DateTime.fromJSDate(this.deadline);
+
+      // if recurring, set term
+      if (this.recurring) {
+        term = deadline.diffNow("days");
+        term = Math.ceil(term.values.days);
+      }
+
+      const invoiceObj = {
+        services: {
+          lineItem: this.lineItem,
+          costperUnit: this.costPerUnit,
+          totalUnits: this.totalUnits,
+          additional: this.additional,
+        },
+        customer: {
+          name: this.name,
+          email: this.email,
+          phone: this.phone,
+          company: this.company,
+        },
+        date: {
+          deadline: this.deadline,
+          recurring: this.recurring,
+          term: term,
+        },
+      };
     },
   },
   async created() {
