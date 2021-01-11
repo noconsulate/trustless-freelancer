@@ -196,7 +196,7 @@ export default {
       return this.$store.state.activeContract;
     },
     selectedAddress() {
-      return this.$store.state.account;
+      return window.ethereum.selectedAddress;
     },
     contractValues() {
       return this.$store.state.contractValues;
@@ -226,7 +226,7 @@ export default {
     },
     addCustomer() {
       const ref = database().ref(
-        "users/" + this.selectedAddress + "/contracts/" + this.activeContract
+        "users/" + this.selectedAddress + "/customers/"
       );
       const newRef = ref.push();
 
@@ -293,11 +293,10 @@ export default {
     },
   },
   async created() {
-    const ref = database().ref(
-      "users/" + this.selectedAddress + "/contracts/" + this.activeContract
-    );
+    const ref = database().ref("users/" + this.selectedAddress + "/customers/");
     ref.on("value", (snap) => {
       const data = snap.val();
+      console.log(data);
       let clients = [];
       for (let key in data) {
         let client = {

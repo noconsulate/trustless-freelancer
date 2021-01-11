@@ -1,1 +1,11 @@
 make it so isShipped/isRecieved can be toggled in contract
+
+firebase database rules scratch:
+
+default:
+{
+  "rules": {
+    ".read": "now < 1611817200000",  // 2021-1-28
+    ".write": "now < 1611817200000",  // 2021-1-28
+  }
+}

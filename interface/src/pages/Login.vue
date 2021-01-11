@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>current auth() UID {{ userUid }}</div>
-    <div>current address {{ selectedAddress }}</div>
+    <div>current address {{ currentAccount }}</div>
 
     <div><button @click="newUser" class="btn">add user</button></div>
   </div>
@@ -23,13 +23,10 @@ export default {
   data() {
     return {
       userUid: "",
+      currentAccount: "",
     };
   },
-  computed: {
-    selectedAddress() {
-      return this.$store.state.account;
-    },
-  },
+  computed: {},
   methods: {
     async newUser() {
       axios
@@ -54,6 +51,7 @@ export default {
     // wake up metamask
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
     console.log(accounts);
+    this.currentAccount = accounts[0];
     const token = await signAndVerify(accounts[0]);
     console.log(token);
     auth().signInWithCustomToken(token);
