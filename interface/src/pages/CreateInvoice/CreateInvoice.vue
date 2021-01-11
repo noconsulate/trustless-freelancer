@@ -39,7 +39,9 @@
             v-model="additional"
           />
           TOTAL: {{ total }}
-          <button class="accordianFormButton">CONFIRM LINE ITEM</button>
+          <button class="accordianFormButton" @click="confirmLineItem">
+            CONFIRM LINE ITEM
+          </button>
         </div>
       </div>
       <div id="customer">
@@ -92,12 +94,7 @@
             placeholder="Notes"
             v-model="notes"
           />
-          <input
-            class="accordianFormInput"
-            type="text"
-            placeholder="Contract Amount (in USD) wtf is this??"
-            v-model="contractAmount"
-          />
+
           <button @click="addCustomer" class="accordianFormButton">
             ADD CUSTOMER
           </button>
@@ -125,12 +122,15 @@
           />
           <input type="checkbox" id="recurring" v-model="recurring" />
           <label for="recurring">Is this a recurring invoice?</label>
-          <button class="accordianFormButton">Confirm Date</button>
+          <button class="accordianFormButton" @click="confirmDate">
+            Confirm Date
+          </button>
         </div>
       </div>
       <button class="w-1/2 border border-black" @click="addInvoice">
         Submit Invoice
       </button>
+      <div v-if="invoiceId">Inovice at: {{ invoiceLink }}</div>
     </div>
   </div>
 </template>
@@ -155,9 +155,8 @@ export default {
   data() {
     return {
       // data
-      dummyCustomers: ["sam", "frank", "bob"],
-      currentUser: null,
       clients: [],
+      invoiceId: "",
       // classes and ui
       accordian: "w-2/3 flex flex-row h-6 px-2 shadow cursor-pointer",
       form: "px-2 border border-gray-300",
@@ -176,7 +175,6 @@ export default {
       phone: "",
       company: "",
       notes: "",
-      // contractAmount: "",
       deadline: null,
       deadlineNotes: "",
       recurring: false,
@@ -207,11 +205,10 @@ export default {
       // const url = "localhost:8080/";
       const url = "https://trustless-freelancer.web.app/";
       const path = "invoice";
-      return url + path + this.queryString;
+      return url + "invoice?path=" + this.invoiceId;
     },
   },
   methods: {
-    calculateTotal() {},
     submitInvoice() {
       const queryString = `?contract=${this.activeContract}&client=${encodeURI(
         this.clientName
@@ -220,6 +217,12 @@ export default {
       }`;
 
       this.queryString = queryString;
+    },
+    confirmLineItem() {
+      this.showServices = false;
+    },
+    confirmDate() {
+      this.showDeadline = false;
     },
     addCustomer() {
       const ref = database().ref(
@@ -245,10 +248,12 @@ export default {
         this.showCustomer = false;
       });
     },
-    addInvoice() {
+    async addInvoice() {
       let term = 0;
 
       const deadline = new DateTime.fromJSDate(this.deadline);
+      const millis = deadline.toMillis();
+      console.log(millis);
 
       // if recurring, set term
       if (this.recurring) {
@@ -270,11 +275,21 @@ export default {
           company: this.company,
         },
         date: {
-          deadline: this.deadline,
+          deadline: millis,
           recurring: this.recurring,
+          notes: this.notes,
           term: term,
         },
       };
+
+      const ref = database().ref(
+        "users/" + this.selectedAddress + "/invoices/"
+      );
+
+      const invoiceId = await ref.push(invoiceObj).key;
+      console.log(invoiceId);
+
+      this.invoiceId = invoiceId;
     },
   },
   async created() {
