@@ -9,7 +9,7 @@
 
 <script>
 /* http stuff and whatnot to be moved later */
-import { auth, signAndVerify } from "../services/firebase";
+import { auth, signAndVerify, database } from "../services/firebase";
 import Web3 from "web3";
 const axios = require("axios").default;
 
@@ -30,7 +30,7 @@ export default {
   methods: {
     async newUser() {
       axios
-        .post(URL + `addUser?user=${this.selectedAddress}`)
+        .post(URL + `addUser?user=${this.currentAccount}`)
         .then((res) => {
           console.log(res);
           this.nonce = res.data.nonce;

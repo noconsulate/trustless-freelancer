@@ -17,7 +17,7 @@ exports.addUser = functions.https.onRequest(async (req, res) => {
   console.log(nonce);
 
   const db = admin.database();
-  const ref = db.ref(`users/${user}`);
+  const ref = db.ref(`users/${user}/public`);
 
   await ref.update({
     nonce: nonce,
@@ -30,7 +30,7 @@ exports.getUser = functions.https.onRequest(async (req, res) => {
   const user = req.query.user;
 
   const db = admin.database();
-  const ref = db.ref(`users/${user}`);
+  const ref = db.ref(`users/${user}/public`);
 
   let value, nonce;
 
@@ -54,7 +54,7 @@ exports.verify = functions.https.onRequest(async (req, res) => {
   const signature = req.query.signature;
 
   const db = admin.database();
-  const ref = db.ref(`users/${publicAddress}`);
+  const ref = db.ref(`users/${publicAddress}/public`);
 
   ref.once("value", function (snap) {
     const value = snap.val();

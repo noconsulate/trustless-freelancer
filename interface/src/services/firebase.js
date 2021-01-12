@@ -29,7 +29,7 @@ export async function signAndVerify(account) {
   // get nonce
   const user = account.toLowerCase();
 
-  const ref = database().ref("users/" + user);
+  const ref = database().ref("users/" + user + "/public");
   let nonce;
 
   const snap = await ref.once("value");
